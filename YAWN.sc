@@ -93,7 +93,7 @@ YAWNSong {
 
 
 
-
+// YAWN song folder has a data.scd file which has cues, SynthDefs, etc?
 
 
 
