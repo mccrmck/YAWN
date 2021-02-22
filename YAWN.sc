@@ -1,5 +1,24 @@
 YAWNShow {
 
+	*initClass {
+
+		/*
+		make a bunch of <>Dictionaries
+
+		setlist = Dictionary();
+		inHardware = Dictionary(); // adding an input adds a bus to the dictionary?
+		outHardware = Dictionary();
+
+		cues = Dictionary(); //mayb ethis isn't necessary if the Click class can store the cues in an instance??
+		busses = Dictionary(); // reverb/master added automatically
+		groups = Dictionary(); ??
+		buffers = Dictionary(); ??
+		guiFuncs = Dictionary(); // might need a couple of these, not sure how that's going to work yet...
+
+
+		*/
+
+	}
 
 	/*
 	YAWN.new(
@@ -45,8 +64,6 @@ YAWNShow {
 	}
 	*/
 
-
-
 }
 
 
@@ -57,10 +74,12 @@ YAWNSong {
 	*initClass {
 		var whatever;
 
-		all = IdentityDictionary.new; // maybe collect song names from folder? But don't load them until called
+		all = IdentityDictionary.new; // or Set/IdentitySet(faster)? maybe collect song names from folder? But don't load them until called
 	}
 
-	*new {}
+	*new { |name|
+
+	}
 
 	// load click
 	// load cues into dictionary somewhere
@@ -95,9 +114,14 @@ YAWNSong {
 
 // YAWN song folder has a data.scd file which has cues, SynthDefs, etc?
 
+/*
 
+YAWNShow(
+	[\cement,\numberOne,\numberTwo,\numberFour], //setList
+	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
+	[\masterOut -> 0,\click -> 2], // HWoutputs
 
+)
 
-
-
+*/
 

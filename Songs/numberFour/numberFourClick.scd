@@ -1,64 +1,49 @@
 
-/////////////////////////////////////////////////YAWN Click #4/////////////////////////////////////////////////
-
 (
-// tempos
-~bars.value(142);
+a = Click(142,1,1);
+b = Click(142,1,2);
+c = Click(142,1,4);
+d = ClickLoop(142,1,1,~someCue);
+e = ClickCue(142,1,4);
+f = ClickCue(142,1,2);
+g = ClickCue(142,1,1);
 
-Pdef('open4',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pwhile({~cues["numberFour"][\open4cue]},Pseq([1000])),
-		\tempo, Pseq([142/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
+/*
+could even be shortened?
+var tempo;
+var clk = [1,2,4].collect({|i| Click(tempo,1,i);});
+var cue = [1,2,4].collect({|i| ClickCue(tempo,1,i);});
+var loop = ClickLoop(142,1,1,~someCue);
 
-Pdef('cue4',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pseq(1000 * [2,1,1,1,2,1,1,1,2,1,2,1,2,2,2,2],1),
-		\tempo, Pseq([142/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
+*/
 
-Pdef('bell4',
-	Pbind(
-		\instrument, \playbackMono,
-		\dur, Pseq([4,4,2,2,1,1,1,1],1),
-		\bufnum,Pseq([~buffers[\bell]],inf),
-		\rate,Pseq([1],inf),
-		\tempo, Pseq([142/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
 
-//master click
-Pdef(\play4,
+Pdef(\numberFourClick,
 	Psym(
 		Pseq([
 			// count off
-			't142q2'!2,'t142q1'!4,
+			b!2,a!4,
+
 			//beginning
-			't142q4'!116,
+			c!116,
+
 			//ambient solo
-			'open4',
-			[['cue4','bell4']],
-			//synth sample buildup
-			't142q4'!5,'t142q2',
+			d,
+
+			// cue
+			[[c,e]], // or cue is maybe already in a Ppar???
+			[[c,e]],
+			[b!2,f!2], // is this right? Or do they get flopped
+			[a!4,g!4],
+
+			c!5,b,
+
 			//heavy outro
-			't142q4'!57,
-			't142q2' // - last beat
+			c!57,
+			b // - last beat
+
 		].flatten(1),1)
 	)
 );
-"click #4 loaded".postln;
 )
 
-//rehearsal mark Pdefs!!!
