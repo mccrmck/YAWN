@@ -125,3 +125,8 @@ YAWNShow(
 
 */
 
+// YAWNInstrument {
+// 	maybe? could have hardware input busses, EQ/compression settings, etc.
+//
+// }
+
