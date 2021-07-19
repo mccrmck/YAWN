@@ -1,12 +1,8 @@
 /////////////////////////////////////////////////YAWN Click #2/////////////////////////////////////////////////
 
 (
-// tempos
-~bars.value(300);
-//tempo for 4:5 @ 300bpm
-~bars.value(240);
-~bars.value(170);
-~bars.value(120);
+// var amp = some Bus?
+// var out = some Bus?
 
 Pdef('rit2',
 	Pbind(
@@ -31,110 +27,73 @@ Pdef('rit2bell',
 	)
 );
 
-Pdef('open2',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pwhile({~cues["numberTwo"][\open2cue]},Pseq(1000*[2,1,1,1])),
-		\tempo, Pseq([120/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('cue2',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pseq(1000 * [2,1,1,1,2,1,1,1,2,1,2,1,2,2,2,2],1),
-		\tempo, Pseq([120/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('bell2',
-	Pbind(
-		\instrument, \playbackMono,
-		\dur, Pseq([4,4,2,2,1,1,1,1],1),
-		\bufnum,Pseq([~buffers[\bell]],inf),
-		\rate,Pseq([1],inf),
-		\tempo, Pseq([120/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
 Pdef(\play2part1,
 	Psym(
 		Pseq([
-			// count off
-			't240q2'!2,'t240q1'!4,
+			// count off     ->  turn into ClickCues!!!
+			Click(240,2,repeats: 2), Click(240,1,repeats: 4),
 
 			// Intro/A part
-			['t240q4','t300q4']!64,
+			[ Click(240,4), Click(300,4) ].dup(64)
 
-		].flat,1)
+		].flat.clickKeys)
 	)
 );
-
-// 1st Echo Amb A-part
 
 Pdef(\play2part2,
 	Psym(
 		Pseq([
 			// count off
-			'open2',
-			[['cue2','bell2']],
+			ClickLoop(120,4,loopKey: \openTwo),
+			[[ 'cue2','bell2' ]],                                  // make into ClickCues
 
-			// NorskJazz part intro pre solo
-			't120q3'!2,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3'!3,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3',
+			// NorskJazz part intro pre solo                                   // this can probably be simplified, no?
+			Click(120,3,repeats: 2), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3,repeats: 3), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3),
 
 			// NorskJazz part for realsz
 			// A-part:
-			't120q3'!2,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3'!3,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3',
+			Click(120,3,repeats: 2), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3,repeats: 3), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3),
 
 			// B-part:
-			't120q3'!16,
+			Click(120,3,repeats: 16),
 
 			// A-part:
-			't120q3'!2,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3'!3,'t120q5',
-			't120q3'!2,'t120q4',
-			't120q3',
+			Click(120,3,repeats: 2), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3,repeats: 3), Click(120,5),
+			Click(120,3,repeats: 2), Click(120,4),
+			Click(120,3),
 
 			// B-part:
-			't120q3'!16,
+			Click(120,3,repeats: 16)
 
-		].flatten(1),1)
+		].flatten(1).clickKeys)
 	)
 );
-
-// 2nd Echo Amb A-part
 
 Pdef(\play2part3,
 	Psym(
 		Pseq([
-			// count off
-			['t170e5','t170e4']!2,
+			// count off     ->  turn into ClickCues!!!
+			[ Click(240,5), Click(240,4) ].dup(2),
 
 			// A-part modulated
-			['t170e5','t170e4']!48,
-			't170q4'!2,
-			// Outro/A part(no melody)
-			['t240q4','t300q4']!2,
+			[ Click(240,5), Click(240,4) ].dup(48),
+			Click(170,4,repeats: 2)
 
-			[[['rit2','rit2bell']]]
-		].flatten(2),1)
+			// Outro/A part(no melody)
+			[ Click(240,4), Click(300,4) ].dup(2),
+
+			[[ 'rit2','rit2bell' ]]       // make into ClickMan or ClickEnv?
+		].flatten(1).clickKeys)
 	)
 );
 

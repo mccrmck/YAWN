@@ -1,57 +1,12 @@
-/////////////////////////////////////////////////YAWN Click #3/////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN Click: Cement /////////////////////////////////////////////////
 
 (
-// tempos
-~bars.value(160);
-~bars.value(170);
-//quintuplets @ 200 (160*5/4)
-~bars.value(200);
+var tempoA = 160;
+var tempoB = 170;
+// var amp = some Bus?
+// var out = some Bus?
 
-Pdef('open3',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pwhile({~cues["numberThree"][\open3cue]},Pseq([1000])),
-		\tempo, Pseq([170/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('cue3',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pseq(1000 * [2,1,1,1,2,1,1,1,2,1,2,1,2,2,2,2],1),
-		\tempo, Pseq([170/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('bell3',
-	Pbind(
-		\instrument, \playbackMono,
-		\dur, Pseq([4,4,2,2,1,1,1,1],1),
-		\bufnum,Pseq([~buffers[\bell]],inf),
-		\rate,Pseq([1],inf),
-		\tempo, Pseq([170/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('quint160',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([4/5],inf),
-		\freq, Pseq(1000 * [2,1,1,1,1],1),
-		\tempo, Pseq([160/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
+// this can eventually disappear as well...
 Pdef('rit3',
 	Pbind(
 		\instrument, \click,
@@ -64,56 +19,60 @@ Pdef('rit3',
 );
 
 //master click
-Pdef(\play3,
+Pdef(\cementClick,
 	Psym(
 		Pseq([
-			// count off
-			't160q2'!2,'t160q1'!4,
+			// count off     ->  turn into ClickCues!!!
+			Click(tempoA,2,repeats: 2), Click(tempoA,1,repeats: 4),
+
 			// intro
-			['t160q7','t160q6','t160q5','t160q4','t160q3']!2,
-			't160q7','t160q6','t160q5','t160q4','t160q4',
+			Click(tempoA,7), Click(tempoA,6), Click(tempoA,5), Click(tempoA,4), Click(tempoA,3),
+			Click(tempoA,7), Click(tempoA,6), Click(tempoA,5), Click(tempoA,4), Click(tempoA,3),
+			Click(tempoA,7), Click(tempoA,6), Click(tempoA,5), Click(tempoA,4,repeats: 2),
+
 			// A-section
-			['t170q7','t170q6','t170q5','t170q4','t170q3']!2,
-			't170q7','t170q6','t170q5','t170q4','t170q4',
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4,repeats: 2),
+
 			// A-section w/ melody
-			['t170q7','t170q6','t170q5','t170q4','t170q3']!2,
-			't170q7','t170q6','t170q5','t170q4','t170q4',
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4,repeats: 2),
 
 			// B-section
-			't170q4'!13,'t170q5',
+			Click(tempoB,4,repeats: 13), Click(tempoB,5),
 
 			// Open Section
-			'open3',
-			[[['cue3','bell3']]],
-			't170q4', //break
+			ClickLoop(tempoB,loopKey: \openCement),
+			[[ 'cue3', 'bell3' ]],                                     // make into ClickCues
+			Click(tempoB,4), //break
 
 			// B-section after Open Section
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
+			Click(tempoB,4,repeats: 10), Click(tempoB,2), Click(tempoB,4,repeats: 5), Click(tempoB,5), Click(tempoB * 2,3),
+			Click(tempoB,4,repeats: 10), Click(tempoB,2), Click(tempoB,4,repeats: 5), Click(tempoB,5), Click(tempoB * 2,3),
 
 			// Gtr Solo
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
-			't170q4'!10,'t170q2','t170q4'!5,'t170q5','t170e3',
+			[Click(tempoB,4,repeats: 10), Click(tempoB,2), Click(tempoB,4,repeats: 5), Click(tempoB,5), Click(tempoB * 2,3)].dup(4),
 
 			// QUINTUPLETS
+			[
+				[ Click(tempoB,4), Click(tempoB,5) ],
+				[ Click(tempoB,4), Click(tempoB,5) ],
+				[ Click(tempoB,4), Click(tempoB,5) ],
+				Click(tempoB,4)
+			].dup(3),
 
-			[['t160q4','quint160']]!3,
-			't160q4',
-			[['t160q4','quint160']]!3,
-			't160q4',
-			[['t160q4','quint160']]!3,
-			't160q4',
-
-			'rit3',
-			't170e3',
+			'rit3',                                       // make into ClickMan or ClickEnv?
+			Click(tempoB * 2,3),
 
 			// A-section melody last time
-			['t170q7','t170q6','t170q5','t170q4','t170q3']!2,
-			't170q7','t170q6','t170q5','t170q4','t170q4',
-			't170q7','t170q6','t170q5','t170q4','t170q3'
-		].flatten(2),1)
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4,repeats: 2),
+			Click(tempoB,7), Click(tempoB,6), Click(tempoB,5), Click(tempoB,4), Click(tempoB,3),
+
+		].flatten(2).clickKeys)
 	)
 );
 "click #3 loaded".postln;

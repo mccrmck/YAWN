@@ -1,21 +1,6 @@
 /////////////////////////////////////////////////YAWN Click #1/////////////////////////////////////////////////
 
 (
-// tempos
-~bars.value(120);
-~bars.value(160);
-
-Pdef('loop4',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pwhile({~cues["numberOne"][\loop4cue]},Pseq((1000 * [2,1,1,1]!4).flat)),
-		\tempo, Pseq([160/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
 Pdef('cue1loop4',
 	Pbind(
 		\instrument, \click,
@@ -34,17 +19,6 @@ Pdef('bell1loop4',
 		\type, Pseq([\rest,\note!6].flat),
 		\bufnum,Pseq([~buffers[\bell]],inf),
 		\rate,Pseq([1],inf),
-		\tempo, Pseq([160/60],inf),
-		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
-		\outBus, ~outputs["click"],
-	)
-);
-
-Pdef('loop8',
-	Pbind(
-		\instrument, \click,
-		\dur, Pseq([1],inf),
-		\freq, Pwhile({~cues["numberOne"][\loop8cue]},Pseq((1000 * [2,1,1,1]!8).flat)),
 		\tempo, Pseq([160/60],inf),
 		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
 		\outBus, ~outputs["click"],
@@ -79,7 +53,7 @@ Pdef('elevenRiff',
 	Pbind(
 		\instrument, \click,
 		\dur, Pseq([[[2,3/2,2]!8] ++ [1!4]].flat,inf),
-		\freq, Pwhile({~cues["numberOne"][\elevenRiffcue]},Pseq([Pseq(1000 * [2,1,1],8),Pseq(1000*[2,1,1,1],1)])),
+		\freq, Pwhile({~cues["numberOne"][\elevenRiffcue]},Pseq([Pseq(1000 * [2,1,1],8),Pseq(1000*[2,1,1,1])])),
 		\tempo, Pseq([200/60],inf),
 		\amp, Pfunc({~busses["clickAmp"].getSynchronous}),
 		\outBus, ~outputs["click"],
@@ -136,24 +110,25 @@ Pdef('small4bar',
 Pdef(\play1part1,
 	Psym(
 		Pseq([
-			// count off
-			't160q2'!2,'t160q1'!4,
+			// count off     ->  turn into ClickCues!!!
+			Click(160,2,repeats: 2), Click(160,1,repeats: 4),
 
 			// Pre intro(only Gtr)
-			'loop4',
+			ClickLoop(160,4,repeats: 4,loopKey: \openOneFourLoop),
 			[['cue1loop4','bell1loop4']],
 
 			// Intro with drums
-			'loop8',
+			ClickLoop(160,4,repeats: 8,loopKey: \openOneEightLoop),
 			[['cue1loop8','bell1loop8']],
-			't160q4'!2,
+			Click(160,4,repeats: 2),
 			// CUE into the BREAK
 
 			// count in to new tempo
-			't120q4',
+			Click(120,4),
+
 			// A riff 1
-			't120q4'!5,'t120q3','t120q4'!2,'t120q2','t120q4'!2,'t120q3',
-			't120q4'!5,'t120q3','t120q4'!2,'t120q2','t120q4'!2,'t120q3',
+			Click(120,4,repeats: 5),Click(120,3),Click(120,4,repeats: 2),Click(120,2),Click(120,4,repeats: 2),Click(120,3),
+			Click(120,4,repeats: 5),Click(120,3),Click(120,4,repeats: 2),Click(120,2),Click(120,4,repeats: 2),Click(120,3),
 
 			// Solo part(11/8)
 			'elevenRiff',
@@ -167,8 +142,8 @@ Pdef(\play1part1,
 Pdef(\play1part2,
 	Psym(
 		Pseq([
-			't120q4',
-		].flat,1)
+			Click(120,4)
+		].clickKeys)
 	)
 );
 
@@ -179,16 +154,16 @@ Pdef(\play1part3,
 			['t120q2','bell1part3']!2,
 			['t120q1','bell1part3']!4,
 
-			't120q3',
+			Click(120,3),
 
 			// A riff 2
-			't120q4'!5,'t120q3','t120q4'!2,'t120q2','t120q4'!2,'t120q3',
-			't120q4'!5,'t120q3','t120q4'!2,'t120q2','t120q4'!2,'t120q3',
+			Click(120,4,repeats: 5),Click(120,3),Click(120,4,repeats: 2),Click(120,2),Click(120,4,repeats: 2),Click(120,3),
+			Click(120,4,repeats: 5),Click(120,3),Click(120,4,repeats: 2),Click(120,2),Click(120,4,repeats: 2),Click(120,3),
 
 			// Outro
-			't120q4'!15,'small4bar',
-			't120q4'!3,
-		].flatten(1),1)
+			Click(120,4,repeats: 15), 'small4bar',     // ClickMan?
+			Click(120,4,repeats: 3),
+		].flatten(1).clickKeys)
 	)
 );
 "click #1 loaded".postln;

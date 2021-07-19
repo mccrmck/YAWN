@@ -1,49 +1,33 @@
-
+///////////////////////////////////////////////// YAWN Click: #4 /////////////////////////////////////////////////
 (
-a = Click(142,1,1);
-b = Click(142,1,2);
-c = Click(142,1,4);
-d = ClickLoop(142,1,1,~someCue);
-e = ClickCue(142,1,4);
-f = ClickCue(142,1,2);
-g = ClickCue(142,1,1);
-
-/*
-could even be shortened?
-var tempo;
-var clk = [1,2,4].collect({|i| Click(tempo,1,i);});
-var cue = [1,2,4].collect({|i| ClickCue(tempo,1,i);});
-var loop = ClickLoop(142,1,1,~someCue);
-
-*/
-
+var tempo = 142;
+// var amp = some Bus?
+// var out = some Bus?
 
 Pdef(\numberFourClick,
 	Psym(
 		Pseq([
-			// count off
-			b!2,a!4,
+
+			// count off     ->  turn into ClickCues!!!
+			Click(tempo,2,repeats: 2), Click(tempo,1,repeats: 4),
 
 			//beginning
-			c!116,
+			Click(tempo,4,repeats: 116),
 
 			//ambient solo
-			d,
+			ClickLoop(142,loopKey: \openFour),
 
-			// cue
-			[[c,e]], // or cue is maybe already in a Ppar???
-			[[c,e]],
-			[b!2,f!2], // is this right? Or do they get flopped
-			[a!4,g!4],
+			// cue ????
+			[['cue4','bell4']],
 
-			c!5,b,
+			//synth sample buildup
+			Click(tempo,4,repeats: 5), Click(tempo,2),
 
-			//heavy outro
-			c!57,
-			b // - last beat
-
-		].flatten(1),1)
+			// outro
+			Click(tempo,4,repeats: 57),
+			Click(tempo,2)           // last beat
+		].flatten(1).clickKeys)
 	)
 );
+"click #4 loaded".postln;
 )
-

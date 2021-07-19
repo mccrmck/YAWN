@@ -21,7 +21,7 @@ YAWNShow {
 	}
 
 	/*
-	YAWN.new(
+	YAWNShow.new(
 	[\setlist],
 	[\hardWareInputs],
 	[\hardWareOutputs],
@@ -33,7 +33,7 @@ YAWNShow {
 	// YAWNShow.addToSetList(0,\numberOne) // becomes .add(index -> name) in Dictionary/IdentityDictionary??
 
 	// <>setlist ?? .setlist prints the songs in order...what does .setlist_() look like?
-	/*.setlist_ { |array|
+	/* setlist_ { |array|
 
 	array.do({ |name, index|
 	YAWNShow.addToSetList(index,name)
@@ -74,39 +74,36 @@ YAWNSong {
 	*initClass {
 		var whatever;
 
-		all = IdentityDictionary.new; // or Set/IdentitySet(faster)? maybe collect song names from folder? But don't load them until called
+		all = IdentityDictionary.new; // collect song names from folder? But don't load them until called
 	}
 
 	*new { |name|
 
+		// looks for a folder in a relative path using name.arg, and then:
+		// load click
+		// load cues into dictionary somewhere
+		// load buffers
+		// load synths
+
+
+		// make a function that .flops everything that needs to run in the same Pdef?
+		// MasterPdef.include(\click,\trackPlayback,\dmx,\kemperPatch changes (MIDI Pdefs), \anything else?)
 	}
 
-	// load click
-	// load cues into dictionary somewhere
-	// load buffers
-	// load synths
-	// load mapping info
-	// load gui info
 
-	// makeClick{ |tempo = 60|}
+	sections {
+		// prints sections: [\intro,\verse1, etc.]
+	}
 
+	playClickFrom { |from = \intro, to = \bridge| } // ?? is it possible to play the click section by section? What about starting from verse2 but going to the end? etc.
 
 }
 
-// copy Pdef paradigm:
-// YAWNSong.all
-//
-// YAWNSong.new(\numberOne)
-//
-//
-// Pdef.all
-//
 
 
-// eventual new features/additions that don't exist yet
-// add more samples to #2 -> grinding keys? Higher pitched piano harms? Eveything forward/backward?
-// can add drum processing to #3 as well...
-// #1 intro shouldn't no longer granular - repeating sampler w/ hold, reads args from sliders;
+
+// eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
+// #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
 // is there a way to have input processing available at all times? Always ready for impro?
 
@@ -117,9 +114,9 @@ YAWNSong {
 /*
 
 YAWNShow(
-	[\cement,\numberOne,\numberTwo,\numberFour], //setList
-	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
-	[\masterOut -> 0,\click -> 2], // HWoutputs
+[\cement,\numberOne,\numberTwo,\numberFour], //setList
+[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
+[\masterOut -> 0,\click -> 2], // HWoutputs
 
 )
 
