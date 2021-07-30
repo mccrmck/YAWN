@@ -23,7 +23,7 @@ YAWNShow {
 	}
 
 	*new { |set|
-		^super.newCopyArgs(setList).init;
+		^super.newCopyArgs(set).init;
 	}
 
 
@@ -85,6 +85,7 @@ YAWNSong {
 	classvar <>all;
 
 	*initClass {
+		var path = Platform.userExtensionDir;
 
 		all = IdentityDictionary();
 		// collect song names from folder? But don't load them until called
