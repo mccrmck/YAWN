@@ -1,22 +1,37 @@
+
+
 YAWNShow {
+
+	var <>setList;
 
 	*initClass {
 
 		/*
 		make a bunch of <>Dictionaries
 
-		setlist = Dictionary();
 		inHardware = Dictionary(); // adding an input adds a bus to the dictionary?
 		outHardware = Dictionary();
 
-		cues = Dictionary(); //mayb ethis isn't necessary if the Click class can store the cues in an instance??
+		cues = Dictionary(); //maybe this isn't necessary if the Click class can store the cues in an instance??
 		busses = Dictionary(); // reverb/master added automatically
 		groups = Dictionary(); ??
 		buffers = Dictionary(); ??
 		guiFuncs = Dictionary(); // might need a couple of these, not sure how that's going to work yet...
 
-
 		*/
+
+	}
+
+	*new { |set|
+		^super.newCopyArgs(setList).init;
+	}
+
+
+	init { |set|
+
+		setList = set.collect({ |item,index|
+			YAWNSong(item.asSymbol);
+		})
 
 	}
 
@@ -66,20 +81,18 @@ YAWNShow {
 
 }
 
-
-
 YAWNSong {
 	classvar <>all;
 
 	*initClass {
-		var whatever;
 
-		all = IdentityDictionary.new; // collect song names from folder? But don't load them until called
+		all = IdentityDictionary();
+		// collect song names from folder? But don't load them until called
 	}
 
-	*new { |name|
+	*new { |name = \numberOne|
 
-		// looks for a folder in a relative path using name.arg, and then:
+		// looks for a folder in a relative path using name, and then:
 		// load click
 		// load cues into dictionary somewhere
 		// load buffers
