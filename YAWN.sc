@@ -1,13 +1,10 @@
-
-
 YAWNShow {
 
 	var <>set;
 
 	*new { |setList|
-		^super.new.init;
+		^super.new.init(setList);
 	}
-
 
 	init { |setList|
 
@@ -29,33 +26,11 @@ YAWNShow {
 			YAWNSong(item.asSymbol);
 		})
 
+		// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 	}
-
-	/*
-	YAWNShow.new(
-	[\setlist],
-	[\hardWareInputs],
-	[\hardWareOutputs],
-
-
-	)
-	*/
-
-	// YAWNShow.addToSetList(0,\numberOne) // becomes .add(index -> name) in Dictionary/IdentityDictionary??
-
-	// <>setlist ?? .setlist prints the songs in order...what does .setlist_() look like?
-	/* setlist_ { |array|
-
-	array.do({ |name, index|
-	YAWNShow.addToSetList(index,name)
-	})
-	}
-	*/
 
 	// load MIDI controller functions
 	// YAWNShow.gui
-
-
 
 	/*
 	{
@@ -88,8 +63,8 @@ YAWNSong {
 		PathName(path).entries.do({ |entry| all.put(entry.folderName.asSymbol,entry)});
 	}
 
-	*new { |name = \numberOne|
-		var path = all[name]; // looks for a folder in a relative path using name, and then:
+	*new { |name|
+		var path = all[name]; // looks for a folder in the "Songs" folder, and then:
 
 		// allocate/evaluate a bunch of shit
 		// load click w/ section names?
@@ -113,6 +88,8 @@ YAWNSong {
 	rehearseFrom {} // maybe this is a better method name than the one above...can therefore include lights, etc.
 
 }
+
+YAWNSong(\cement).click
 
 // eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
