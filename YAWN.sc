@@ -2,12 +2,17 @@
 
 YAWNShow {
 
-	var <>setList;
+	var <>set;
 
-	*initClass {
+	*new { |setList|
+		^super.new.init;
+	}
+
+
+	init { |setList|
 
 		/*
-		make a bunch of <>Dictionaries
+		make a bunch of <>Dictionaries?
 
 		inHardware = Dictionary(); // adding an input adds a bus to the dictionary?
 		outHardware = Dictionary();
@@ -20,16 +25,7 @@ YAWNShow {
 
 		*/
 
-	}
-
-	*new { |set|
-		^super.newCopyArgs(set).init;
-	}
-
-
-	init { |set|
-
-		setList = set.collect({ |item,index|
+		set = setList.collect({ |item,index|
 			YAWNSong(item.asSymbol);
 		})
 
@@ -82,19 +78,21 @@ YAWNShow {
 }
 
 YAWNSong {
-	classvar <>all;
+	classvar <all;
 
 	*initClass {
-		var path = Platform.userExtensionDir;
+		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
 
 		all = IdentityDictionary();
-		// collect song names from folder? But don't load them until called
+
+		PathName(path).entries.do({ |entry| all.put(entry.folderName.asSymbol,entry)});
 	}
 
 	*new { |name = \numberOne|
+		var path = all[name]; // looks for a folder in a relative path using name, and then:
 
-		// looks for a folder in a relative path using name, and then:
-		// load click
+		// allocate/evaluate a bunch of shit
+		// load click w/ section names?
 		// load cues into dictionary somewhere
 		// load buffers
 		// load synths
@@ -102,6 +100,7 @@ YAWNSong {
 
 		// make a function that .flops everything that needs to run in the same Pdef?
 		// MasterPdef.include(\click,\trackPlayback,\dmx,\kemperPatch changes (MIDI Pdefs), \anything else?)
+		^name
 	}
 
 
@@ -109,20 +108,16 @@ YAWNSong {
 		// prints sections: [\intro,\verse1, etc.]
 	}
 
-	playClickFrom { |from = \intro, to = \bridge| } // ?? is it possible to play the click section by section? What about starting from verse2 but going to the end? etc.
+	playClickFrom { |from = \intro, to = \outro| } // ?? is it possible to play the click section by section?
+
+	rehearseFrom {} // maybe this is a better method name than the one above...can therefore include lights, etc.
 
 }
-
-
-
 
 // eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
 // is there a way to have input processing available at all times? Always ready for impro?
-
-
-
 // YAWN song folder has a data.scd file which has cues, SynthDefs, etc?
 
 /*
