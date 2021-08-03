@@ -78,7 +78,6 @@ YAWNSong {
 		^name
 	}
 
-
 	sections {
 		// prints sections: [\intro,\verse1, etc.]
 	}
@@ -89,7 +88,6 @@ YAWNSong {
 
 }
 
-YAWNSong(\cement).click
 
 // eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
@@ -97,16 +95,14 @@ YAWNSong(\cement).click
 // is there a way to have input processing available at all times? Always ready for impro?
 // YAWN song folder has a data.scd file which has cues, SynthDefs, etc?
 
-/*
 
-YAWNShow(
-[\cement,\numberOne,\numberTwo,\numberFour], //setList
-[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
-[\masterOut -> 0,\click -> 2], // HWoutputs
+// YAWNShow(
+// 	[\cement,\numberOne,\numberTwo,\numberFour], //setList
+// 	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
+// 	[\masterOut -> 0,\click -> 2], // HWoutputs
+// )
 
-)
 
-*/
 
 // YAWNInstrument {
 // 	maybe? could have hardware input busses, EQ/compression settings, etc.
