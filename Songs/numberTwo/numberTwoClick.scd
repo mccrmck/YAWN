@@ -2,14 +2,12 @@
 (
 // var amp = some Bus?
 // var out = some Bus?
-var fast = Array.geom(12,300,0.95);
-var slow = fast  * 0.8;
-var endRit = fast.collect({ |item, index|
+var endRit = Array.geom(12,300,0.95).collect({ |item, index|
 
 	case
-	{index < 10}{ [Click(slow[index],4), Click(item,4)] }
-	{index == 10}{ [Click(slow[index],4), ClickCue(item,4)] }
-	{index > 10}{ [ClickCue(slow[index],4), ClickCue(item,4)] }
+	{index < 10}{ [Click(item * 0.8,4), Click(item,4)] }
+	{index == 10}{ [Click(item * 0.8,4), ClickCue(item,4)] }
+	{index > 10}{ [ClickCue(item * 0.8,4), ClickCue(item,4)] }
 });
 
 Pdef(\play2part1,
@@ -78,7 +76,7 @@ Pdef(\play2part3,
 			// this is separated from the above line for redundancy - everything below was part of \rit2
 			[ Click(240,4), Click(300,4) ].dup(3),
 			endRit,
-			ClickCue(fast.last,1),
+			ClickCue(),
 		].flatten(1).clickKeys)
 	)
 );

@@ -54,10 +54,10 @@ Pdef(\cementClick,
 
 			// QUINTUPLETS
 			[
-				[ Click(170,4), Click(170,5) ],
-				[ Click(170,4), Click(170,5) ],
-				[ Click(170,4), Click(170,5) ],
-				Click(170,4)
+				[ Click(160,4), Click(200,5) ],
+				[ Click(160,4), Click(200,5) ],
+				[ Click(160,4), Click(200,5) ],
+				Click(160,4)
 			].dup(3),
 
 			'rit3',                                       // make into ClickMan or ClickEnv?
