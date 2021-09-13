@@ -1,14 +1,15 @@
 YAWNShow {
 
 	var <>setList;
+	var songArray;
 
-	*new { |set|
-		^super.newCopyArgs(set).init;
+	*new { |setList, ui = \lemur|
+		^super.newCopyArgs(setList).init(ui);
 	}
 
-	init {
+	init { |controller|
 
-		setList.collect({ |item,index|
+		songArray = setList.collect({ |item, index|
 			YAWNSong(item.asSymbol);
 		});
 		/*
@@ -20,17 +21,28 @@ YAWNShow {
 		cues = Dictionary(); //maybe this isn't necessary if the Click class can store the cues in an instance??
 		busses = Dictionary(); // reverb/master added automatically
 		groups = Dictionary(); ??
-		buffers = Dictionary(); ??
 		guiFuncs = Dictionary(); // might need a couple of these, not sure how that's going to work yet...
+		lemurOSCdefs = Dictionary() ???
 
 		*/
 
+		switch(controller,
+			{ \lemur },{ this.loadLemurInterface(setList) },
+			{ \touchOSC },{ "not implemented yet".warn },
+			{ \scGUI },{ "not implemented yet".warn }
+		);
 
-		// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 	}
 
-	// load MIDI controller functions
-	// YAWNShow.gui
+	loadLemurInterface { | songNames |
+		"% does this shit work?".format(*songNames).postln;
+	}
+
+	// load synths for live processing/general performance page?
+
+	// YAWNShow.gui ??
+
+	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
 	/*
 	{
@@ -49,7 +61,6 @@ YAWNShow {
 
 	}
 	*/
-
 }
 
 YAWNSong {
@@ -66,7 +77,7 @@ YAWNSong {
 
 		StartUp.add{
 
-			SynthDef(\stereoBGPBSynth,{
+			SynthDef(\stereoBGSynth,{   //does this stay here or move into YAWNShow? What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
 				var bufnum = \bufnum.kr;
 				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),doneAction: 2);
 				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(1));
@@ -83,36 +94,40 @@ YAWNSong {
 
 		if(all[songName].notNil,{
 
+			// maybe this file path gets changed to sections??
 			mastArray = File.readAllString(all[songName].fullPath  ++ "%Data.scd".format(songName)).interpret;    // consider separating these into different files? Click
 
-			pbTracks = PathName(all[songName].fullPath  ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Necessary?
+			pbTracks = PathName(all[songName].fullPath  ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
 				Buffer.read(Server.default,entry.fullPath);
 
 			});
 
-			// allocate/evaluate a bunch of shit
-			// collect cues into dictionary somewhere - maybe using regexp? Or just better cue names in the mastArray...
-			// load synths
+			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the mastArray...or they get passed into the mastArray and collected here?
+			// load synthDefs
+			File.readAllString(all[songName].fullPath  ++ "%SynthDefs.scd".format(songName)).interpret;
+
+			// load oscDefs
 
 			// make a function that .flops everything that needs to run in the same Pdef?
 			// MasterPdef.include(\click,\trackPlayback,\dmx,\kemperPatches, \anything else?)
 
-		})
-
+		},{
+			"Song folder does not exist".warn;
+		});
 	}
 
 	sections {
-		var sectArray =	mastArray.collect({|section| section['name']});
+		var sectArray =	mastArray.collect({ |section| section['name'] });
 		^sectArray
 	}
 
 	clicks {
-		var clickArray = mastArray.collect({|section| section['click']});
+		var clickArray = mastArray.collect({ |section| section['click'] });
 		^clickArray
 	}
 
-	playFrom { |from = \intro, to = \outro, countIn = true| // if this works, I can remove count-ins from every Data file!
+	playFrom { |from = \intro, to = \outro, countIn = true| // does this work?
 		var fromInd = this.sections.indexOf(from);
 		var toInd = this.sections.indexOf(to);
 		var click = [];
@@ -122,28 +137,26 @@ YAWNSong {
 			click = click ++ mastArray[index]['click'];
 		});
 
-		if(countIn and: {this.clicks[fromInd].flat.first.isKindOf(Click)},{   // maybe I don't need this second condition when I figure out solutions for \rit3, etc.
+		if(countIn and: { this.clicks[fromInd].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, etc.
 			var bpm = this.clicks[fromInd].flat.first.bpm;
 
 			click = [Click(bpm,2,repeats: 2), Click(bpm,1,repeats: 4)] ++ click;
 		},{
-			click
+			click;
 		});
 
-		/*
-		eventually copy playback, MIDI, DMX, etc. patterns into similiar arrays
+		/* eventually copy playback, MIDI, DMX, etc. patterns into similiar arrays */
 
-		*/
-
-		^click; //eventually will be a master Pdef, Pspawner, Routine, etc.
+		^click; // eventually will be a master Pdef, Pspawner, Routine, etc.... right?!?!
 	}
+
+	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
 }
 
 // eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
-// is there a way to have input processing available at all times? Always ready for impro?
 
 
 // YAWNShow(
