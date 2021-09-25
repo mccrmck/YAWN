@@ -154,6 +154,9 @@ YAWNSong {
 
 }
 
+
+// must add Click outputs and amp control!!!
+
 // eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
