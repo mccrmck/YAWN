@@ -75,9 +75,10 @@ YAWNSong {
 
 		PathName(path).entries.do({ |entry| all.put(entry.folderName.asSymbol,entry)});
 
-		StartUp.add{
+		StartUp.add{  // does this stay here or move into YAWNShow? This should perhaps only be data unique/related to each song? and then YAWNShow is the 'player'?
+			          // What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
 
-			SynthDef(\stereoBGSynth,{   //does this stay here or move into YAWNShow? What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
+			SynthDef(\stereoBGSynth,{
 				var bufnum = \bufnum.kr;
 				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),doneAction: 2);
 				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(1));
@@ -127,7 +128,7 @@ YAWNSong {
 		^clickArray
 	}
 
-	playFrom { |from = \intro, to = \outro, countIn = true| // does this work?
+	playFrom { |from = \intro, to = \outro, countIn = true| // does countIn work? // eventually add click = true, lights = true, bTracks = true
 		var fromInd = this.sections.indexOf(from);
 		var toInd = this.sections.indexOf(to);
 		var click = [];

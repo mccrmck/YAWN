@@ -59,7 +59,7 @@
 		click: [ Click(240,5), Click(240,4) ].dup(2).flat,
 	),
 	(
-		name: 'p3_modA+part',
+		name: 'p3_modApart',
 		click: [
 			[ Click(240,5), Click(240,4) ].dup(4),
 			Click(170,4,repeats: 2)

@@ -4,6 +4,7 @@
 	(
 		name: 'count_off',
 		click: [Click(160,2,repeats: 2), Click(160,1,repeats: 4)],
+		// lights: []
 	),
 	(
 		name: 'intro',
