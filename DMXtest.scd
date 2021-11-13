@@ -38,27 +38,23 @@ Routine({
 100.collect({ |i| i.lincurve(0,99,0,1,10)}).plot
 
 
-
-// this motherfucker works!
-~dmx.set(\Preset,0.01)
-//
-
 x = SimpleMIDIFile.read("/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/cement/cementLightMIDI/Cement part 1 New version.mid").timeMode_(\seconds)
+
+a = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/cement/cementLightMIDI/Cement part 1 New version.mid"
+a.extension == "mid"
 
 // [ trackNumber, absTime, type, channel, val1, val2 ]
 x.midiEvents.do(_.postln)
 y = x.midiEvents.reject({|i| i[2] == \noteOff})
 
 // deltaTimes
-~times = y.collect({ |i| i[1]}).differentiate;
-~times = ~times.drop(1);
+~times = y.collect({ |i| i[1]}).differentiate.drop(1);
 ~times.do(_.postln)
 
 // preset numbers
-~preset = y.collect({ |i| i[4]/100})
+~preset = y.collect({ |i| i[4]})
 ~map = [~times,~preset].flop
 ~map.do(_.postln)
-
 
 
 x.midiEvents[0]
@@ -72,14 +68,6 @@ Pbind(
 	\freq, Pseq(~preset,1),
 	\legato,0.05,
 ).play
-
-
-
-
-
-60/160 /4
-
-~dmx.set(16,80)
 
 
 ~dmx.getProgramData({ arg data; d = data;});
@@ -110,7 +98,6 @@ y.differentiate
 
 
 ~dmx.synth.set(\index,2,\val,0)
-
 80/255
 
 
@@ -120,20 +107,12 @@ y.differentiate
 
 
 
-// number of outputs - is that an issue? more than one?!?!?
-// preset path -> move presets to the right place? Check VSTPluginDesc helpfile
-
-// check .addPreset method
-
-
-
 
 a = YAWNSong(\cement)
 a.sections
 
 a.clicks
 
-Click
 
 (
 Pdef(\test,
@@ -192,6 +171,5 @@ OSCdef(\dmx0,{ |msg, time, addr, recvPort|
 
 
 
-Quarks.gui
 
 

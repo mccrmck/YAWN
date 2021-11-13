@@ -1,7 +1,7 @@
 YAWNShow {
 
 	var <>setList;
-	var songArray;
+	var lights, songArray;
 
 	*new { |setList, ui = \lemur|
 		^super.newCopyArgs(setList).init(ui);
@@ -9,9 +9,12 @@ YAWNShow {
 
 	init { |controller|
 
+		lights = DMXIS();                                                  // right??!?!?
+
 		songArray = setList.collect({ |item, index|
 			YAWNSong(item.asSymbol);
 		});
+
 		/*
 		make a bunch of <>Dictionaries?
 
@@ -21,9 +24,7 @@ YAWNShow {
 		cues = Dictionary(); //maybe this isn't necessary if the Click class can store the cues in an instance??
 		busses = Dictionary(); // reverb/master added automatically
 		groups = Dictionary(); ??
-		guiFuncs = Dictionary(); // might need a couple of these, not sure how that's going to work yet...
-		lemurOSCdefs = Dictionary() ???
-
+		OSCdefs = Dictionary() ???
 		*/
 
 		switch(controller,
@@ -34,8 +35,10 @@ YAWNShow {
 
 	}
 
-	loadLemurInterface { | songNames |
+	loadLemurInterface { |songNames|
 		"% does this shit work?".format(*songNames).postln;
+
+		// load a bunch of OSCdefs????
 	}
 
 	// load synths for live processing/general performance page?
@@ -66,7 +69,7 @@ YAWNShow {
 YAWNSong {
 
 	classvar <all;
-	var <songName, sections, <mastArray, <pbTracks;
+	var <songName, sections, <mastArray, ≤lightPaths, <pbTracks;
 
 	*initClass {
 		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
@@ -100,7 +103,7 @@ YAWNSong {
 
 			pbTracks = PathName(all[songName].fullPath  ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
-				Buffer.read(Server.default,entry.fullPath);
+				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
 			});
 
@@ -128,7 +131,7 @@ YAWNSong {
 		^clickArray
 	}
 
-	playFrom { |from = \intro, to = \outro, countIn = true| // does countIn work? // eventually add click = true, lights = true, bTracks = true
+	cueFrom { |from = \intro, to = \outro, countIn = true| // does countIn work? // eventually add click = true, lights = true, bTracks = true
 		var fromInd = this.sections.indexOf(from);
 		var toInd = this.sections.indexOf(to);
 		var click = [];
@@ -147,8 +150,10 @@ YAWNSong {
 		});
 
 		/* eventually copy playback, MIDI, DMX, etc. patterns into similiar arrays */
+		// eventually will be a master Pdef, Pspawner, Routine, etc.... right?!?!
 
-		^click; // eventually will be a master Pdef, Pspawner, Routine, etc.... right?!?!
+		^click
+		// ^mastPat; // this returns Ppar([clickArray,dmxArray,backingTracks,MIDIcues,etc.])
 	}
 
 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
