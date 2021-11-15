@@ -3,8 +3,8 @@ YAWNShow {
 	var <>setList;
 	var lights, songArray;
 
-	*new { |setList, ui = \lemur|
-		^super.newCopyArgs(setList).init(ui);
+	*new { |setList, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
+		^super.newCopyArgs(setList.asArray).init(ui);
 	}
 
 	init { |controller|
@@ -29,21 +29,20 @@ YAWNShow {
 
 		switch(controller,
 			{ \lemur },{ this.loadLemurInterface(setList) },
-			{ \touchOSC },{ "not implemented yet".warn },
-			{ \scGUI },{ "not implemented yet".warn }
+			{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
+			{ \scGUI },{ "scGUI not implemented yet".warn }
 		);
-
 	}
 
 	loadLemurInterface { |songNames|
 		"% does this shit work?".format(*songNames).postln;
 
-		// load a bunch of OSCdefs????
+		// lemur.sendMsg('/main/setList/init',*songNames);
+		// .scd file w/ relevant OSCdefs
 	}
 
 	// load synths for live processing/general performance page?
 
-	// YAWNShow.gui ??
 
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
@@ -98,7 +97,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 		if(songFolders[songName].notNil,{
 
-			masterArray = File.readAllString(songFolders[songName]  ++ "%Data.scd".format(songName)).interpret;
+			masterArray = File.readAllString(songFolders[songName]  ++ "%Data.scd".format(songName)).interpret; // can pass args with .value(clickOut,clickAmp)!!
 
 			pbTracks = PathName(songFolders[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
@@ -139,7 +138,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		var mastPat;
 
 		// does countIn work? Must test....
-		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, etc.
+		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, \elevenRiff etc.
 			var bpm = this.clicks[fromIndex].flat.first.bpm;
 
 			countInArray = Psym(                  // must add outputs for this click as well!! Can these be passed through YAWNShow?
@@ -163,7 +162,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 				clickArray = clickArray ++ masterArray[index]['click'];
 			});
 
-			clickArray = Psym( Pseq([ clickArray ].flat.clickKeys) );
+			clickArray.postln;
+			clickArray = Psym( Pseq(clickArray.clickKeys) );
 
 			cuedArray = cuedArray.add(clickArray)
 		});
@@ -180,7 +180,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		mastPat = Pdef("master%".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
+		mastPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
@@ -190,7 +190,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		^mastPat;
 	}
 
-	loadOSCdefs { |address|
+	loadOSCdefs { |address|  // or device? Not sure how different the OSCFuncs will be if we use Lemur instead of TouchOSC
 
 	}
 }
@@ -207,6 +207,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 // 	[\cement,\numberOne,\numberTwo,\numberFour], //setList
 // 	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
 // 	[\masterOut -> 0,\click -> 2], // HWoutputs
+// \lemur, // interface/UI
 // )
 
 
