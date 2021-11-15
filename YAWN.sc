@@ -66,20 +66,20 @@ YAWNShow {
 	*/
 }
 
-YAWNSong {
+YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
-	classvar <all;
-	var <songName, sections, <mastArray, ≤lightPaths, <pbTracks;
+	classvar <songFolders;
+	var <songName, sections, <masterArray, <pbTracks;
 
 	*initClass {
 		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
 
-		all = IdentityDictionary();
+		songFolders = IdentityDictionary();
 
-		PathName(path).entries.do({ |entry| all.put(entry.folderName.asSymbol,entry)});
+		PathName(path).entries.do({ |folderPath| songFolders.put(folderPath.folderName.asSymbol,folderPath.fullPath) });
 
 		StartUp.add{  // does this stay here or move into YAWNShow? This should perhaps only be data unique/related to each song? and then YAWNShow is the 'player'?
-			          // What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
+			// What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
 
 			SynthDef(\stereoBGSynth,{
 				var bufnum = \bufnum.kr;
@@ -96,74 +96,109 @@ YAWNSong {
 
 	init {
 
-		if(all[songName].notNil,{
+		if(songFolders[songName].notNil,{
 
-			// maybe this file path gets changed to sections??
-			mastArray = File.readAllString(all[songName].fullPath  ++ "%Data.scd".format(songName)).interpret;    // consider separating these into different files? Click
+			masterArray = File.readAllString(songFolders[songName]  ++ "%Data.scd".format(songName)).interpret;
 
-			pbTracks = PathName(all[songName].fullPath  ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
+			pbTracks = PathName(songFolders[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
 				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
 			});
 
-			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the mastArray...or they get passed into the mastArray and collected here?
+			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the masterArray...or they get passed into the masterArray and collected here?
+
 			// load synthDefs
-			File.readAllString(all[songName].fullPath  ++ "%SynthDefs.scd".format(songName)).interpret;
+			File.readAllString(songFolders[songName]  ++ "%SynthDefs.scd".format(songName)).interpret;
 
-			// load oscDefs
-
-			// make a function that .flops everything that needs to run in the same Pdef?
-			// MasterPdef.include(\click,\trackPlayback,\dmx,\kemperPatches, \anything else?)
+			// load oscDefs....or does this depend on the interface argument in YAWNShow???
 
 		},{
 			"Song folder does not exist".warn;
 		});
 	}
 
+	*all {
+		this.songFolders.keysDo(_.postln);
+	}
+
 	sections {
-		var sectArray =	mastArray.collect({ |section| section['name'] });
+		var sectArray =	masterArray.collect({ |section| section['name'] });
 		^sectArray
 	}
 
 	clicks {
-		var clickArray = mastArray.collect({ |section| section['click'] });
+		var clickArray = masterArray.collect({ |section| section['click'] });
 		^clickArray
 	}
 
-	cueFrom { |from = \intro, to = \outro, countIn = true| // does countIn work? // eventually add click = true, lights = true, bTracks = true
-		var fromInd = this.sections.indexOf(from);
-		var toInd = this.sections.indexOf(to);
-		var click = [];
+	cueFrom { |from = \intro, to = \outro, click = true, lights = true, countIn = false| // eventually add bTracks = true, kemper = true, osv.
+		var fromIndex = this.sections.indexOf(from);
+		var toIndex = this.sections.indexOf(to);
+		var countInArray, cuedArray = [];
+		var mastPat;
 
-		for(fromInd,toInd,{ |index|
+		// does countIn work? Must test....
+		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, etc.
+			var bpm = this.clicks[fromIndex].flat.first.bpm;
 
-			click = click ++ mastArray[index]['click'];
-		});
-
-		if(countIn and: { this.clicks[fromInd].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, etc.
-			var bpm = this.clicks[fromInd].flat.first.bpm;
-
-			click = [Click(bpm,2,repeats: 2), Click(bpm,1,repeats: 4)] ++ click;
+			countInArray = Psym(                  // must add outputs for this click as well!! Can these be passed through YAWNShow?
+				Pseq([
+					Click(bpm,2,repeats: 2),
+					Click(bpm,1,repeats: 4)
+				].flat.clickKeys)
+			);
 		},{
-			click;
+			countInArray = Pbind(
+				\dur,Pseq([0],1),
+				\note, Rest()
+			);
 		});
 
-		/* eventually copy playback, MIDI, DMX, etc. patterns into similiar arrays */
-		// eventually will be a master Pdef, Pspawner, Routine, etc.... right?!?!
+		if( click,{
+			var clickArray = [];
 
-		^click
-		// ^mastPat; // this returns Ppar([clickArray,dmxArray,backingTracks,MIDIcues,etc.])
+			for(fromIndex,toIndex,{ |index|
+
+				clickArray = clickArray ++ masterArray[index]['click'];
+			});
+
+			clickArray = Psym( Pseq([ clickArray ].flat.clickKeys) );
+
+			cuedArray = cuedArray.add(clickArray)
+		});
+
+		if( lights,{
+			var lightArray = [];
+
+			for(fromIndex,toIndex,{ |index|
+				var lightPdef = DMXIS.makePat(masterArray[index]);
+
+				lightArray = lightArray ++ lightPdef;
+			});
+
+			cuedArray = cuedArray.add(lightArray)
+		});
+
+		mastPat = Pdef("master%".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
+			Pseq([
+				countInArray,
+				Ppar(cuedArray)
+			],1)
+		);
+
+		^mastPat;
 	}
 
-	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
+	loadOSCdefs { |address|
 
+	}
 }
 
 
 // must add Click outputs and amp control!!!
 
-// eventual new features/additions that don't exist yet...DMX integration? track playback? Can everything just run from the master Pdef?
+// eventual new features/additions that don't exist yet...track playback? Kemper patch changes? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
 
