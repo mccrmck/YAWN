@@ -1,7 +1,7 @@
 YAWNShow {
 
 	var <>setList;
-	var lights, songArray;
+	var lights, <songArray;
 
 	*new { |setList, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
 		^super.newCopyArgs(setList.asArray).init(ui);
@@ -35,7 +35,7 @@ YAWNShow {
 	}
 
 	loadLemurInterface { |songNames|
-		"% does this shit work?".format(*songNames).postln;
+		"% does this shit work?".format(songNames).postln;
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
 		// .scd file w/ relevant OSCdefs
@@ -67,17 +67,17 @@ YAWNShow {
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
-	classvar <songFolders;
-	var <songName, sections, <masterArray, <pbTracks;
+	classvar songPaths;
+	var <songName, sections, <data, <pbTracks;
 
 	*initClass {
 		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
 
-		songFolders = IdentityDictionary();
+		songPaths = IdentityDictionary();
 
-		PathName(path).entries.do({ |folderPath| songFolders.put(folderPath.folderName.asSymbol,folderPath.fullPath) });
+		PathName(path).entries.do({ |folderPath| songPaths.put(folderPath.folderName.asSymbol,folderPath.fullPath) });
 
-		StartUp.add{  // does this stay here or move into YAWNShow? This should perhaps only be data unique/related to each song? and then YAWNShow is the 'player'?
+		/*StartUp.add{  // does this stay here or move into YAWNShow? This should perhaps only be data unique/related to each song? and then YAWNShow is the 'player'?
 			// What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
 
 			SynthDef(\stereoBGSynth,{
@@ -86,7 +86,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(1));
 				OffsetOut.ar(\outBus.kr(0),sig);
 			}).add;
-		}
+		}*/
 	}
 
 	*new { |name|
@@ -95,20 +95,24 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 	init {
 
-		if(songFolders[songName].notNil,{
+		if(songPaths[songName].notNil,{
 
-			masterArray = File.readAllString(songFolders[songName]  ++ "%Data.scd".format(songName)).interpret; // can pass args with .value(clickOut,clickAmp)!!
+			data = File.readAllString(songPaths[songName]  ++ "%Data.scd".format(songName)).interpret; // can pass args with .value(clickOut,clickAmp)!!
 
-			pbTracks = PathName(songFolders[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
+			pbTracks = PathName(songPaths[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
 				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
 			});
 
-			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the masterArray...or they get passed into the masterArray and collected here?
+
+			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
+
+
+			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the data...or they get passed into the data and collected here?
 
 			// load synthDefs
-			File.readAllString(songFolders[songName]  ++ "%SynthDefs.scd".format(songName)).interpret;
+			File.readAllString(songPaths[songName]  ++ "%SynthDefs.scd".format(songName)).interpret;
 
 			// load oscDefs....or does this depend on the interface argument in YAWNShow???
 
@@ -117,17 +121,17 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		});
 	}
 
-	*all {
-		this.songFolders.keysDo(_.postln);
+	*catalogue {
+		this.songPaths.keysDo(_.postln);
 	}
 
 	sections {
-		var sectArray =	masterArray.collect({ |section| section['name'] });
+		var sectArray =	data.collect({ |section| section['name'] });
 		^sectArray
 	}
 
 	clicks {
-		var clickArray = masterArray.collect({ |section| section['click'] });
+		var clickArray = data.collect({ |section| section['click'] });
 		^clickArray
 	}
 
@@ -159,10 +163,9 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			for(fromIndex,toIndex,{ |index|
 
-				clickArray = clickArray ++ masterArray[index]['click'];
+				clickArray = clickArray ++ data[index]['click'];
 			});
 
-			clickArray.postln;
 			clickArray = Psym( Pseq(clickArray.clickKeys) );
 
 			cuedArray = cuedArray.add(clickArray)
@@ -172,7 +175,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			var lightArray = [];
 
 			for(fromIndex,toIndex,{ |index|
-				var lightPdef = DMXIS.makePat(masterArray[index]);
+				var lightPdef = DMXIS.makePat(data[index]);
 
 				lightArray = lightArray ++ lightPdef;
 			});
@@ -195,10 +198,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	}
 }
 
-
 // must add Click outputs and amp control!!!
 
-// eventual new features/additions that don't exist yet...track playback? Kemper patch changes? Can everything just run from the master Pdef?
 // #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
 

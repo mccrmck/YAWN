@@ -5,7 +5,6 @@ SynthDef(\dmx,{
 }).add
 )
 
-
 ~dmx = VSTPluginController(Synth(\dmx, [\outBus, 0])).open("DMXIS-Inst.vst");
 
 ~dmx.editor
@@ -107,7 +106,6 @@ y.differentiate
 
 
 
-
 a = YAWNSong(\cement)
 a.sections
 
@@ -128,48 +126,34 @@ Pdef(\test,
 Pdef(\test).stop
 
 (
-SynthDef(\dmxImpro,{
+SynthDef(\fourImproAmp,{
 	var sig = SoundIn.ar(\inBus.kr(0));
-	// var amp = Amplitude.kr(sig);
-	// sig = FFT(LocalBuf(4096),sig);
-	// sig = SpecFlatness.kr(sig);
-	var pitch = Pitch.kr(sig,maxFreq: 2500,median: 10,ampThreshold: 0.1,);
+	var amp = Amplitude.kr(sig,);
 
-	SendReply.kr(Impulse.kr(8),'/lights',[pitch[0]])
+	amp = LagUD.kr(amp,0.8,1.0);
 
+	SendReply.kr(Impulse.kr(12),'/fourImproLight',[amp])
 }).add;
 )
 
-x = Synth(\dmxImpro,[\inBus,5])
+x = Synth(\fourImproAmp,[\inBus,2])
 x.free
+DMXIS.free
 
+(
 OSCdef(\dmx0,{ |msg, time, addr, recvPort|
 	var val = msg[3];
-	val = val.cpsmidi.round;
+	// val = val.explin(0.001,1,0,1.0);
 	// val.postln;
 
-	case
-	{val == 78}{
-		~dmx.set(\32,1);
-		~dmx.set(\33,0);
-		~dmx.set(\34,0);
-		~dmx.set(\35,0);
-	}
-	{val == 80}{
-		~dmx.set(\32,0);
-		~dmx.set(\33,1);
-		~dmx.set(\34,0);
-		~dmx.set(\35,0);
-	}
-
-},'/lights')
+	a.set(\11,val); //which value
 
 
-~dmx.set(\Preset,0.01)
+},'/fourImproLight')
+)
 
-~dmx.set(\1,0.2)
+OSCdef.freeAll
 
-
-
+s.options.device = "Saffire"
 
 
