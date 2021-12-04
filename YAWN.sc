@@ -1,18 +1,36 @@
 YAWNShow {
 
 	var <>setList;
-	var lights, <songArray;
+	var lights, <songArray, <clickAmp;
 
-	*new { |setList, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
-		^super.newCopyArgs(setList.asArray).init(ui);
+	*new { |setList, clickOut, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
+		^super.newCopyArgs(setList.asArray).init(clickOut,ui);
 	}
 
-	init { |controller|
+	init { |clickOut,controller|
+		var server = Server.default;
 
-		lights = DMXIS();                                                  // right??!?!?
+		server.waitForBoot({
 
-		songArray = setList.collect({ |item, index|
-			YAWNSong(item.asSymbol);
+			lights = DMXIS();       // right??!?!?
+
+			clickAmp = Bus.control(server,1).set(0.5);                            // eventually get this on the \db.spec system!!
+
+			songArray = setList.collect({ |item, index|
+				YAWNSong(item.asSymbol);
+			});
+
+			songArray.do({ |song|                                                 // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+
+				song.clicks.deepDo(3,{ |click|
+					click.amp = {clickAmp.getSynchronous};
+					click.out = clickOut;
+				});
+
+			});
+
+			//load buffers, busses, etc.
+
 		});
 
 		/*
@@ -68,7 +86,7 @@ YAWNShow {
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
 	classvar songPaths;
-	var <songName, sections, <data, <pbTracks;
+	var <songName, sections, <data, <pbTracks, <mastPat;
 
 	*initClass {
 		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
@@ -76,17 +94,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		songPaths = IdentityDictionary();
 
 		PathName(path).entries.do({ |folderPath| songPaths.put(folderPath.folderName.asSymbol,folderPath.fullPath) });
-
-		/*StartUp.add{  // does this stay here or move into YAWNShow? This should perhaps only be data unique/related to each song? and then YAWNShow is the 'player'?
-			// What's most  practical for rehearsals...what if I want to improvise on one tune, should those synths be loaded as well?
-
-			SynthDef(\stereoBGSynth,{
-				var bufnum = \bufnum.kr;
-				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),doneAction: 2);
-				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(1));
-				OffsetOut.ar(\outBus.kr(0),sig);
-			}).add;
-		}*/
 	}
 
 	*new { |name|
@@ -97,7 +104,10 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 		if(songPaths[songName].notNil,{
 
-			data = File.readAllString(songPaths[songName]  ++ "%Data.scd".format(songName)).interpret; // can pass args with .value(clickOut,clickAmp)!!
+			data = File.readAllString(songPaths[songName]  ++ "%Data.scd".format(songName)).interpret;
+
+
+			// this can't happen unless the server is booted!!!
 
 			pbTracks = PathName(songPaths[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
 
@@ -139,7 +149,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
 		var countInArray, cuedArray = [];
-		var mastPat;
 
 		// does countIn work? Must test....
 		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, \elevenRiff etc.
@@ -175,10 +184,12 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			var lightArray = [];
 
 			for(fromIndex,toIndex,{ |index|
-				var lightPdef = DMXIS.makePat(data[index]);
+				var lightPdef = DMXIS.makePat(data[index]['name']);
 
 				lightArray = lightArray ++ lightPdef;
 			});
+
+			lightArray = Pseq(lightArray);
 
 			cuedArray = cuedArray.add(lightArray)
 		});
@@ -187,7 +198,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
-			],1)
+			])
 		);
 
 		^mastPat;
@@ -198,9 +209,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	}
 }
 
-// must add Click outputs and amp control!!!
-
-// #1 intro should no longer be granular - repeating sampler w/ hold, reads args from sliders;
 // all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
 
 
@@ -210,11 +218,4 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 // 	[\masterOut -> 0,\click -> 2], // HWoutputs
 // \lemur, // interface/UI
 // )
-
-
-
-// YAWNInstrument {
-// 	maybe? could have hardware input busses, EQ/compression settings, etc.
-//
-// }
 

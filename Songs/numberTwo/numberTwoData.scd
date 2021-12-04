@@ -1,5 +1,8 @@
 ///////////////////////////////////////////////// YAWN Data: numberTwo /////////////////////////////////////////////////
-(
+
+var cueKeys = [\openTwo];
+var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberTwo/dmxMIDI/";
+
 [
 	(
 		name: 'p1_count_off',
@@ -10,7 +13,7 @@
 	),(
 		name: 'p2_count_off',
 		click: [
-			ClickLoop(120,4,loopKey: \openTwo),
+			ClickLoop(120,4,loopKey: cueKeys[0]),
 			ClickCue(120,4,repeats: 2), ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4),
 		],
 	),(
@@ -73,4 +76,3 @@
 		].flat,
 	)
 ];
-)

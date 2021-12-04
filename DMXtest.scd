@@ -157,3 +157,68 @@ OSCdef.freeAll
 s.options.device = "Saffire"
 
 
+Pdef(uniqueKey,
+	Pbind(
+		\type,\vst_set,
+		\vst,vst,
+		\params,[ \Preset ],
+		\dur,Pwhile({ cue }, Pseq( times, 1 )),
+		\Preset,Pseq( presets, 1 ),
+	)
+);
+
+
+(
+var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/";
+DMXIS.loadFromMIDI('fourBeginning',pathToDMXMIDI ++ "beginning.mid")
+)
+
+d = DMXIS.cues['fourBeginning']['times']
+e = DMXIS.cues['fourSynthBuildup']['pattern']
+
+.stop
+['times']
+['pattern']
+
+t = a.songArray[3].data[3]['click'].clickKeys
+q = a.songArray[3].data[4]['click'].clickKeys
+
+b = DMXIS.makePat('fourBeginning')
+a.stop
+DMXIS.setPreset(4)
+
+[ 630.42222, 636.760245 ].differentiate.rotate(1)
+
+
+
+Pdef(\test,
+	Ppar([
+		Pseq([d,e]),
+		Psym(Pseq(t++q))
+	])
+)
+
+Psym(Pseq(t))
+
+Pdef(\test).stop
+
+
+y = SimpleMIDIFile.read("/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/count.mid")
+			.timeMode_(\seconds)
+			.midiEvents
+.reject({ |event| event[2] == \noteOff });
+
+y.do(_.postln)
+
+y.last[1]
+
+y.last[1] - y[y.size-2][1]
+
+[0,2,3].size
+[0].drop(1)
+
+
+
+
+
+

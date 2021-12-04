@@ -1,37 +1,36 @@
 ///////////////////////////////////////////////// YAWN Data: numberFour /////////////////////////////////////////////////
-(
 
-// fix MIDI file paths
+var cueKeys = [\openFour];
+var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/";
 
 [
 	(
-		name: 'count_off',
+		name: 'fourCount',
 		click: [ Click(142,2,repeats: 2), Click(142,1,repeats: 4) ],
-		lights: [DMXIS.loadFromMIDI('count_off',"/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/count_off.mid")],
+		lights:[ DMXIS.loadFromMIDI('fourCount',pathToDMXMIDI ++ "count.mid") ],
 	),(
-		name: 'beginning',
-		click:[ Click(142,4,repeats: 125) ],
-		lights: [DMXIS.loadFromMIDI('beginning',"/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/beginning.mid")],
+		name: 'fourBeginning',
+		click: [ Click(142,4,repeats: 125) ],
+		lights:[ DMXIS.loadFromMIDI('fourBeginning',pathToDMXMIDI ++ "beginning.mid") ],
 
 	),(
-		name: 'impro',
-		click: [ ClickLoop(142,loopKey: \openFour) ],
-		lights: [DMXIS.loadFromMIDI('impro',"/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/impro.mid")],
+		name: 'fourImpro',
+		click: [ ClickLoop(142,loopKey: cueKeys[0]) ],
+		lights:[ DMXIS.loadFromMIDI('fourImpro',pathToDMXMIDI ++ "impro.mid") ],
 
 	),(
-		name: 'cue',
+		name: 'fourCue',
 		click: [ ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4) ],
-		lights: [ nil ]
+		lights:[ DMXIS.loadFromMIDI('fourCue',pathToDMXMIDI ++ "cue.mid") ],
 	),(
-		name:'synthBuildup',
+		name:'fourSynthBuildup',
 		click: [ Click(142,4,repeats: 5), Click(142,2) ],
-		lights: [DMXIS.loadFromMIDI('synthBuildup',"/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/synthBuildup.mid")],
+		lights:[ DMXIS.loadFromMIDI('fourSynthBuildup',pathToDMXMIDI ++ "synthBuildup.mid") ],
 
 	),(
-		name: 'outro',
+		name: 'fourOutro',
 		click: [ Click(142,4,repeats: 57), Click(142,2) ],  // last beat
-		lights: [DMXIS.loadFromMIDI('outro',"/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/outro.mid")],
+		lights:[ DMXIS.loadFromMIDI('fourOutro',pathToDMXMIDI ++ "outro.mid") ],
 
 	)
 ]
-)
