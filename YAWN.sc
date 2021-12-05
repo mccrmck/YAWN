@@ -1,7 +1,7 @@
 YAWNShow {
 
 	var <>setList;
-	var lights, <songArray, <clickAmp;
+	var <lights, <songArray, <clickAmp;
 
 	*new { |setList, clickOut, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
 		^super.newCopyArgs(setList.asArray).init(clickOut,ui);
@@ -53,7 +53,7 @@ YAWNShow {
 	}
 
 	loadLemurInterface { |songNames|
-		"% does this shit work?".format(songNames).postln;
+		// "% does this shit work?".format(songNames).postln;
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
 		// .scd file w/ relevant OSCdefs

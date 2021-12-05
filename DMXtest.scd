@@ -169,9 +169,14 @@ Pdef(uniqueKey,
 
 
 (
-var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/";
-DMXIS.loadFromMIDI('fourBeginning',pathToDMXMIDI ++ "beginning.mid")
+var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/cement/dmxMIDI/";
+DMXIS.makePat('cementImpro',pathToDMXMIDI ++ "impro.mid")
 )
+
+d = DMXIS.makePat('cementImpro')
+d = DMXIS.cues['numberFourImpro']
+['times']
+.put(\cue,true)
 
 d = DMXIS.cues['fourBeginning']['times']
 e = DMXIS.cues['fourSynthBuildup']['pattern']
@@ -180,7 +185,7 @@ e = DMXIS.cues['fourSynthBuildup']['pattern']
 ['times']
 ['pattern']
 
-t = a.songArray[3].data[3]['click'].clickKeys
+t = a.songArray[0].data[5]['click'].clickKeys
 q = a.songArray[3].data[4]['click'].clickKeys
 
 b = DMXIS.makePat('fourBeginning')
@@ -193,8 +198,8 @@ DMXIS.setPreset(4)
 
 Pdef(\test,
 	Ppar([
-		Pseq([d,e]),
-		Psym(Pseq(t++q))
+		Pseq([d]),
+		Psym(Pseq(t))
 	])
 )
 
@@ -203,7 +208,7 @@ Psym(Pseq(t))
 Pdef(\test).stop
 
 
-y = SimpleMIDIFile.read("/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/count.mid")
+y = SimpleMIDIFile.read("/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/impro.mid")
 			.timeMode_(\seconds)
 			.midiEvents
 .reject({ |event| event[2] == \noteOff });
@@ -218,7 +223,7 @@ y.last[1] - y[y.size-2][1]
 [0].drop(1)
 
 
-
+a.play
 
 
 

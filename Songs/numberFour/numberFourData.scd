@@ -16,16 +16,16 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	),(
 		name: 'fourImpro',
 		click: [ ClickLoop(142,loopKey: cueKeys[0]) ],
-		lights:[ DMXIS.loadFromMIDI('fourImpro',pathToDMXMIDI ++ "impro.mid") ],
+		lights:[ DMXIS.loadFromMIDI('fourImpro',pathToDMXMIDI ++ "impro.mid",cueKeys[0]) ],
 
 	),(
 		name: 'fourCue',
 		click: [ ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4) ],
 		lights:[ DMXIS.loadFromMIDI('fourCue',pathToDMXMIDI ++ "cue.mid") ],
 	),(
-		name:'fourSynthBuildup',
+		name:'fourBuildup',
 		click: [ Click(142,4,repeats: 5), Click(142,2) ],
-		lights:[ DMXIS.loadFromMIDI('fourSynthBuildup',pathToDMXMIDI ++ "synthBuildup.mid") ],
+		lights:[ DMXIS.loadFromMIDI('fourBuildup',pathToDMXMIDI ++ "buildup.mid") ],
 
 	),(
 		name: 'fourOutro',
