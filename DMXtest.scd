@@ -21,6 +21,9 @@ VSTPlugin.plugins['DMXIS-Inst.vst'].presets.do(_.postln)
 
 VSTPlugin.plugins['DMXIS-Inst.vst'].midiInput
 
+a = DMXIS.loadFromMIDI('test',)
+a
+
 (
 Routine({
 
@@ -174,7 +177,7 @@ DMXIS.makePat('cementImpro',pathToDMXMIDI ++ "impro.mid")
 )
 
 d = DMXIS.makePat('cementImpro')
-d = DMXIS.cues['numberFourImpro']
+d = DMXIS.cues['oneGitDrumsLast']['times']
 ['times']
 .put(\cue,true)
 
@@ -225,5 +228,11 @@ y.last[1] - y[y.size-2][1]
 
 a.play
 
+a = YAWNSong(\numberOne)
 
 
+//must fix the routing and amp control for ClickConCat and ClickConCatLoop
+a.clicks.do(_.postln;)
+a.clicks[5][0].out = 1
+
+a.clicks[5][0].stop

@@ -23,7 +23,7 @@ YAWNShow {
 			songArray.do({ |song|                                                 // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
 				song.clicks.deepDo(3,{ |click|
-					click.amp = {clickAmp.getSynchronous};
+					click.amp = { clickAmp.getSynchronous };
 					click.out = clickOut;
 				});
 
@@ -86,7 +86,7 @@ YAWNShow {
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
 	classvar songPaths;
-	var <songName, sections, <data, <pbTracks, <mastPat;
+	var <songName, sections, <data, <pbTracks;
 
 	*initClass {
 		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
@@ -149,6 +149,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
 		var countInArray, cuedArray = [];
+		var cuedPat;
 
 		// does countIn work? Must test....
 		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, \elevenRiff etc.
@@ -184,9 +185,17 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			var lightArray = [];
 
 			for(fromIndex,toIndex,{ |index|
+				// var sectionLights = data[index]['lights'];
+				// case
+				// { sectionLights = "something" } {
 				var lightPdef = DMXIS.makePat(data[index]['name']);
 
 				lightArray = lightArray ++ lightPdef;
+				// }
+				// { sectionLights = "somethingElse" }{
+
+				// }
+
 			});
 
 			lightArray = Pseq(lightArray);
@@ -194,14 +203,14 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		mastPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
+		cuedPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
 			])
 		);
 
-		^mastPat;
+		^cuedPat;
 	}
 
 	loadOSCdefs { |address|  // or device? Not sure how different the OSCFuncs will be if we use Lemur instead of TouchOSC
