@@ -230,9 +230,3 @@ a.play
 
 a = YAWNSong(\numberOne)
 
-
-//must fix the routing and amp control for ClickConCat and ClickConCatLoop
-a.clicks.do(_.postln;)
-a.clicks[5][0].out = 1
-
-a.clicks[5][0].stop

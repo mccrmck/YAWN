@@ -64,23 +64,6 @@ YAWNShow {
 
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
-	/*
-	{
-
-	setlist.do({ |song|  // maybe this is a Routine w/ Conditions?
-
-	// song.class == YAWNSong
-
-	song.makeClick;
-	song.loadBuffers;
-	.
-	.
-	.
-	etc.
-	})
-
-	}
-	*/
 }
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
@@ -185,23 +168,36 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			var lightArray = [];
 
 			for(fromIndex,toIndex,{ |index|
-				// var sectionLights = data[index]['lights'];
-				// case
-				// { sectionLights = "something" } {
-				var lightPdef = DMXIS.makePat(data[index]['name']);
+				var sectionLights = data[index]['lights'];
+				var sectionArray = sectionLights.collect({ |lightCue, lightIndex|
 
-				lightArray = lightArray ++ lightPdef;
-				// }
-				// { sectionLights = "somethingElse" }{
+					switch(lightIndex,
+						0,{ DMXIS.makePat(data[index]['name']) },
+						1,{ /* audio reactive loader here */ }                            // next step!
+					);
+				});
 
-				// }
-
+				lightArray = lightArray.add(sectionArray);
 			});
+
+			lightArray = lightArray.collect(_.unbubble);
 
 			lightArray = Pseq(lightArray);
 
 			cuedArray = cuedArray.add(lightArray)
 		});
+
+		/*
+		if( lights,{
+		var lightArray = [];
+		for(fromIndex,toIndex,{ |index|
+		var lightPdef = DMXIS.makePat(data[index]['name']);
+		lightArray = lightArray ++ lightPdef;
+		});
+		lightArray = Pseq(lightArray);
+		cuedArray = cuedArray.add(lightArray)
+		});
+		*/
 
 		cuedPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
 			Pseq([

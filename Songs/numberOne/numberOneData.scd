@@ -16,7 +16,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	(
 		name: 'oneDrumCue',
 		click: [ Click(160,4,repeats: 2), ClickCue(160,2,repeats: 2), ClickCue(160,1,repeats: 4) ],
-		lights:[ DMXIS.loadFromMIDI('oneDrumCue',pathToDMXMIDI ++ "drumCue.mid") ],
+		lights:[ DMXIS.loadFromMIDI('oneDrumCue',pathToDMXMIDI ++ "drumCue.mid"),{"yes".postln} ],
 	),(
 		name: 'oneGitDrums',
 		click: [ ClickLoop(160,4,repeats: 8,loopKey: cueKeys[1])],
