@@ -3,7 +3,7 @@ YAWNShow {
 	var <>setList;
 	var <lights, <songArray, <clickAmp;
 
-	*new { |setList, clickOut, ui = \lemur|                                       // must pass some arrays here: hardware ins/outs
+	*new { |setList, clickOut, ui = \lemur|                    // must pass some arrays here: hardware ins/outs
 		^super.newCopyArgs(setList.asArray).init(clickOut,ui);
 	}
 
@@ -14,13 +14,13 @@ YAWNShow {
 
 			lights = DMXIS();       // right??!?!?
 
-			clickAmp = Bus.control(server,1).set(0.5);                            // eventually get this on the \db.spec system!!
+			clickAmp = Bus.control(server,1).set(0.5);        // eventually get this on the \db.spec system!!
 
 			songArray = setList.collect({ |item, index|
 				YAWNSong(item.asSymbol);
 			});
 
-			songArray.do({ |song|                                                 // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
 				song.clicks.deepDo(3,{ |click|
 					click.amp = { clickAmp.getSynchronous };
@@ -64,6 +64,8 @@ YAWNShow {
 
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
+	free { DMXIS.free } // must be more here, right???
+
 }
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
@@ -98,11 +100,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			});
 
-
 			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
-
-
-			// collect cues into dictionary somewhere - maybe using regexp? Or better cue names in the data...or they get passed into the data and collected here?
 
 			// load synthDefs
 			File.readAllString(songPaths[songName]  ++ "%SynthDefs.scd".format(songName)).interpret;
@@ -169,35 +167,19 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			for(fromIndex,toIndex,{ |index|
 				var sectionLights = data[index]['lights'];
-				var sectionArray = sectionLights.collect({ |lightCue, lightIndex|
 
-					switch(lightIndex,
-						0,{ DMXIS.makePat(data[index]['name']) },
-						1,{ /* audio reactive loader here */ }                            // next step!
-					);
-				});
+				//what happens if there is a nil here? Should I replace it with a \rest event, for example?
 
-				lightArray = lightArray.add(sectionArray);
+				lightArray = lightArray.add(sectionLights);
 			});
 
 			lightArray = lightArray.collect(_.unbubble);
+			// lightArray.postln;
 
 			lightArray = Pseq(lightArray);
 
 			cuedArray = cuedArray.add(lightArray)
 		});
-
-		/*
-		if( lights,{
-		var lightArray = [];
-		for(fromIndex,toIndex,{ |index|
-		var lightPdef = DMXIS.makePat(data[index]['name']);
-		lightArray = lightArray ++ lightPdef;
-		});
-		lightArray = Pseq(lightArray);
-		cuedArray = cuedArray.add(lightArray)
-		});
-		*/
 
 		cuedPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
 			Pseq([

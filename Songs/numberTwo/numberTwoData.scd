@@ -7,19 +7,19 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	(
 		name: 'twoCountPart1',
 		click: [ Click(240,2,repeats: 2), Click(240,1,repeats: 4) ],
-		lights:[ DMXIS.loadFromMIDI('twoCountPart1',pathToDMXMIDI ++ "countPart1.mid") ],
+		lights:[ DMXIS.makePat('twoCountPart1',pathToDMXMIDI ++ "countPart1.mid") ],
 	),(
 		name: 'twoAsection',
 		click: [ Click(240,4), Click(300,4) ].dup(64).flat,
-		lights:[ DMXIS.loadFromMIDI('twoAsection',pathToDMXMIDI ++ "Asection.mid") ],
+		lights:[ DMXIS.makePat('twoAsection',pathToDMXMIDI ++ "Asection.mid") ],
 	),(
 		name: 'twoTapping',
 		click: [ ClickLoop(120,4,loopKey: cueKeys[0]),],
-		lights:[ DMXIS.loadFromMIDI('twoTapping',pathToDMXMIDI ++ "tapping.mid",cueKeys[0]) ],
+		lights:[ DMXIS.makePat('twoTapping',pathToDMXMIDI ++ "tapping.mid",cueKeys[0]) ],
 	),(
 		name: 'twoCountPart2',
 		click: [ ClickCue(120,4,repeats: 2), ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4) ],
-		lights:[ DMXIS.loadFromMIDI('twoCountPart2',pathToDMXMIDI ++ "countPart2.mid") ],
+		lights:[ DMXIS.makePat('twoCountPart2',pathToDMXMIDI ++ "countPart2.mid") ],
 	),(
 		name: 'twoJazzIntro',
 		click: [
@@ -29,7 +29,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 			Click(120,3,repeats: 2), Click(120,4),
 			Click(120,3)
 		],
-		lights:[ DMXIS.loadFromMIDI('twoJazzIntro',pathToDMXMIDI ++ "jazzIntro.mid") ],
+		lights:[ DMXIS.makePat('twoJazzIntro',pathToDMXMIDI ++ "jazzIntro.mid") ],
 
 	),(
 		name: 'twoJazzAsection',
@@ -40,11 +40,11 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 			Click(120,3,repeats: 2), Click(120,4),
 			Click(120,3)
 		],
-		lights:[ DMXIS.loadFromMIDI('twoJazzAsection',pathToDMXMIDI ++ "jazzAsection.mid") ],
+		lights:[ DMXIS.makePat('twoJazzAsection',pathToDMXMIDI ++ "jazzAsection.mid") ],
 	),(
 		name: 'twoJazzBsection',
 		click: [ Click(120,3,repeats: 16) ],
-		lights:[ DMXIS.loadFromMIDI('twoJazzBsection',pathToDMXMIDI ++ "jazzBsection.mid") ],
+		lights:[ DMXIS.makePat('twoJazzBsection',pathToDMXMIDI ++ "jazzBsection.mid") ],
 	),(
 		name: 'twoJazzAsectionAgain',
 		click: [
@@ -54,22 +54,22 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 			Click(120,3,repeats: 2), Click(120,4),
 			Click(120,3)
 		],
-		lights:[ DMXIS.loadFromMIDI('twoJazzAsectionAgain',pathToDMXMIDI ++ "jazzAsectionAgain.mid") ],
+		lights:[ DMXIS.makePat('twoJazzAsectionAgain',pathToDMXMIDI ++ "jazzAsectionAgain.mid") ],
 	),(
 		name: 'twoJazzBsectionAgain',
 		click: [ Click(120,3,repeats: 16) ],
-		lights:[ DMXIS.loadFromMIDI('twoJazzBsectionAgain',pathToDMXMIDI ++ "jazzBsectionAgain.mid") ],
+		lights:[ DMXIS.makePat('twoJazzBsectionAgain',pathToDMXMIDI ++ "jazzBsectionAgain.mid") ],
 	),(
 		name: 'twoCountPart3',
 		click: [ Click(340,5), Click(340,4) ].dup(2).flat,
-		lights:[ DMXIS.loadFromMIDI('twoCountPart3',pathToDMXMIDI ++ "countPart3.mid") ],
+		lights:[ DMXIS.makePat('twoCountPart3',pathToDMXMIDI ++ "countPart3.mid") ],
 	),(
 		name: 'twoAsectionNine',
 		click: [
 			[ Click(340,5), Click(340,4) ].dup(48),
 			Click(170,4,repeats: 2)
 		].flat,
-		lights:[ DMXIS.loadFromMIDI('twoAsectionNine',pathToDMXMIDI ++ "AsectionNine.mid") ],
+		lights:[ DMXIS.makePat('twoAsectionNine',pathToDMXMIDI ++ "AsectionNine.mid") ],
 	),(
 		name: 'twoOutro',
 		click: [
@@ -86,7 +86,6 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 			}),
 			ClickCue()
 		].flat,
-		lights:[ DMXIS.loadFromMIDI('twoOutro',pathToDMXMIDI ++ "outro.mid") ],
+		lights:[ DMXIS.makePat('twoOutro',pathToDMXMIDI ++ "outro.mid") ],
 	)
 ];
-

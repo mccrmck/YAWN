@@ -2,7 +2,7 @@
 (
 SynthDef(\morph,{
 	var voices = 10;
-	var freq = {500.exprand(1500.0)}!voices;
+	var freq = { 500.exprand(1500.0) }!voices;
 	var sig = In.ar(\inBus.kr,1);
 
 	sig = sig * LFNoise2.kr(0.5).range(0.5,1);
