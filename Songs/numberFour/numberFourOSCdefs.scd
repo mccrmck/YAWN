@@ -1,6 +1,9 @@
 ///////////////////////////////////////////////// YAWN oscDefs: numberFour /////////////////////////////////////////////////
 
 (
+var clickSlots = Array.fill(2,{0});
+var startClick = ~yawn.songArray[3].cueFrom('fourCount','fourOutro',true,true);
+
 // bitCrusher on & off
 
 OSCdef(\numberFourBitCrush,{ |msg, time,addr, recvPort|
@@ -8,35 +11,24 @@ OSCdef(\numberFourBitCrush,{ |msg, time,addr, recvPort|
 
 	case
 	{val == 0}{
-		Ndef(\numberFourBitCrush).stop;
+		Ndef(\numberFourBitCrush).clear;
 	}
 	{val == 1}{
 		Ndef(\numberFourBitCrush,{
 			var sig = SoundIn.ar(\inBus.kr(0));
 			sig = Decimator.ar(sig,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
+			sig = Compander.ar(sig,sig,-16.dbamp,1.0,1/4);
 			sig = Pan2.ar(Limiter.ar(sig),\pan.kr(0),\amp.kr(0.8));
-			Out.ar(\outBus.kr,sig);
-
 		}).play
 	};
 
 },'/numberFour/bitCrush/x');
 
-// bitCrusher amp
-
-OSCdef(\numberFourBitCrushAmp,{ |msg, time,addr, recvPort|
-	var val = msg[1];
-	val = \db.asSpec.map(val).dbamp;
-
-	Ndef(\numberFourBitCrush).set(\amp,val)
-
-},'/numberFour/numberFourBitCrushAmp/x');
-
 // bitCrusher sRate & Bits
 
 OSCdef(\numberFourBitCrushBits,{ |msg, time,addr, recvPort|
 	var val = msg[1];
-		val = val.linexp(0,1,0.05,0.3);
+	val = val.linexp(0,1,0.05,0.3);
 
 	Ndef(\numberFourBitCrush).set(\bits,val)
 
@@ -46,7 +38,7 @@ OSCdef(\numberFourBitCrushBits,{ |msg, time,addr, recvPort|
 
 OSCdef(\numberFourBitCrushRate,{ |msg, time,addr, recvPort|
 	var val = msg[1];
-		val = val.linexp(0,1,0.005,0.6);
+	val = val.linexp(0,1,0.005,0.6);
 
 	Ndef(\numberFourBitCrush).set(\sRate,val)
 
@@ -70,14 +62,13 @@ OSCdef(\numberFourBowVoice,{ |msg, time,addr, recvPort|
 
 	case
 	{val == 0}{
-		Ndef(\numberFourBow).stop;
+		Ndef(\numberFourBow).clear;
 	}
 	{val == 1}{
-		Ndef(\numberFourBow,{
-			var bufnum = \bufnum.kr();
-			var sig = PlayBuf.ar(1,bufnum,BufRateScale.kr(bufnum) * \rate.kr(1),doneAction: 2);
-			sig = Pan2.ar(sig,\pan.kr(0),\amp.kr(1))
-
+		Routine({
+			"bowing in 5 seconds".postln;
+			5.wait;
+			Ndef(\numberFourBow,\stereoShowPlayBack).set(\bufnum,~yawn.songArray[3].pbTracks[0]).play
 		}).play
 	};
 
@@ -93,14 +84,45 @@ OSCdef(\numberFourBowVoiceAmp,{ |msg, time,addr, recvPort|
 
 },'/numberFour/bowVoiceAmp/x');
 
-OSCdef(\numberFourClick,{ |msg, time,addr, recvPort|
-	var val = msg[1];
+OSCdef(\numberFourClick,{ |msg, time,addr, recvPort|    //this can be optimized with a Changed function, shouldn't need to iterate!
+	var val,index;
 
-	case
-	{val == 0}{ /* start click */ }
-	{val == 1}{ /* impro cue */	};
+	msg[1..].do({ |item, i|
+		item = item.asInteger;
+		if(item != clickSlots[i],{
+			val = item;
+			index = i;
+		});
+	});
+
+	clickSlots[index] = val;
+
+	switch(val,
+		0,{
+			switch(index,
+				0,{
+					startClick.stop;
+					"numberFour stop".postln;
+				},
+				1,{
+					Click.loopCues[\openFour] = true;
+					DMXIS.cues['fourImpro']['openFour'] = true;
+				}
+			);
+		},
+		1,{
+			switch(index,
+				0,{
+					startClick.play;
+					"numberFour start".postln;
+				},
+				1,{
+					Click.loopCues[\openFour] = false;
+					DMXIS.cues['fourImpro']['openFour'] = false;
+				}
+			);
+		}
+	);
 
 },'/numberFour/click/x');
 )
-
-

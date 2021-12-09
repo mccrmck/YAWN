@@ -3,11 +3,24 @@ YAWNShow {
 	var <>setList;
 	var <lights, <songArray, <clickAmp;
 
+	*initClass {
+
+		StartUp.add{
+
+			SynthDef(\stereoShowPlayBack,{
+				var bufnum = \bufnum.kr();
+				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),doneAction: 2);
+				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(0.8));
+				OffsetOut.ar(\outBus.kr(0),sig);
+			}).add;
+		}
+	}
+
 	*new { |setList, clickOut, ui = \lemur|                    // must pass some arrays here: hardware ins/outs
 		^super.newCopyArgs(setList.asArray).init(clickOut,ui);
 	}
 
-	init { |clickOut,controller|
+	init { |clickOut, controller|
 		var server = Server.default;
 
 		server.waitForBoot({
@@ -16,7 +29,7 @@ YAWNShow {
 
 			clickAmp = Bus.control(server,1).set(0.5);        // eventually get this on the \db.spec system!!
 
-			songArray = setList.collect({ |item, index|
+			songArray = setList.collect({ |item|
 				YAWNSong(item.asSymbol);
 			});
 
@@ -28,6 +41,11 @@ YAWNShow {
 				});
 
 			});
+
+			setList.do({ |songName|
+				var path = YAWNSong.songPaths;
+				File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
+			})
 
 			//load buffers, busses, etc.
 
@@ -52,15 +70,15 @@ YAWNShow {
 		);
 	}
 
-	loadLemurInterface { |songNames|
+	loadLemurInterface { |setList|
 		// "% does this shit work?".format(songNames).postln;
+
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
 		// .scd file w/ relevant OSCdefs
 	}
 
 	// load synths for live processing/general performance page?
-
 
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
@@ -70,7 +88,7 @@ YAWNShow {
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
-	classvar songPaths;
+	classvar <songPaths;
 	var <songName, sections, <data, <pbTracks;
 
 	*initClass {
@@ -94,7 +112,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			// this can't happen unless the server is booted!!!
 
-			pbTracks = PathName(songPaths[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry| // consider putting bufs into a Dictionary also? Or how do I plan to call them?
+			pbTracks = PathName(songPaths[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry|
 
 				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
@@ -133,7 +151,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		var cuedPat;
 
 		// does countIn work? Must test....
-		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{   // maybe I don't need this second condition when I figure out solutions for \rit3, \elevenRiff etc.
+		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{  // eventually AbstractClick...or do I need this condition at all?
 			var bpm = this.clicks[fromIndex].flat.first.bpm;
 
 			countInArray = Psym(                  // must add outputs for this click as well!! Can these be passed through YAWNShow?
@@ -149,7 +167,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			);
 		});
 
-		if( click,{
+		if(click,{
 			var clickArray = [];
 
 			for(fromIndex,toIndex,{ |index|
@@ -157,12 +175,13 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 				clickArray = clickArray ++ data[index]['click'];
 			});
 
+			// clickArray.clickKeys.postln;
 			clickArray = Psym( Pseq(clickArray.clickKeys) );
 
 			cuedArray = cuedArray.add(clickArray)
 		});
 
-		if( lights,{
+		if(lights,{
 			var lightArray = [];
 
 			for(fromIndex,toIndex,{ |index|
@@ -181,7 +200,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		cuedPat = Pdef("%Master".format(songName).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
+		cuedPat = Pdef("%_%|%|%|%".format(from, to, click, lights,countIn).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)

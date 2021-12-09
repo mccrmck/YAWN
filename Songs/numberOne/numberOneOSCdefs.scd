@@ -1,6 +1,11 @@
 ///////////////////////////////////////////////// YAWN oscDefs: numberFour /////////////////////////////////////////////////
 
 (
+var clickSlots = Array.fill(6,{0});
+var startClick = ~yawn.songArray[1].cueFrom('oneDrumCue','oneElevenLast',true,true);     //this will get changed eventually
+var bombs = ~yawn.songArray[1].cueFrom('oneBomb','oneBomb',true,true);
+var endClick = ~yawn.songArray[1].cueFrom('oneCountPart3','oneOutro',true,true);
+
 // on & off Switches
 OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 	var val = msg[1];
@@ -20,13 +25,12 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 			},{
 				/* gtrFreeze off */
 			})
-		};
+		}
 		{index == 2}{ /* gtrStutter */ }
 		{index == 3}{ /* drumFreeze */ }
 		{index == 4}{ /* drumStutter */	}
-		{index == 5}{ /* shiftRegister */	};
-	})
-
+		{index == 5}{ /* shiftRegister */};
+	});
 
 },'/numberOne/synthSwitches/x');
 
@@ -43,6 +47,7 @@ OSCdef(\numberOneSynthAmps,{ |msg, time,addr, recvPort|
 
 	// not sure how this works...is it an array of values?
 	// am I passing this to busses, or is everything going to be Ndef.set?? (probably..)
+	// scale with \db.asSpec
 
 },'/numberOne/amps/x');
 
@@ -50,46 +55,76 @@ OSCdef(\numberOneSynthAmps,{ |msg, time,addr, recvPort|
 // turn click on & off
 
 OSCdef(\numberOneClick,{ |msg, time,addr, recvPort|
-	var val = msg[1];
+	var val,index;
 
-	case
-	{val == 0}{ /* start click */ }
-	{val == 1}{ /* loop4 cue */	};
-	{val == 2}{ /* loop8 cue */ }
-	{val == 3}{ /* elevenRiff cue */ }
-	{val == 4}{ /* bomb cue */	}
-	{val == 5}{ /* outro cue */	};
+	msg[1..].do({ |item, i|
+		item = item.asInteger;
+		if(item != clickSlots[i],{
+			val = item;
+			index = i;
+		});
+	});
 
+	clickSlots[index] = val;
+
+	switch(val,
+		0,{
+			switch(index,
+				0,{
+					startClick.stop;
+					"numberOne stop".postln;
+				},
+				1,{
+					Click.loopCues[\openOneFour] = true;
+					DMXIS.cues['oneGitIntro']['openOneFour'] = true;
+				},
+				2,{
+					Click.loopCues[\openOneEight] = true;
+					DMXIS.cues['oneGitDrums']['openOneEight'] = true;
+				},
+				3,{
+					Click.loopCues[\openOneEleven] = true;
+					DMXIS.cues['oneEleven']['openOneEleven'] = true;
+				},
+				4,{
+					bombs.stop;
+					"BOMB reset".postln;
+				},
+				5,{
+					endClick.stop;
+					"ending stop".postln;
+				}
+			);
+		},
+		1,{
+			switch(index,
+				0,{
+					startClick.play;
+					"numberOne start".postln;
+				},
+				1,{
+					Click.loopCues['openOneFour'] = false;
+					DMXIS.cues['oneGitIntro']['openOneFour'] = false;
+				},
+				2,{
+					Click.loopCues[\openOneEight] = false;
+					DMXIS.cues['oneGitDrums']['openOneEight'] = false;
+				},
+				3,{
+					Click.loopCues['openOneEleven'] = false;
+					DMXIS.cues['oneEleven']['openOneEleven'] = false;
+				},
+				4,{
+					bombs.play;
+					"BOMB".postln;
+				},
+				5,{
+					endClick.play;
+					"ending start".postln;
+				}
+			);
+		}
+	);
 },'/numberOne/click/x');
 )
-
-
-
-OSCdef(\numberOneIntroSynthX,{ |msg, time,addr, recvPort|
-	var val = msg[1];
-	var index = val.floor.round.osv;
-	var func = [
-		nil, // test that this doesn't remove the whole synth - in that case, can it be replaced with 1
-		{ |sig| Decimator.ar(sig, SampleRate.ir * \xArg.kr(1).linlin(0,1,0.01,0.6),24 * \yArg.kr(1).linlin(0,1,0.05,0.3)) },
-		{ |sig| RLPF.ar(sig,\xArg.kr(1,0.1).linlin(0,1,500,5000),\yArg.kr(1).linlin(0,1,0.001,1),4).tanh },
-		{ |sig| sig * SinOsc.ar(\xArg.kr(1).linlin(0,1,20,5000) * SinOsc.kr(\yArg.kr(0).linlin(0,1,0.1,12))) },
-		{ |sig| CombC.ar(sig,0.1,\xArg.kr(0.5).range(0,1,0.002,0.03),\yArg.kr(0).linlin(0,1,0.2,1))},
-		{ |sig| PV_RectComb(FFT(LocalBuf(512.dup),sig),\xArg.kr(0.5).linlin(0,1,8,12),\yArg.kr(0).linlin(0,1,0.3,0.8)) },
-		{ |sig| PV_BrickWall(PV_Freeze(FFT(LocalBuf(512.dup),sig),\yArg.kr(0.5).linlin(0,1,-0.5,0.1)),\xArg.kr(0.5).linlin(0,1,-0.9,0.1)) }
-	];
-
-	Ndef(\oneIntro).filter(1,func[index]);
-
-	// Ndef(\oneIntro).set(\xArg,val);
-
-},'/numberOne/introSynth/x')
-
-
-OSCdef(\numberOneIntroSynthY,{ |msg, time,addr, recvPort|
-	var val = msg[1];
-
-
-	Ndef(\oneIntro).set(\yArg,val);
-
-},'/numberOne/introSynth/y')
 

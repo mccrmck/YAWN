@@ -58,7 +58,8 @@ SynthDef(\shiftReg,{
 	t = t % (2**(n)); // avoiding number beyond 2**(bit resolution)
 	t = t * (0.5**(n-1)) - 1; // scaling to -1, 1
 	t = LeakDC.ar(t);
-	Pan2.ar(t * env,0,\amp.kr(0.3));
+	t = Pan2.ar(t * env,0,\amp.kr(0.3));
+	Out.ar(\outBus.kr,t);
 }).add;
 
 )

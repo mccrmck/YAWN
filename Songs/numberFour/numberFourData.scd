@@ -18,12 +18,12 @@ var mikeGitIn = 4; // ?????
 	),(
 		name: 'fourImpro',
 		click: [ ClickLoop(142,loopKey: cueKeys[0]) ],
-		lights:[ DMXIS.makePat('fourImpro',pathToDMXMIDI ++ "impro.mid",cueKeys[0]), DMXIS.react('fourImproReact',cueKeys[0],mikeGitIn,)], // need param from Torfinn!
+		lights:[ DMXIS.makePat('fourImpro',pathToDMXMIDI ++ "impro.mid",cueKeys[0])],//, DMXIS.react('fourImproReact',cueKeys[0],mikeGitIn,)], // need param from Torfinn!
 
 	),(
 		name: 'fourCue',
 		click: [ ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4) ],
-		lights:[ DMXIS.makePat('fourCue',pathToDMXMIDI ++ "cue.mid"), DMXIS.cleanUpReact('fourImproReact',) ], // need param from Torfinn!
+		lights:[ DMXIS.makePat('fourCue',pathToDMXMIDI ++ "cue.mid")], //, DMXIS.cleanUpReact('fourImproReact',) ], // need param from Torfinn!
 	),(
 		name:'fourBuildup',
 		click: [ Click(142,4,repeats: 5), Click(142,2) ],
