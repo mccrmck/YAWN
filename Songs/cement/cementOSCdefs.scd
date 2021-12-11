@@ -91,6 +91,7 @@ OSCdef(\cementClick,{ |msg, time,addr, recvPort|
 					"cement stop".postln;
 				},
 				1,{
+					"openCement: true".postln;
 					Click.loopCues[\openCement] = true;
 					DMXIS.cues['cementImpro']['openCement'] = true;
 				}
@@ -103,6 +104,7 @@ OSCdef(\cementClick,{ |msg, time,addr, recvPort|
 					"cement start".postln;
 				},
 				1,{
+					"openCement: false".postln;
 					Click.loopCues[\openCement] = false;
 					DMXIS.cues['cementImpro']['openCement'] = false;
 				}

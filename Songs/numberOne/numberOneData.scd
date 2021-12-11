@@ -4,19 +4,15 @@ var cueKeys = [\openOneFour,\openOneEight,\openOneEleven];
 var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberOne/dmxMIDI/";
 
 [
-	/*(
-	name: 'oneCountPart1',
-	click: [ Click(160,2,repeats: 2), Click(160,1,repeats: 4) ],
-	lights:[ ],
-	),(
-	name: 'oneGit',
-	click: [ ClickLoop(160,4,repeats: 4,loopKey: cueKeys[0]) ],
-	lights:[ ],
-	),*/
+	(
+		name: 'oneGitIntro',
+		click: [ ClickLoop(160,4,repeats: 4,loopKey: cueKeys[0]) ],
+		lights:[ DMXIS.makePat('oneGitIntro',pathToDMXMIDI ++ "gitIntro.mid",cueKeys[0]) ],
+	),
 	(
 		name: 'oneDrumCue',
 		click: [ Click(160,4,repeats: 2), ClickCue(160,2,repeats: 2), ClickCue(160,1,repeats: 4) ],
-		lights:[ DMXIS.makePat('oneDrumCue',pathToDMXMIDI ++ "drumCue.mid")],
+		lights:[ DMXIS.makePat('oneDrumCue',pathToDMXMIDI ++ "drumCue.mid") ],
 	),(
 		name: 'oneGitDrums',
 		click: [ ClickLoop(160,4,repeats: 8,loopKey: cueKeys[1])],

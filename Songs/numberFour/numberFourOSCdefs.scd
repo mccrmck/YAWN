@@ -17,7 +17,6 @@ OSCdef(\numberFourBitCrush,{ |msg, time,addr, recvPort|
 		Ndef(\numberFourBitCrush,{
 			var sig = SoundIn.ar(\inBus.kr(0));
 			sig = Decimator.ar(sig,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
-			sig = Compander.ar(sig,sig,-16.dbamp,1.0,1/4);
 			sig = Pan2.ar(Limiter.ar(sig),\pan.kr(0),\amp.kr(0.8));
 		}).play
 	};
@@ -44,7 +43,6 @@ OSCdef(\numberFourBitCrushRate,{ |msg, time,addr, recvPort|
 
 },'/numberFour/bitCrushXY/y');
 
-
 // bitCrusher amp
 
 OSCdef(\numberFourBitCrushAmp,{ |msg, time,addr, recvPort|
@@ -66,7 +64,7 @@ OSCdef(\numberFourBowVoice,{ |msg, time,addr, recvPort|
 	}
 	{val == 1}{
 		Routine({
-			"bowing in 5 seconds".postln;
+			"bowing in 10 seconds".postln;
 			5.wait;
 			Ndef(\numberFourBow,\stereoShowPlayBack).set(\bufnum,~yawn.songArray[3].pbTracks[0]).play
 		}).play
@@ -105,6 +103,7 @@ OSCdef(\numberFourClick,{ |msg, time,addr, recvPort|    //this can be optimized 
 					"numberFour stop".postln;
 				},
 				1,{
+					"openFour: true".postln;
 					Click.loopCues[\openFour] = true;
 					DMXIS.cues['fourImpro']['openFour'] = true;
 				}
@@ -117,6 +116,7 @@ OSCdef(\numberFourClick,{ |msg, time,addr, recvPort|    //this can be optimized 
 					"numberFour start".postln;
 				},
 				1,{
+					"openFour: false".postln;
 					Click.loopCues[\openFour] = false;
 					DMXIS.cues['fourImpro']['openFour'] = false;
 				}
