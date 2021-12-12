@@ -9,7 +9,7 @@ YAWNShow {
 
 			SynthDef(\stereoShowPlayBack,{
 				var bufnum = \bufnum.kr();
-				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),doneAction: 2);
+				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * \rate.kr(1),doneAction: 2);
 				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(0.8));
 				OffsetOut.ar(\outBus.kr(0),sig);
 			}).add;
@@ -37,15 +37,16 @@ YAWNShow {
 
 				song.clicks.deepDo(3,{ |click|
 					click.amp = { clickAmp.getSynchronous };
-					click.out = clickOut;
+					click.out = clickOut;                             // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
 				});
 
 			});
 
-			setList.do({ |songName|
-				var path = YAWNSong.songPaths;
-				File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
-			})
+			switch(controller,
+				{ \lemur },{ this.loadLemurInterface(setList) },
+				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
+				{ \scGUI },{ "scGUI not implemented yet".warn }
+			);
 
 			//load buffers, busses, etc.
 
@@ -63,19 +64,17 @@ YAWNShow {
 		OSCdefs = Dictionary() ???
 		*/
 
-		switch(controller,
-			{ \lemur },{ this.loadLemurInterface(setList) },
-			{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
-			{ \scGUI },{ "scGUI not implemented yet".warn }
-		);
+
 	}
 
 	loadLemurInterface { |setList|
-		// "% does this shit work?".format(songNames).postln;
 
+		setList.do({ |songName|
+				var path = YAWNSong.songPaths;
+				File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
+			})
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
-		// .scd file w/ relevant OSCdefs
 	}
 
 	// load synths for live processing/general performance page?
@@ -148,18 +147,14 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
 		var countInArray, cuedArray = [];
-		var cuedPat;
 
-		// does countIn work? Must test....
-		if(countIn and: { this.clicks[fromIndex].flat.first.isKindOf(Click) },{  // eventually AbstractClick...or do I need this condition at all?
+		if(countIn,{
 			var bpm = this.clicks[fromIndex].flat.first.bpm;
 
-			countInArray = Psym(                  // must add outputs for this click as well!! Can these be passed through YAWNShow?
-				Pseq([
-					Click(bpm,2,repeats: 2),
-					Click(bpm,1,repeats: 4)
-				].flat.clickKeys)
-			);
+			countInArray = [ Click(bpm,2,repeats: 2), Click(bpm,1,repeats: 4) ].collect({ |clk| clk.pattern });
+
+			countInArray = Pseq(countInArray);        // must add outputs for this click as well!! Can these be passed through YAWNShow?
+
 		},{
 			countInArray = Pbind(
 				\dur,Pseq([0],1),
@@ -175,8 +170,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 				clickArray = clickArray ++ data[index]['click'];
 			});
 
-			// clickArray.clickKeys.postln;
-			clickArray = Psym( Pseq(clickArray.clickKeys) );
+			clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern });
+			clickArray = Pseq(clickArray);
 
 			cuedArray = cuedArray.add(clickArray)
 		});
@@ -193,21 +188,18 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			});
 
 			lightArray = lightArray.collect(_.unbubble);
-			// lightArray.postln;
-
 			lightArray = Pseq(lightArray);
 
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		cuedPat = Pdef("%_%|%|%|%".format(from, to, click, lights,countIn).asSymbol, // eventually copy playback, MIDI, etc. patterns into similiar arrays
+		// eventually copy playback, MIDI, etc. patterns into similiar arrays
+		^Pdef("%_%|%|%|%".format(from, to, click, lights,countIn).asSymbol,
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
 			])
 		);
-
-		^cuedPat;
 	}
 
 	loadOSCdefs { |address|  // or device? Not sure how different the OSCFuncs will be if we use Lemur instead of TouchOSC
