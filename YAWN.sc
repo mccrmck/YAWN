@@ -91,7 +91,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	var <songName, sections, <data, <pbTracks;
 
 	*initClass {
-		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "Songs";
+		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "songs";
 
 		songPaths = IdentityDictionary();
 
