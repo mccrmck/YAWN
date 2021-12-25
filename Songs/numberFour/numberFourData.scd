@@ -2,7 +2,6 @@
 
 var cueKeys = [\openFour];
 var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/";
-var mikeGitIn = 4; // ?????
 
 [
 	(

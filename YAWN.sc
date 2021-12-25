@@ -70,9 +70,9 @@ YAWNShow {
 	loadLemurInterface { |setList|
 
 		setList.do({ |songName|
-				var path = YAWNSong.songPaths;
-				File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
-			})
+			var path = YAWNSong.songPaths;
+			File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
+		})
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
 	}
@@ -143,7 +143,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		^clickArray
 	}
 
-	cueFrom { |from = \intro, to = \outro, click = true, lights = true, countIn = false| // eventually add bTracks = true, kemper = true, osv.
+	cueFrom { |from = 'intro', to = 'outro', click = true, lights = true, countIn = false| // eventually add bTracks = true, kemper = true, osv.
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
 		var countInArray, cuedArray = [];
@@ -159,7 +159,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			countInArray = Pbind(
 				\dur,Pseq([0],1),
 				\note, Rest()
-			);
+			)
 		});
 
 		if(click,{
@@ -170,8 +170,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 				clickArray = clickArray ++ data[index]['click'];
 			});
 
-			clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern });
-			clickArray = Pseq(clickArray);
+			clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern.key });
+			clickArray = Psym( Pseq(clickArray) );
 
 			cuedArray = cuedArray.add(clickArray)
 		});
@@ -182,8 +182,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			for(fromIndex,toIndex,{ |index|
 				var sectionLights = data[index]['lights'];
 
-				//what happens if there is a nil here? Should I replace it with a \rest event, for example?
-
 				lightArray = lightArray.add(sectionLights);
 			});
 
@@ -193,7 +191,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		// eventually copy playback, MIDI, etc. patterns into similiar arrays
 		^Pdef("%_%|%|%|%".format(from, to, click, lights,countIn).asSymbol,
 			Pseq([
 				countInArray,
