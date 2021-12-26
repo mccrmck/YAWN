@@ -188,7 +188,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(lightArray)
 		});
 
-		^Pdef("%_%|%|%|%".format(from, to, click, lights,countIn).asSymbol,
+		^Pdef("%_%|%|%|%".format(from, to, click, lights, countIn).asSymbol,
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
