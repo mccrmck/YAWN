@@ -70,7 +70,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	),(
 		name: 'cementRit',
 		click: [
-			(1.0,1.08..2.12).collect({ |i| Click(200/i,) }),
+			(1.0,1.08..2.12).collect({ |i| Click(200 / i) }),
 			Click(170 * 2,3)
 		].flat,
 		lights:[ DMXIS.makePat('cementRit',pathToDMXMIDI ++ "rit.mid") ],

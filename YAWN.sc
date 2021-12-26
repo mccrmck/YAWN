@@ -156,10 +156,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			countInArray = Pseq(countInArray);        // must add outputs for this click as well!! Can these be passed through YAWNShow?
 
 		},{
-			countInArray = Pbind(
-				\dur,Pseq([0],1),
-				\note, Rest()
-			)
+			countInArray = Pseq([Rest(0)]),   // test???
 		});
 
 		if(click,{
