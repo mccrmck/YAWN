@@ -3,6 +3,7 @@
 (
 var clickSlots = Array.fill(2,{0});
 var startClick = ~yawn.songArray[3].cueFrom('fourCount','fourOutro',true,true);
+// var startClick = YAWNSong('numberFour').cueFrom('fourCount','fourOutro',true,true); // must test!
 
 // bitCrusher on & off
 
