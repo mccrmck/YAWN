@@ -77,7 +77,7 @@ YAWNShow {
 
 		setList.do({ |songName|
 			var path = YAWNSong.songPaths;
-			File.readAllString(path[songName]  ++ "%OSCdefs.scd".format(songName)).interpret;
+			File.readAllString(path[songName]  ++ "OSCdefs.scd").interpret;
 		})
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
@@ -112,12 +112,12 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 		if(songPaths[songName].notNil,{
 
-			data = File.readAllString(songPaths[songName]  ++ "%Data.scd".format(songName)).interpret;
+			data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
 
 
 			// this can't happen unless the server is booted!!!
 
-			pbTracks = PathName(songPaths[songName] ++ "%Tracks".format(songName)).entries.collect({ |entry|
+			pbTracks = PathName(songPaths[songName] ++ "tracks").entries.collect({ |entry|
 
 				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
@@ -126,7 +126,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
 
 			// load synthDefs
-			File.readAllString(songPaths[songName]  ++ "%SynthDefs.scd".format(songName)).interpret;
+			File.readAllString(songPaths[songName]  ++ "synthDefs.scd").interpret;
 
 			// load oscDefs....or does this depend on the interface argument in YAWNShow???
 
