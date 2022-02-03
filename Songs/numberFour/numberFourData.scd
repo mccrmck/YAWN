@@ -3,7 +3,6 @@
 var cueKeys = [\openFour];
 var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/dmxMIDI/";
 var pathToKemperMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberFour/kemperMIDI/";
-KemperMIDI.makePat('fourCount',pathToKemperMIDI ++ "count.mid")
 
 [
 	(
@@ -19,7 +18,7 @@ KemperMIDI.makePat('fourCount',pathToKemperMIDI ++ "count.mid")
 	),(
 		name: 'fourImproIntro',
 		click: [ Click(142,1,repeats: 192) ],
-		lights:[ DMXIS.makePat('fourImproIntro',pathToDMXMIDI ++ "impro.mid",cueKeys[0])],  //this needs to change!!!
+		lights:[ DMXIS.makePat('fourImproIntro',pathToDMXMIDI ++ "impro.mid",cueKeys[0])],    //this needs to change!!!
 		kemper:[ KemperMIDI.makePat('fourImproIntro',pathToKemperMIDI ++ "improIntro.mid") ]
 	),(
 		name: 'fourImproLoop',

@@ -16,17 +16,22 @@ YAWNShow {
 		}
 	}
 
-	*new { |setList, clickOut, ui = \lemur| //kemperMIDIOut             // must pass some arrays here: hardware ins/outs
-		^super.newCopyArgs(setList.asArray).init(clickOut,ui);
+	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|           // must pass some arrays here: hardware ins/outs
+		^super.newCopyArgs(setList.asArray).init(kemperMIDIDevice, clickOut, ui);
 	}
 
-	init { |clickOut, controller| // kemperMIDIOut
+	init { |kemperMIDIDevice, clickOut, controller|
 		var server = Server.default;
 
 		server.waitForBoot({
 
-			lights = DMXIS();       // right??!?!?
-			// kempers = KemperMIDI(kemperMIDIOut); // right???!?!?!
+			lights = DMXIS();                                   // right??!?!?
+
+			server.sync;
+
+			kempers = KemperMIDI(kemperMIDIDevice.asString);    // right???!?!?!
+
+			server.sync;
 
 			clickAmp = Bus.control(server,1).set(0.5);        // eventually get this on the \db.spec system!!
 
@@ -156,7 +161,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		},{
 			countInArray = Pbind(
 				\dur,Pseq([0],1),
-				\note, Rest()
+				\note, Rest(0.1)
 			)
 		});
 
@@ -202,7 +207,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add(kempArray);
 		});
 
-		^Pdef("%_%|%|%|%".format(from, to, click, lights, countIn).asSymbol,
+		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
 			Pseq([
 				countInArray,
 				Ppar(cuedArray)
