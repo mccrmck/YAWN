@@ -1,3 +1,13 @@
+
+
+// YAWNShow(
+// 	[\cement,\numberOne,\numberTwo,\numberFour], //setList
+// 	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
+// 	[\masterOut -> 0,\click -> 2], // HWoutputs
+// \lemur, // interface/UI
+// )
+
+
 YAWNShow {
 
 	var <>setList;
@@ -91,6 +101,8 @@ YAWNShow {
 
 }
 
+/* === === === === === === === === === === */
+
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
 	classvar <songPaths;
@@ -114,7 +126,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
 
-
 			// this can't happen unless the server is booted!!!
 
 			pbTracks = PathName(songPaths[songName] ++ "tracks").entries.collect({ |entry|
@@ -131,7 +142,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			// load oscDefs....or does this depend on the interface argument in YAWNShow???
 
 		},{
-			"Song folder does not exist".warn;
+			"song folder does not exist".warn;
 		});
 	}
 
@@ -215,18 +226,42 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		);
 	}
 
-	loadOSCdefs { |address|  // or device? Not sure how different the OSCFuncs will be if we use Lemur instead of TouchOSC
+	cueFrom2 { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, countIn = false| // eventually add bTracks = true, osv.
+		var fromIndex = this.sections.indexOf(from);
+		var toIndex = this.sections.indexOf(to);
+		var countInArray, cuedArray = [];
 
+		if(countIn,{
+			var bpm = this.clicks[fromIndex].flat.first.bpm;
+
+			countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
+		},{
+			countInArray = Pbind(
+				\dur, Pseq([0],1),
+				\note, Rest(0.1)
+			)
+		});
+
+		for(fromIndex,toIndex,{ |index|
+			var sectionArray = [];
+
+			if( click,{
+				var clkArray = data[index]['click'].deepCollect(3,{ |clk| clk.pattern });
+				clkArray = clkArray.collect({ |clk| Pseq(clk) });
+
+				sectionArray = sectionArray.add( Ppar(clkArray) );                        // does this work?
+			});
+
+			if( lights,{ sectionArray = sectionArray.add( data[index]['lights'] ) });
+
+			if( kemper,{ sectionArray = sectionArray.add( data[index]['kemper'] ) });
+
+			cuedArray = cuedArray.add( Ppar(sectionArray) );
+
+		});
+
+		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
+			Pseq([ countInArray, cuedArray ])
+		);
 	}
 }
-
-// all sliders should read from busses, mapped/scaled appropriately... everything needs to be normalized!!
-
-
-// YAWNShow(
-// 	[\cement,\numberOne,\numberTwo,\numberFour], //setList
-// 	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
-// 	[\masterOut -> 0,\click -> 2], // HWoutputs
-// \lemur, // interface/UI
-// )
-
