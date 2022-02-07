@@ -1,14 +1,19 @@
-///////////////////////////////////////////////// YAWN oscDefs: numberFour /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN oscDefs: numberOne /////////////////////////////////////////////////
 
 (
 var switchSlots = Array.fill(6,{0});
 var clickSlots = Array.fill(6,{0});
-var startClick = ~yawn.songArray[1].cueFrom('oneGitIntro','oneElevenLast',true,true);     //this will get changed eventually
-var bombs = ~yawn.songArray[1].cueFrom('oneBomb','oneBomb',true,true);
-var endClick = ~yawn.songArray[1].cueFrom('oneCountPart3','oneOutro',true,true);
+// var startClick = ~yawn.songArray[1].cueFrom('oneGitIntro','oneElevenLast',true,true);
+// var bombs = ~yawn.songArray[1].cueFrom('oneBomb','oneBomb',true,true);
+// var endClick = ~yawn.songArray[1].cueFrom('oneCountPart3','oneOutro',true,true);
+var startClick = YAWNSong('numberOne').cueFrom('oneGitIntro','oneElevenLast',true,true);
+var bombs = YAWNSong('numberOne').cueFrom('oneBomb','oneBomb',true,true);
+var endClick = YAWNSong('numberOne').cueFrom('oneCountPart3','oneOutro',true,true);
+
+var introBufs = YAWNSong('numberOne').pbTracks;
 
 // on & off Switches
-OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|
@@ -55,9 +60,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 				0,{
 					"intro synth ON".postln;
 					Ndef(\oneIntro,{
-						var trig = \trig.kr(0);        //triggered by z value of
-
-						var bufnum = TChoose.kr(trig,~yawn.songArray[1].pbTracks);
+						var bufnum = \bufnum.kr;
 						var frames = BufFrames.kr(bufnum);
 						var pos = Phasor.ar(0,BufRateScale.kr(bufnum) * LFDNoise1.ar(LFDNoise3.ar(4).range(4,20)).range(0.5,\range.kr(0).linexp(0,1,1,20)),0,frames);
 						var sig = BufRd.ar(2,bufnum,pos);
@@ -66,7 +69,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 
 					}).play;
 
-					Ndef(\oneIntro).filter(20,{|sig| sig * \amp.kr(0.5) });
+					Ndef(\oneIntro).filter(20,{|sig| Limiter.ar(sig) * \amp.kr(0.5) });
 				},
 				1,{
 					"gtrFreeze ON".postln;
@@ -117,12 +120,11 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 				5,{
 					"shiftRegister ON".postln;
 					Ndef(\shiftRegister,{
-						var sr = SampleRate.ir / \sRate.kr(1).linlin(0,1,12,24);  // can this be extended?
-						var n = \bits.kr(1).linexp(0,1,12,24); // bit resolution... can this be extended?
-						var t = Phasor.ar(1,\freq.kr(1).linlin(0,1,0.001,4) * ((2**n)/sr),0,((2**n)-1));  // expand control range?
-						var env = Env.asr().kr(2,\gate.kr(1));
+						var sr = SampleRate.ir / \sRate.kr(0).linexp(0,1,12,24);
+						var n = \bits.kr(0).linexp(0,1,12,16);
+						var t = Phasor.ar(1,\freq.kr(1).linexp(0,1,0.1,8) * ((2**n)/sr),0,((2**n)-1));
 
-						t = Select.ar(\counter.kr(0),[   // consider SelectX for maximum chaos! :)
+						t = SelectX.ar(\counter.kr(0),[
 
 							t*(((t>>64)|(t>>8))&(63&(t>>4))),
 							t*(((t>>9)|(t>>13))&(25&(t>>6))),
@@ -135,9 +137,9 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 
 						t = t % (2**(n)); // avoiding number beyond 2**(bit resolution)
 						t = t * (0.5**(n-1)) - 1; // scaling to -1, 1
-						t = LPF.ar(t,14000);
+						t = LPF.ar(t,18000);
 						t = LeakDC.ar(t);
-						Pan2.ar(t * env,0, \amp.kr(0.3) );
+						Pan2.ar(t,0, \amp.kr(0.3) );
 
 					}).play
 				}
@@ -147,9 +149,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time,addr, recvPort|
 
 },'/numberOne/synthSwitches/x');
 
-// intro instrument  XY...multiple balls maybe??
-
-OSCdef(\numberOneIntroSynthX,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneIntroSynthX,{ |msg, time, addr, recvPort|
 	var valX = msg[1];
 	var range = msg[2];
 
@@ -157,34 +157,40 @@ OSCdef(\numberOneIntroSynthX,{ |msg, time,addr, recvPort|
 
 },'/numberOne/introSynth/x');
 
-OSCdef(\numberOneIntroSynthY,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneIntroSynthY,{ |msg, time, addr, recvPort|
 	var valY = msg[1];
-	var index = msg[2].linlin(0,1,0,5).round.asInteger;
+	var index = msg[2].linlin(0,1,0,6).round.asInteger;
 	var func = [
-		{|sig| sig * 1}, // test that this doesn't remove the whole synth - in that case, can it be replaced with 1
-		{ |sig| Decimator.ar(sig, SampleRate.ir * \xArg.kr(1).linlin(0,1,0.01,0.6),24 * \yArg.kr(1).linlin(0,1,0.05,0.3)).clip2(0.8) },
-		{ |sig| RLPF.ar(sig,\xArg.kr(1).linlin(0,1,500,5000),\yArg.kr(1).linlin(0,1,0.001,1),4).tanh },
-		{ |sig| sig * SinOsc.ar(\xArg.kr(1).linlin(0,1,20,5000) * SinOsc.kr(\yArg.kr(0).linlin(0,1,0.2,12))) },
-		{ |sig| CombC.ar(sig,0.1,\xArg.kr(1).range(0,1,0.002,0.03),\yArg.kr(1).linlin(0,1,0.5,1))},
-		{ |sig| IFFT(PV_RectComb(FFT(LocalBuf(512),sig.sum),\xArg.kr(1).linlin(0,1,8,12),\yArg.kr(1).linlin(0,1,0.3,0.8)))!2 },
-		{ |sig| IFFT(PV_BrickWall(PV_Freeze(FFT(LocalBuf(512),sig.sum),\yArg.kr(1).linlin(0,1,-0.5,0.1)),\xArg.kr(1).linlin(0,1,-0.9,0.1)))!2 }
+		{ |sig| sig },
+		{ |sig| Decimator.ar(sig, SampleRate.ir * \xArg.kr(1).linexp(0,1,0.01,0.6),24 * \yArg.kr(1).linexp(0,1,0.05,0.3),\yArg.kr(1).linexp(0,1,0.15,1)) },
+		{ |sig| RLPF.ar(sig,\xArg.kr(1).linlin(0,1,40,3000),\yArg.kr(1).linlin(0,1,0.01,0.5),12).tanh * -18.dbamp },
+		{ |sig| sig * SinOsc.ar(\xArg.kr(1).linexp(0,1,250,2500) * SinOsc.ar(\yArg.kr(0).linexp(0,1,0.2,20))) },
+		{ |sig| CombC.ar(sig,0.3,\xArg.kr(1).linexp(0,1,0.01,0.3),\yArg.kr(1,0.2).linlin(0,1,0.5,1.5))},    // for some reason changing the decay time zeros the buffer...
+		{ |sig| IFFT(PV_RectComb(FFT(LocalBuf(1024!2),sig),\xArg.kr(1).linlin(0,1,8,12),0,\yArg.kr(1).linlin(0,1,0.3,0.8))) },
+		{ |sig| IFFT(PV_BrickWall(PV_Freeze(FFT(LocalBuf(2048!2),sig),\yArg.kr(1).linlin(0,1,-0.1,0.3)),\xArg.kr(1).lincurve(0,1,-0.99,0.14,2.neg))) }
 	];
 
-	Ndef(\oneIntro).filter(1,func[index]);
+	if(Ndef(\oneIntro).isPlaying,{
 
-	Ndef(\oneIntro).set(\yArg,valY);
+		Ndef(\oneIntro).filter(1,func[index]);
+		Ndef(\oneIntro).set(\yArg,valY);
+	});
 
 },'/numberOne/introSynth/y');
 
-OSCdef(\numberOneIntroSynthZ,{ |msg, time,addr, recvPort|
-	var trig = msg[2];
-	Ndef(\oneIntro).set(\trig,trig);
+OSCdef(\numberOneIntroSynthZ,{ |msg, time, addr, recvPort|
+	var trig = msg[1..];
+	var bufnum = introBufs.choose;
+
+	if(trig.sum == trig.size,{                                  // could this be better??
+		Ndef(\oneIntro).set(\bufnum,bufnum);
+	});
 
 },'/numberOne/introSynth/z');
 
 // shiftRegister XY
 
-OSCdef(\numberOneShiftRegX,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneShiftRegX,{ |msg, time, addr, recvPort|
 	var sRate = msg[1];
 	var freq = msg[2];
 
@@ -192,11 +198,12 @@ OSCdef(\numberOneShiftRegX,{ |msg, time,addr, recvPort|
 
 },'/numberOne/shiftRegister/x');
 
-OSCdef(\numberOneShiftRegY,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneShiftRegY,{ |msg, time, addr, recvPort|
 	var bits = msg[1];
-	var counter = msg[2].linlin(0,1,0,6).round.asInteger;
+	// var counter = msg[2].linlin(0,1,0,6).round.asInteger;
+	var counter = msg[2].linlin(0,1,0,6);
 
-	Ndef(\shiftRegister).set(\bits,bits,\freq,counter);
+	Ndef(\shiftRegister).set(\bits,bits,\counter,counter);
 
 },'/numberOne/shiftRegister/y');
 
@@ -223,7 +230,7 @@ OSCdef(\numberOneSynthAmps,{ |msg, time,addr, recvPort|
 
 // turn click on & off
 
-OSCdef(\numberOneClick,{ |msg, time,addr, recvPort|
+OSCdef(\numberOneClick,{ |msg, time, addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|

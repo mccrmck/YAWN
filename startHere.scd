@@ -7,7 +7,8 @@ DMXIS.vst.editor
 
 // start here!
 ~yawn.free
-~yawn = YAWNShow([\cement,\numberOne,\numberTwo,\numberFour],0);  //change clickOut to 2
+~yawn = YAWNShow([\cement,\numberOne,\numberTwo,\numberFour],"Pro40",0);  //change clickOut to 2...this is for testing w/ Sapphire
+~yawn = YAWNShow([\cement,\numberOne,\numberTwo,\numberFour],"IAC Driver",0);  //change clickOut to 2
 
 // between fem and fire!
 // evaluate clickAmp below!!
@@ -50,5 +51,3 @@ DMXIS.setPreset(0);
 DMXIS.free
 
 // OSCdef files have to fix the songArray[index] at the top - what if I want to change the setlist order??
-
-

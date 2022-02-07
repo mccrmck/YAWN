@@ -10,7 +10,6 @@ var pathToKemperMIDI = "/Users/mikemccormick/Library/Application Support/SuperCo
 		click: [ Click(142,2,repeats: 2), Click(142,1,repeats: 4) ],
 		lights:[ DMXIS.makePat('fourCount',pathToDMXMIDI ++ "count.mid") ],
 		kemper:[ KemperMIDI.makePat('fourCount',pathToKemperMIDI ++ "count.mid") ],
-		track: [ ]
 	),(
 		name:  'fourBeginning',
 		click: [ Click(142,4,repeats: 125) ],

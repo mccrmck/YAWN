@@ -2,7 +2,8 @@
 
 (
 var clickSlots = Array.fill(2,{0});
-var startClick = ~yawn.songArray[0].cueFrom('cementCount','cementAsectionLast',true,true);
+// var startClick = ~yawn.songArray[0].cueFrom('cementCount','cementAsectionLast',true,true);
+var startClick = YAWNSong('cement').cueFrom('cementCount','cementAsectionLast',true,true);
 
 // turn intro voice on & off
 

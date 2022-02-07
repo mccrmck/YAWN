@@ -6,7 +6,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 [
 	(
 		name: 'cementCount',
-		click: [ Click(160,2,repeats: 2), Click(160,1,repeats: 4,)],
+		click: [ Click(160,2,repeats: 2), Click(160,1,repeats:4) ],
 		lights:[ DMXIS.makePat('cementCount',pathToDMXMIDI ++ "count.mid") ],
 	),(
 		name: 'cementIntro',
@@ -34,7 +34,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		lights:[ DMXIS.makePat('cementMelody',pathToDMXMIDI ++ "melody.mid") ],
 	),(
 		name: 'cementBsection',
-		click: [ Click(170,4,repeats: 13), Click(170,5)],
+		click: [ Click(170,4,repeats: 14), Click(170,3) ],
 		lights:[ DMXIS.makePat('cementBsection',pathToDMXMIDI ++ "Bsection.mid") ],
 	),(
 		name: 'cementImpro',
@@ -64,12 +64,6 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 			[ Click(160,4,repeats: 3),ClickRest(160,4) ].dup(3).flat,
 			[ Click(200,5,repeats: 3),Click(160,4) ].dup(3).flat
 		],
-		/*[
-		[ Click(160,4), Click(200,5) ],
-		[ Click(160,4), Click(200,5) ],
-		[ Click(160,4), Click(200,5) ],
-		Click(160,4)
-		].dup(3).flatten(1),*/
 		lights:[ DMXIS.makePat('cementQuint',pathToDMXMIDI ++ "quint.mid") ],
 	),(
 		name: 'cementRit',

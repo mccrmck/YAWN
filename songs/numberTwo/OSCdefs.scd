@@ -1,11 +1,14 @@
-///////////////////////////////////////////////// YAWN oscDefs: numberFour /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN oscDefs: numberTwo /////////////////////////////////////////////////
 
 (
 var switchSlots = Array.fill(4,{0});
 var clickSlots = Array.fill(4,{0});
-var startClick = ~yawn.songArray[2].cueFrom('twoCountPart1','twoAsection',true,true);
-var jazzClick = ~yawn.songArray[2].cueFrom('twoTapping','twoJazzBsectionAgain',true,true);
-var endClick = ~yawn.songArray[2].cueFrom('twoCountPart3','twoOutro',true,true);
+// var startClick = ~yawn.songArray[2].cueFrom('twoCountPart1','twoAsection',true,true);
+// var jazzClick = ~yawn.songArray[2].cueFrom('twoTapping','twoJazzBsectionAgain',true,true);
+// var endClick = ~yawn.songArray[2].cueFrom('twoCountPart3','twoOutro',true,true);
+var startClick = YAWNSong('numberTwo').cueFrom('twoCountPart1','twoAsection',true,true);
+var jazzClick = YAWNSong('numberTwo').cueFrom('twoTapping','twoJazzBsectionAgain',true,true);
+var endClick = YAWNSong('numberTwo').cueFrom('twoCountPart3','twoOutro',true,true);
 
 var improFunc = { | bufnum, rate, pan, amp|
 	var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * rate,doneAction: 2);

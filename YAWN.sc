@@ -51,6 +51,9 @@ YAWNShow {
 
 			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
+				// song.loadData; etc.
+				// song.loadPBtracks;
+
 				song.clicks.deepDo(3,{ |click|
 					click.amp = { clickAmp.getSynchronous };
 					click.out = clickOut;                             // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
@@ -101,7 +104,7 @@ YAWNShow {
 
 }
 
-/* === === === === === === === === === === */
+/* ========================================== */
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
@@ -126,7 +129,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 			data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
 
-			// this can't happen unless the server is booted!!!
 
 			pbTracks = PathName(songPaths[songName] ++ "tracks").entries.collect({ |entry|
 
@@ -144,6 +146,26 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		},{
 			"song folder does not exist".warn;
 		});
+	}
+
+	init2 {
+
+	}
+
+	loadData {
+		^data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
+	}
+
+	loadPBtracks {
+		pbTracks = IdentityDictionary();
+
+		PathName(songPaths[songName] ++ "tracks").entries.do({ |entry|
+
+			var key = entry.fileNameWithoutExtension;
+			pbTracks.put(key.asSymbol,	Buffer.read(Server.default,entry.fullPath) ) // make server a variable? Will it be used elsewhere?
+
+		});
+		^pbTracks
 	}
 
 	*catalogue {
@@ -246,22 +268,32 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			var sectionArray = [];
 
 			if( click,{
-				var clkArray = data[index]['click'].deepCollect(3,{ |clk| clk.pattern });
-				clkArray = clkArray.collect({ |clk| Pseq(clk) });
+				var clkArray = data[index]['click'].deepCollect(2,{ |clk| clk.pattern });
 
-				sectionArray = sectionArray.add( Ppar(clkArray) );                        // does this work?
+				if(clkArray.maxDepth > 1, {                                                     //this can probably be better, no?
+					clkArray = clkArray.collect({ |clk| Pseq(clk) });
+				},{
+					clkArray = [ Pseq(clkArray) ];
+				});
+
+				sectionArray = sectionArray.add( Ppar( clkArray ) );
 			});
 
-			if( lights,{ sectionArray = sectionArray.add( data[index]['lights'] ) });
+			if( lights,{ sectionArray = sectionArray.add( Ppar( data[index]['lights'] ) ) });
 
-			if( kemper,{ sectionArray = sectionArray.add( data[index]['kemper'] ) });
+			if( kemper,{ sectionArray = sectionArray.add( Ppar( data[index]['kemper'] ) ) });
 
-			cuedArray = cuedArray.add( Ppar(sectionArray) );
-
+			cuedArray = cuedArray.add( Ppar( sectionArray ) );
 		});
 
 		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
-			Pseq([ countInArray, cuedArray ])
+			Pseq( [countInArray] ++ cuedArray )
 		);
 	}
 }
+
+
+
+
+
+
