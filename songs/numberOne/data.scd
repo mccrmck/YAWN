@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////// YAWN Data: numberOne /////////////////////////////////////////////////
 
-var cueKeys = [\openOneFour,\openOneEight,\openOneEleven];
+var cueKeys = [\openOneFour,\openOneEleven];
 var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/Songs/numberOne/dmxMIDI/";
 
 [
@@ -15,15 +15,12 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		lights:[ DMXIS.makePat('oneDrumCue',pathToDMXMIDI ++ "drumCue.mid") ],
 	),(
 		name: 'oneGitDrums',
-		click: [ ClickLoop(160,4,repeats: 8,loopKey: cueKeys[1])],
-		lights:[ DMXIS.makePat('oneGitDrums',pathToDMXMIDI ++ "gitDrums.mid",cueKeys[1]) ],
-	),(
-		name: 'oneGitDrumsLast',
 		click: [
+			Click(160,4,repeats: 8 * 3),
 			Click(160,4,repeats: 6), ClickCue(160,2,repeats: 2), ClickCue(160,1,repeats: 4),
 			Click(160,4,repeats: 2)
 		],
-		lights:[ DMXIS.makePat('oneGitDrumsLast',pathToDMXMIDI ++ "gitDrumsLast.mid") ],
+		lights:[ DMXIS.makePat('oneGitDrums',pathToDMXMIDI ++ "gitDrums.mid",cueKeys[1]) ],
 	),(
 		name: 'oneNewTempo',
 		click: [ Click(120,4) ],
@@ -37,8 +34,8 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		lights:[ DMXIS.makePat('oneAsection',pathToDMXMIDI ++ "Asection.mid") ],
 	),(
 		name: 'oneEleven',
-		click: [ ClickConCatLoop(cueKeys[2],ClickMan([1,4/3,1] * 100,1,8),Click(200,4)) ],
-		lights:[ DMXIS.makePat('oneEleven',pathToDMXMIDI ++ "eleven.mid",cueKeys[2]) ],
+		click: [ ClickConCatLoop(cueKeys[1],ClickMan([1,4/3,1] * 100,1,8),Click(200,4)) ],
+		lights:[ DMXIS.makePat('oneEleven',pathToDMXMIDI ++ "eleven.mid",cueKeys[1]) ],
 	),(
 		name: 'oneElevenLast',
 		click: [
@@ -53,12 +50,9 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		click: [ Click(120,4),Click(120,3) ],
 		lights:[ DMXIS.makePat('oneBomb',pathToDMXMIDI ++ "bomb.mid") ],
 	),(
-		name: 'oneCountPart3',
-		click: [
-			ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4),
-			Click(120,3)
-		],
-		lights:[ DMXIS.makePat('oneCountPart3',pathToDMXMIDI ++ "countPart3.mid") ],
+		name: 'oneCountAgain',
+		click: [ ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4), Click(120,3) ],
+		lights:[ DMXIS.makePat('oneCountAgain',pathToDMXMIDI ++ "countAgain.mid") ],
 	),(
 		name: 'oneAsectionAgain',
 		click: [
@@ -68,10 +62,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		lights:[ DMXIS.makePat('oneAsectionAgain',pathToDMXMIDI ++ "AsectionAgain.mid") ],
 	),(
 		name: 'oneOutro',
-		click: [
-			Click(120,4,repeats: 15), ClickMan([120,120,180]),
-			Click(120,4,repeats: 3)
-		],
+		click: [ Click(120,4,repeats: 15), ClickMan([120,120,180]), Click(120,4,repeats: 3) ],
 		lights:[ DMXIS.makePat('oneOutro',pathToDMXMIDI ++ "outro.mid") ],
 	)
 ];

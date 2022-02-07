@@ -61,8 +61,8 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	),(
 		name: 'cementQuint',
 		click: [
-			[ Click(160,4,repeats: 3),ClickRest(160,4) ].dup(3).flat,
-			[ Click(200,5,repeats: 3),Click(160,4) ].dup(3).flat
+			[ Click(160,4,repeats: 3), ClickRest(160,4) ].dup(3).flat,
+			[ Click(200,5,repeats: 3), Click(160,4) ].dup(3).flat
 		],
 		lights:[ DMXIS.makePat('cementQuint',pathToDMXMIDI ++ "quint.mid") ],
 	),(

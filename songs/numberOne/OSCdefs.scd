@@ -122,7 +122,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 					Ndef(\shiftRegister,{
 						var sr = SampleRate.ir / \sRate.kr(0).linexp(0,1,12,24);
 						var n = \bits.kr(0).linexp(0,1,12,16);
-						var t = Phasor.ar(1,\freq.kr(1).linexp(0,1,0.1,8) * ((2**n)/sr),0,((2**n)-1));
+						var t = Phasor.ar(1,\freq.kr(0).linexp(0,1,0.1,8) * ((2**n)/sr),0,((2**n)-1));
 
 						t = SelectX.ar(\counter.kr(0),[
 
