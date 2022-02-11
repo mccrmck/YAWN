@@ -26,7 +26,9 @@ YAWNShow {
 		}
 	}
 
-	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|           // must pass some arrays here: hardware ins/outs
+	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
+		// if(clickOut.notNil,{ click = true, })
+		// must pass some arrays here: hardware ins/outs
 		^super.newCopyArgs(setList.asArray).init(kemperMIDIDevice, clickOut, ui);
 	}
 
@@ -54,7 +56,7 @@ YAWNShow {
 				// song.loadData; etc.
 				// song.loadPBtracks;
 
-				song.clicks.deepDo(3,{ |click|
+				song.clicks.deepDo(3,{ |click|                   // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
 					click.out = clickOut;                             // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
 				});
@@ -96,8 +98,6 @@ YAWNShow {
 		// lemur.sendMsg('/main/setList/init',*songNames);
 	}
 
-	// load synths for live processing/general performance page?
-
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
 	free { DMXIS.free } // must be more here, right???
@@ -137,9 +137,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			});
 
 			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
-
-			// load synthDefs
-			File.readAllString(songPaths[songName]  ++ "synthDefs.scd").interpret;
 
 			// load oscDefs....or does this depend on the interface argument in YAWNShow???
 
@@ -193,72 +190,6 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
 		},{
 			countInArray = Pbind(
-				\dur,Pseq([0],1),
-				\note, Rest(0.1)
-			)
-		});
-
-		if(click,{
-			var clickArray = [];
-
-			for(fromIndex,toIndex,{ |index|
-
-				clickArray = clickArray ++ data[index]['click'];
-			});
-
-			clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern.key });
-			clickArray = Psym( Pseq(clickArray) );
-
-			cuedArray = cuedArray.add(clickArray);
-		});
-
-		if(lights,{
-			var lightArray = [];
-
-			for(fromIndex,toIndex,{ |index|
-
-				lightArray = lightArray.add( data[index]['lights'] );
-			});
-
-			lightArray = lightArray.collect(_.unbubble);
-			lightArray = Pseq(lightArray);
-
-			cuedArray = cuedArray.add(lightArray);
-		});
-
-		if(kemper,{
-			var kempArray = [];
-
-			for(fromIndex,toIndex,{ |index|
-
-				kempArray = kempArray.add( data[index]['kemper'] );
-			});
-
-			kempArray = kempArray.collect(_.unbubble);
-			kempArray = Pseq(kempArray);
-
-			cuedArray = cuedArray.add(kempArray);
-		});
-
-		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
-			Pseq([
-				countInArray,
-				Ppar(cuedArray)
-			])
-		);
-	}
-
-	cueFrom2 { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, countIn = false| // eventually add bTracks = true, osv.
-		var fromIndex = this.sections.indexOf(from);
-		var toIndex = this.sections.indexOf(to);
-		var countInArray, cuedArray = [];
-
-		if(countIn,{
-			var bpm = this.clicks[fromIndex].flat.first.bpm;
-
-			countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
-		},{
-			countInArray = Pbind(
 				\dur, Pseq([0],1),
 				\note, Rest(0.1)
 			)
@@ -270,13 +201,9 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			if( click,{
 				var clkArray = data[index]['click'].deepCollect(2,{ |clk| clk.pattern });
 
-				if(clkArray.maxDepth > 1, {                                                     //this can probably be better, no?
-					clkArray = clkArray.collect({ |clk| Pseq(clk) });
-				},{
-					clkArray = [ Pseq(clkArray) ];
-				});
+				clkArray = clkArray.collect({ |clk| Pseq(clk) });
 
-				sectionArray = sectionArray.add( Ppar( clkArray ) );
+				sectionArray = sectionArray.add( Ppar([ clkArray ]) );
 			});
 
 			if( lights,{ sectionArray = sectionArray.add( Ppar( data[index]['lights'] ) ) });
@@ -290,6 +217,74 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			Pseq( [countInArray] ++ cuedArray )
 		);
 	}
+
+	/*
+	cueFromOld { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, countIn = false| // eventually add bTracks = true, osv.
+	var fromIndex = this.sections.indexOf(from);
+	var toIndex = this.sections.indexOf(to);
+	var countInArray, cuedArray = [];
+
+	if(countIn,{
+	var bpm = this.clicks[fromIndex].flat.first.bpm;
+
+	countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
+	},{
+	countInArray = Pbind(
+	\dur,Pseq([0],1),
+	\note, Rest(0.1)
+	)
+	});
+
+	if(click,{
+	var clickArray = [];
+
+	for(fromIndex,toIndex,{ |index|
+
+	clickArray = clickArray ++ data[index]['click'];
+	});
+
+	clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern.key });
+	clickArray = Psym( Pseq(clickArray) );
+
+	cuedArray = cuedArray.add(clickArray);
+	});
+
+	if(lights,{
+	var lightArray = [];
+
+	for(fromIndex,toIndex,{ |index|
+
+	lightArray = lightArray.add( data[index]['lights'] );
+	});
+
+	lightArray = lightArray.collect(_.unbubble);
+	lightArray = Pseq(lightArray);
+
+	cuedArray = cuedArray.add(lightArray);
+	});
+
+	if(kemper,{
+	var kempArray = [];
+
+	for(fromIndex,toIndex,{ |index|
+
+	kempArray = kempArray.add( data[index]['kemper'] );
+	});
+
+	kempArray = kempArray.collect(_.unbubble);
+	kempArray = Pseq(kempArray);
+
+	cuedArray = cuedArray.add(kempArray);
+	});
+
+	^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
+	Pseq([
+	countInArray,
+	Ppar(cuedArray)
+	])
+	);
+	}
+	*/
 }
 
 

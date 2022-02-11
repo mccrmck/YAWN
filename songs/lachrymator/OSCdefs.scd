@@ -1,14 +1,12 @@
-///////////////////////////////////////////////// YAWN oscDefs: numberTwo /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN oscDefs: lachrymator /////////////////////////////////////////////////
 
 (
+var lachrymator = YAWNSong('lachrymator');
 var switchSlots = Array.fill(4,{0});
-var clickSlots = Array.fill(4,{0});
-// var startClick = ~yawn.songArray[2].cueFrom('twoCountPart1','twoAsection',true,true);
-// var jazzClick = ~yawn.songArray[2].cueFrom('twoTapping','twoJazzBsectionAgain',true,true);
-// var endClick = ~yawn.songArray[2].cueFrom('twoCountPart3','twoOutro',true,true);
-var startClick = YAWNSong('numberTwo').cueFrom('twoCountPart1','twoAsection',true,true);
-var jazzClick = YAWNSong('numberTwo').cueFrom('twoTapping','twoJazzBsectionAgain',true,true);
-var endClick = YAWNSong('numberTwo').cueFrom('twoCountPart3','twoOutro',true,true);
+var clickSlots = Array.fill(5,{0});
+var startClick = lachrymator.cueFrom('lachCountPart1','lachImproLoop',true,true,false);
+var jazzClick = lachrymator.cueFrom('lachTapping','lachJazzBsectionAgain',true,true,false);
+var endClick = lachrymator.cueFrom('lachCountPart3','lachOutro',true,true,false);
 
 var improFunc = { | bufnum, rate, pan, amp|
 	var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * rate,doneAction: 2);
@@ -18,7 +16,7 @@ var improFunc = { | bufnum, rate, pan, amp|
 
 // switches
 
-OSCdef(\numberTwoSynthOnOff,{ |msg, time,addr, recvPort|
+OSCdef(\lachrymatorSynthOnOff,{ |msg, time,addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|
@@ -36,19 +34,19 @@ OSCdef(\numberTwoSynthOnOff,{ |msg, time,addr, recvPort|
 			switch(index,
 				0,{
 					"delay OFF".postln;
-					Ndef(\numberTwoImpro).clear;
+					Ndef(\lachrymatorImpro).clear;
 				},
 				1,{
 					"hold OFF".postln;
-					Ndef(\numberTwoImpro).set(\mute,0);
+					Ndef(\lachrymatorImpro).set(\mute,0);
 				},
 				2,{
 					"reverb OFF".postln;
-					Ndef(\numberTwoImpro)[15] = nil;
+					Ndef(\lachrymatorImpro)[15] = nil;
 				},
 				3,{
 					"impro OFF".postln;
-					Ndef(\numberTwoImpro)[10] = nil;
+					Ndef(\lachrymatorImpro)[10] = nil;
 				}
 			);
 		},
@@ -56,7 +54,7 @@ OSCdef(\numberTwoSynthOnOff,{ |msg, time,addr, recvPort|
 			switch(index,
 				0,{
 					"delay ON".postln;
-					Ndef(\numberTwoImpro,{
+					Ndef(\lachrymatorImpro,{
 						var sig = SoundIn.ar(\inBus.kr(0));
 						var mute = \mute.kr;
 						var local = LocalIn.ar(2);
@@ -68,11 +66,11 @@ OSCdef(\numberTwoSynthOnOff,{ |msg, time,addr, recvPort|
 				},
 				1,{
 					"hold ON".postln;
-					Ndef(\numberTwoImpro).set(\mute,1);
+					Ndef(\lachrymatorImpro).set(\mute,1);
 				},
 				2,{
 					"reverb ON".postln;
-					Ndef(\numberTwoImpro).filter(15,{ |in|
+					Ndef(\lachrymatorImpro).filter(15,{ |in|
 						var sig = HPF.ar(in,450);
 						sig = FreeVerb.ar(sig,1,1,0.95);
 						sig = LPF.ar(sig,2000);
@@ -81,51 +79,48 @@ OSCdef(\numberTwoSynthOnOff,{ |msg, time,addr, recvPort|
 				},
 				3,{
 					"impro ON".postln;
-					Ndef(\numberTwoImpro).filter(10,{
-						var bufnum = ~yawn.songArray[2].pbTracks.choose;
+					Ndef(\lachrymatorImpro).filter(10,{
+						var bufnum = lachrymator.pbTracks.choose;
 						var rate = 0.8.exprand(4) * 1.xrand2.sign;
 						var pan = 0.6.rand2;
 						var amp = \improAmp.kr(0.5);
 						improFunc.value(bufnum, rate, pan, amp);
 
-					})
-
+					});
 				}
 			);
 		}
 	);
 
-
-},'/numberTwo/synthOnOff/x');
+},'/lachrymator/synthOnOff/x');
 
 // improPads
-OSCdef(\numberTwoImproPads,{ |msg, time,addr, recvPort|
+OSCdef(\lachrymatorImproPads,{ |msg, time,addr, recvPort|
 
 	/*
-	what're we doing here?!??!
+	what am I doing here?!??!
 	*/
 
-},'/numberTwo/improPads/x');
+},'/lachrymator/improPads/x');
 
 // improXY
 
 
 // multiSlider - amps
-OSCdef(\numberTwoSliders,{ |msg, time,addr, recvPort|
+OSCdef(\lachrymatorSliders,{ |msg, time,addr, recvPort|
 	var delayAmp = \db.asSpec.map(msg[1]).dbamp;
 	var improAmp = \db.asSpec.map(msg[2]).dbamp;
 	var reverbMix = \db.asSpec.map(msg[3]).dbamp;
 
-	Ndef(\numberTwoImpro).set(\amp,delayAmp);
-	Ndef(\numberTwoImpro).set(\improAmp,improAmp);
-	Ndef(\numberTwoImpro).set(\wet15,reverbMix);
+	Ndef(\lachrymatorImpro).set(\amp,delayAmp);
+	Ndef(\lachrymatorImpro).set(\improAmp,improAmp);
+	Ndef(\lachrymatorImpro).set(\wet15,reverbMix);
 
-},'/numberTwo/sliders/x');
-
+},'/lachrymator/sliders/x');
 
 // turn click on & off
 
-OSCdef(\numberTwoClick,{ |msg, time,addr, recvPort|
+OSCdef(\lachrymatorClick,{ |msg, time,addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|
@@ -143,18 +138,23 @@ OSCdef(\numberTwoClick,{ |msg, time,addr, recvPort|
 			switch(index,
 				0,{
 					startClick.stop;
-					"numberTwo stop".postln;
+					"lachrymator stop".postln;
 				},
 				1,{
 					jazzClick.stop;
 					"tapping stop".postln;
 				},
 				2,{
-					"openTwo: true".postln;
-					Click.loopCues[\openTwo] = true;
-					DMXIS.cues['twoTapping']['openTwo'] = true;
+					"lachImproLoop: true".postln;
+					Click.loopCues['lachImproLoop'] = true;
+					DMXIS.cues['lachImproLoop']['lachImproLoop'] = true;
 				},
 				3,{
+					"tapping: true".postln;
+					Click.loopCues['lachTapping'] = true;
+					DMXIS.cues['lachTapping']['lachTap'] = true;
+				},
+				4,{
 					endClick.stop;
 					"ending stop".postln;
 				}
@@ -164,7 +164,7 @@ OSCdef(\numberTwoClick,{ |msg, time,addr, recvPort|
 			switch(index,
 				0,{
 					var secs = 15;
-					"numberTwo starting in % seconds".format(secs).postln;
+					"lachrymator starting in % seconds".format(secs).postln;
 					Routine({
 						secs.wait;
 						startClick.play;
@@ -175,11 +175,16 @@ OSCdef(\numberTwoClick,{ |msg, time,addr, recvPort|
 					"tapping start".postln;
 				},
 				2,{
-					"openTwo: false".postln;
-					Click.loopCues[\openTwo] = false;
-					DMXIS.cues['twoTapping']['openTwo'] = false;
+					"lachImproLoop: false".postln;
+					Click.loopCues['lachImproLoop'] = false;
+					DMXIS.cues['lachImproLoop']['lachImproLoop'] = false;
 				},
 				3,{
+					"tapping: false".postln;
+					Click.loopCues['lachTapping'] = false;
+					DMXIS.cues['lachTapping']['lachTap'] = false;
+				},
+				4,{
 					endClick.play;
 					"ending start".postln;
 				}
@@ -187,5 +192,5 @@ OSCdef(\numberTwoClick,{ |msg, time,addr, recvPort|
 		}
 	);
 
-},'/numberTwo/click/x');
+},'/lachrymator/click/x');
 )

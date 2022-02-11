@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////// YAWN oscDefs: cement /////////////////////////////////////////////////
 
 (
+var cement = YAWNSong('cement');
 var clickSlots = Array.fill(2,{0});
-// var startClick = ~yawn.songArray[0].cueFrom('cementCount','cementAsectionLast',true,true);
-var startClick = YAWNSong('cement').cueFrom('cementCount','cementAsectionLast',true,true);
+var startClick = cement.cueFrom('cementCount','cementAsectionLast',true,true,false);
 
 // turn intro voice on & off
 
@@ -11,12 +11,8 @@ OSCdef(\cementIntroVoice,{ |msg, time,addr, recvPort|
 	var val = msg[1].asInteger;
 
 	case
-	{val == 0}{
-		Ndef(\cementIntro).clear;
-	}
-	{val == 1}{
-		Ndef(\cementIntro,\stereoShowPlayBack).set(\bufnum,~yawn.songArray[0].pbTracks[0]).play
-	};
+	{val == 0}{ Ndef(\cementIntro).clear }
+	{val == 1}{ Ndef(\cementIntro,\stereoShowPlayBack).set(\bufnum,cement.pbTracks[0]).play };
 
 },'/cement/introVoice/x');
 
@@ -36,9 +32,7 @@ OSCdef(\cementMorphOnOff,{ |msg, time,addr, recvPort|
 	var val = msg[1];
 
 	case
-	{val == 0}{
-		Ndef(\cementMorph).stop;
-	}
+	{val == 0}{ Ndef(\cementMorph).stop }
 	{val == 1}{
 		Ndef(\cementMorph,{
 			var voices = 10;
@@ -114,5 +108,3 @@ OSCdef(\cementClick,{ |msg, time,addr, recvPort|
 	);
 },'/cement/click/x');
 )
-
-

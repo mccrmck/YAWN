@@ -1,19 +1,17 @@
-///////////////////////////////////////////////// YAWN oscDefs: numberOne /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN oscDefs: chaos /////////////////////////////////////////////////
 
 (
+var chaos = YAWNSong('chaos');
 var switchSlots = Array.fill(6,{0});
 var clickSlots = Array.fill(6,{0});
-// var startClick = ~yawn.songArray[1].cueFrom('oneGitIntro','oneElevenLast',true,true);
-// var bombs = ~yawn.songArray[1].cueFrom('oneBomb','oneBomb',true,true);
-// var endClick = ~yawn.songArray[1].cueFrom('oneCountPart3','oneOutro',true,true);
-var startClick = YAWNSong('numberOne').cueFrom('oneGitIntro','oneElevenLast',true,true);
-var bombs = YAWNSong('numberOne').cueFrom('oneBomb','oneBomb',true,true);
-var endClick = YAWNSong('numberOne').cueFrom('oneCountPart3','oneOutro',true,true);
+var startClick = chaos.cueFrom('chaosGitIntro','chaosElevenLast',true,true,false);
+var bombs = chaos.cueFrom('chaosBomb','chaosBomb',true,true,false);
+var endClick = chaos.cueFrom('chaosCountAgain','chaosOutro',true,true,false);
 
-var introBufs = YAWNSong('numberOne').pbTracks;
+var introBufs = chaos.pbTracks;
 
 // on & off Switches
-OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
+OSCdef(\chaosSynthSwitches,{ |msg, time, addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|
@@ -31,23 +29,23 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 			switch(index,
 				0,{
 					"intro synth OFF".postln;
-					Ndef(\oneIntro).clear;
+					Ndef(\chaosIntro).clear;
 				},
 				1,{
 					"gtrFreeze OFF".postln;
-					Ndef(\oneGtrFreeze).clear;
+					Ndef(\chaosGtrFreeze).clear;
 				},
 				2,{
 					"gtrStutter OFF".postln;
-					Ndef(\oneGtrStutter).clear;
+					Ndef(\chaosGtrStutter).clear;
 				},
 				3,{
 					"drumFreeze OFF".postln;
-					Ndef(\oneDrumFreeze).clear;
+					Ndef(\chaosDrumFreeze).clear;
 				},
 				4,{
 					"drumStutter OFF".postln;
-					Ndef(\oneDrumStutter).clear;
+					Ndef(\chaosDrumStutter).clear;
 				},
 				5,{
 					"shiftRegister OFF".postln;
@@ -59,7 +57,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 			switch(index,
 				0,{
 					"intro synth ON".postln;
-					Ndef(\oneIntro,{
+					Ndef(\chaosIntro,{
 						var bufnum = \bufnum.kr;
 						var frames = BufFrames.kr(bufnum);
 						var pos = Phasor.ar(0,BufRateScale.kr(bufnum) * LFDNoise1.ar(LFDNoise3.ar(4).range(4,20)).range(0.5,\range.kr(0).linexp(0,1,1,20)),0,frames);
@@ -69,11 +67,11 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 
 					}).play;
 
-					Ndef(\oneIntro).filter(20,{|sig| Limiter.ar(sig) * \amp.kr(0.5) });
+					Ndef(\chaosIntro).filter(20,{|sig| Limiter.ar(sig) * \amp.kr(0.5) });
 				},
 				1,{
 					"gtrFreeze ON".postln;
-					Ndef(\oneGtrFreeze,{
+					Ndef(\chaosGtrFreeze,{
 						var frames = 1024;
 						var sig = SoundIn.ar(\inBus.kr(0));
 						var trig = 1;
@@ -85,7 +83,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 				},
 				2,{
 					"gtrStutter ON".postln;
-					Ndef(\oneGtrStutter,{
+					Ndef(\chaosGtrStutter,{
 						var sig = SoundIn.ar(\inBus.kr(0));
 						var trig = \trig.kr(1);
 						var gate = Env.sine(0.2).kr(gate:trig);
@@ -96,7 +94,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 				},
 				3,{
 					"drumFreeze ON".postln;
-					Ndef(\oneDrumFreeze,{
+					Ndef(\chaosDrumFreeze,{
 						var frames = 1024;
 						var sig = SoundIn.ar(\inBus.kr(3));
 						var trig = 1;
@@ -108,7 +106,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 				},
 				4,{
 					"drumStutter ON".postln;
-					Ndef(\oneDrumStutter,{
+					Ndef(\chaosDrumStutter,{
 						var sig = SoundIn.ar(\inBus.kr(3));
 						var trig = \trig.kr(1);
 						var gate = Env.sine(0.2).kr(gate:trig);
@@ -124,7 +122,7 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 						var n = \bits.kr(0).linexp(0,1,12,16);
 						var t = Phasor.ar(1,\freq.kr(0).linexp(0,1,0.1,8) * ((2**n)/sr),0,((2**n)-1));
 
-						t = SelectX.ar(\counter.kr(0),[
+						t = SelectX.ar(\index.kr(0),[
 
 							t*(((t>>64)|(t>>8))&(63&(t>>4))),
 							t*(((t>>9)|(t>>13))&(25&(t>>6))),
@@ -147,17 +145,17 @@ OSCdef(\numberOneSynthSwitches,{ |msg, time, addr, recvPort|
 		}
 	);
 
-},'/numberOne/synthSwitches/x');
+},'/chaos/synthSwitches/x');
 
-OSCdef(\numberOneIntroSynthX,{ |msg, time, addr, recvPort|
+OSCdef(\chaosIntroSynthX,{ |msg, time, addr, recvPort|
 	var valX = msg[1];
 	var range = msg[2];
 
-	Ndef(\oneIntro).set(\xArg,valX,\range,range);
+	Ndef(\chaosIntro).set(\xArg,valX,\range,range);
 
-},'/numberOne/introSynth/x');
+},'/chaos/introSynth/x');
 
-OSCdef(\numberOneIntroSynthY,{ |msg, time, addr, recvPort|
+OSCdef(\chaosIntroSynthY,{ |msg, time, addr, recvPort|
 	var valY = msg[1];
 	var index = msg[2].linlin(0,1,0,6).round.asInteger;
 	var func = [
@@ -170,47 +168,46 @@ OSCdef(\numberOneIntroSynthY,{ |msg, time, addr, recvPort|
 		{ |sig| IFFT(PV_BrickWall(PV_Freeze(FFT(LocalBuf(2048!2),sig),\yArg.kr(1).linlin(0,1,-0.1,0.3)),\xArg.kr(1).lincurve(0,1,-0.99,0.14,2.neg))) }
 	];
 
-	if(Ndef(\oneIntro).isPlaying,{
+	if(Ndef(\chaosIntro).isPlaying,{
 
-		Ndef(\oneIntro).filter(1,func[index]);
-		Ndef(\oneIntro).set(\yArg,valY);
+		Ndef(\chaosIntro).filter(1,func[index]);
+		Ndef(\chaosIntro).set(\yArg,valY);
 	});
 
-},'/numberOne/introSynth/y');
+},'/chaos/introSynth/y');
 
-OSCdef(\numberOneIntroSynthZ,{ |msg, time, addr, recvPort|
+OSCdef(\chaosIntroSynthZ,{ |msg, time, addr, recvPort|
 	var trig = msg[1..];
 	var bufnum = introBufs.choose;
 
 	if(trig.sum == trig.size,{                                  // could this be better??
-		Ndef(\oneIntro).set(\bufnum,bufnum);
+		Ndef(\chaosIntro).set(\bufnum,bufnum);
 	});
 
-},'/numberOne/introSynth/z');
+},'/chaos/introSynth/z');
 
 // shiftRegister XY
 
-OSCdef(\numberOneShiftRegX,{ |msg, time, addr, recvPort|
+OSCdef(\chaosShiftRegX,{ |msg, time, addr, recvPort|
 	var sRate = msg[1];
 	var freq = msg[2];
 
 	Ndef(\shiftRegister).set(\sRate,sRate,\freq,freq);
 
-},'/numberOne/shiftRegister/x');
+},'/chaos/shiftRegister/x');
 
-OSCdef(\numberOneShiftRegY,{ |msg, time, addr, recvPort|
+OSCdef(\chaosShiftRegY,{ |msg, time, addr, recvPort|
 	var bits = msg[1];
-	// var counter = msg[2].linlin(0,1,0,6).round.asInteger;
-	var counter = msg[2].linlin(0,1,0,6);
+	var index = msg[2].linlin(0,1,0,6);
 
-	Ndef(\shiftRegister).set(\bits,bits,\counter,counter);
+	Ndef(\shiftRegister).set(\bits,bits,\index,index);
 
-},'/numberOne/shiftRegister/y');
+},'/chaos/shiftRegister/y');
 
 
 // multiSlider - amps
 
-OSCdef(\numberOneSynthAmps,{ |msg, time,addr, recvPort|
+OSCdef(\chaosSynthAmps,{ |msg, time,addr, recvPort|
 	var introAmp = \db.asSpec.map(msg[1]).dbamp;
 	var gtrFreezeAmp = \db.asSpec.map(msg[2]).dbamp;
 	var gtrStutterAmp = \db.asSpec.map(msg[3]).dbamp;
@@ -218,19 +215,19 @@ OSCdef(\numberOneSynthAmps,{ |msg, time,addr, recvPort|
 	var drmStutterAmp = \db.asSpec.map(msg[5]).dbamp;
 	var shiftRegisterAmp = \db.asSpec.map(msg[6]).dbamp;
 
-	Ndef(\oneIntro).set(\amp,introAmp);
-	Ndef(\oneGtrFreeze).set(\amp,gtrFreezeAmp);
-	Ndef(\oneGtrStutter).set(\amp,gtrStutterAmp);
-	Ndef(\oneDrumFreeze).set(\amp,drmFreezeAmp);
-	Ndef(\oneDrumStutter).set(\amp,drmStutterAmp);
+	Ndef(\chaosIntro).set(\amp,introAmp);
+	Ndef(\chaosGtrFreeze).set(\amp,gtrFreezeAmp);
+	Ndef(\chaosGtrStutter).set(\amp,gtrStutterAmp);
+	Ndef(\chaosDrumFreeze).set(\amp,drmFreezeAmp);
+	Ndef(\chaosDrumStutter).set(\amp,drmStutterAmp);
 	Ndef(\shiftRegister).set(\amp,shiftRegisterAmp);
 
-},'/numberOne/amps/x');
+},'/chaos/amps/x');
 
 
 // turn click on & off
 
-OSCdef(\numberOneClick,{ |msg, time, addr, recvPort|
+OSCdef(\chaosClick,{ |msg, time, addr, recvPort|
 	var val,index;
 
 	msg[1..].do({ |item, i|
@@ -248,28 +245,23 @@ OSCdef(\numberOneClick,{ |msg, time, addr, recvPort|
 			switch(index,
 				0,{
 					startClick.stop;
-					"numberOne stop".postln;
+					"chaos stop".postln;
 				},
 				1,{
-					"openOneFour: true".postln;
-					Click.loopCues[\openOneFour] = true;
-					DMXIS.cues['oneGitIntro']['openOneFour'] = true;
+					"chaosIntroLoop: true".postln;
+					Click.loopCues['chaosIntroLoop'] = true;
+					DMXIS.cues['chaosGitIntro']['chaosIntroLoop'] = true;
 				},
 				2,{
-					"openOneEight: true".postln;
-					Click.loopCues[\openOneEight] = true;
-					DMXIS.cues['oneGitDrums']['openOneEight'] = true;
+					"chaosElevenLoop: true".postln;
+					Click.loopCues['chaosElevenLoop'] = true;
+					DMXIS.cues['chaosEleven']['chaosElevenLoop'] = true;
 				},
 				3,{
-					"openOneEleven: true".postln;
-					Click.loopCues[\openOneEleven] = true;
-					DMXIS.cues['oneEleven']['openOneEleven'] = true;
-				},
-				4,{
 					bombs.stop;
 					"BOMB reset".postln;
 				},
-				5,{
+				4,{
 					endClick.stop;
 					"ending stop".postln;
 				}
@@ -279,22 +271,17 @@ OSCdef(\numberOneClick,{ |msg, time, addr, recvPort|
 			switch(index,
 				0,{
 					startClick.play;
-					"numberOne start".postln;
+					"chaos start".postln;
 				},
 				1,{
-					"openOneFour: false".postln;
-					Click.loopCues['openOneFour'] = false;
-					DMXIS.cues['oneGitIntro']['openOneFour'] = false;
+					"chaosIntroLoop: false".postln;
+					Click.loopCues['chaosIntroLoop'] = false;
+					DMXIS.cues['chaosGitIntro']['chaosIntroLoop'] = false;
 				},
 				2,{
-					"openOneEight: false".postln;
-					Click.loopCues[\openOneEight] = false;
-					DMXIS.cues['oneGitDrums']['openOneEight'] = false;
-				},
-				3,{
-					"openOneEleven: false".postln;
-					Click.loopCues['openOneEleven'] = false;
-					DMXIS.cues['oneEleven']['openOneEleven'] = false;
+					"chaosElevenLoop: false".postln;
+					Click.loopCues['chaosElevenLoop'] = false;
+					DMXIS.cues['chaosEleven']['chaosElevenLoop'] = false;
 				},
 				4,{
 					bombs.play;
@@ -307,6 +294,6 @@ OSCdef(\numberOneClick,{ |msg, time, addr, recvPort|
 			);
 		}
 	);
-},'/numberOne/click/x');
+},'/chaos/click/x');
 )
 
