@@ -10,7 +10,7 @@ var endClick = lachrymator.cueFrom('lachCountPart3','lachOutro',true,true,false)
 
 var improFunc = { | bufnum, rate, pan, amp|
 	var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * rate,doneAction: 2);
-	sig = Balance2.ar(sig[0],sig[1],0,amp);
+	sig = Balance2.ar(sig[0],sig[1],0,amp).tanh;
 	sig;
 };
 
@@ -181,7 +181,7 @@ OSCdef(\lachrymatorClick,{ |msg, time,addr, recvPort|
 				},
 				3,{
 					"tapping: false".postln;
-					Click.loopCues['lachTapping'] = false;
+					Click.loopCues['lachTap'] = false;
 					DMXIS.cues['lachTapping']['lachTap'] = false;
 				},
 				4,{

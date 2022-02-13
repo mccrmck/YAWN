@@ -1,6 +1,9 @@
 ///////////////////////////////////////////////// YAWN oscDefs: chaos /////////////////////////////////////////////////
 
 (
+//in busses eventually have to be passed!!
+
+
 var chaos = YAWNSong('chaos');
 var switchSlots = Array.fill(6,{0});
 var clickSlots = Array.fill(6,{0});
@@ -9,6 +12,16 @@ var bombs = chaos.cueFrom('chaosBomb','chaosBomb',true,true,false);
 var endClick = chaos.cueFrom('chaosCountAgain','chaosOutro',true,true,false);
 
 var introBufs = chaos.pbTracks;
+
+var filterFuncs = [
+		{ |sig| sig },
+		{ |sig| Decimator.ar(sig, SampleRate.ir * \xArg.kr(1).linexp(0,1,0.005,0.6),24 * \yArg.kr(1).linexp(0,1,0.05,0.3),\yArg.kr(1).linexp(0,1,-3.dbamp,1)) },
+		{ |sig| RLPF.ar(sig,\xArg.kr(1).linlin(0,1,40,3000),\yArg.kr(1).linlin(0,1,0.01,0.5),12).tanh * -18.dbamp },
+		{ |sig| sig * SinOsc.ar(\xArg.kr(1).linexp(0,1,250,2500) * SinOsc.ar(\yArg.kr(0).linexp(0,1,0.2,20))) },
+		{ |sig| CombC.ar(sig,0.3,\xArg.kr(1).linexp(0,1,0.01,0.3),\yArg.kr(1,0.2).linlin(0,1,0.5,1.5))},    // for some reason changing the decay time zeros the buffer...
+		{ |sig| IFFT(PV_RectComb(FFT(LocalBuf(1024!2),sig),\xArg.kr(1).linlin(0,1,8,12),0,\yArg.kr(1).linlin(0,1,0.3,0.8))) },
+		{ |sig| IFFT(PV_BrickWall(PV_Freeze(FFT(LocalBuf(2048!2),sig),\yArg.kr(1).linlin(0,1,-0.1,0.3)),\xArg.kr(1).lincurve(0,1,-0.99,0.14,2.neg))) }
+	];
 
 // on & off Switches
 OSCdef(\chaosSynthSwitches,{ |msg, time, addr, recvPort|
@@ -58,7 +71,7 @@ OSCdef(\chaosSynthSwitches,{ |msg, time, addr, recvPort|
 				0,{
 					"intro synth ON".postln;
 					Ndef(\chaosIntro,{
-						var bufnum = \bufnum.kr;
+						var bufnum = \bufnum.kr(introBufs.first);
 						var frames = BufFrames.kr(bufnum);
 						var pos = Phasor.ar(0,BufRateScale.kr(bufnum) * LFDNoise1.ar(LFDNoise3.ar(4).range(4,20)).range(0.5,\range.kr(0).linexp(0,1,1,20)),0,frames);
 						var sig = BufRd.ar(2,bufnum,pos);
@@ -136,7 +149,7 @@ OSCdef(\chaosSynthSwitches,{ |msg, time, addr, recvPort|
 						t = t % (2**(n)); // avoiding number beyond 2**(bit resolution)
 						t = t * (0.5**(n-1)) - 1; // scaling to -1, 1
 						t = LPF.ar(t,18000);
-						t = LeakDC.ar(t);
+						t = LeakDC.ar(t) * -9.dbamp;
 						Pan2.ar(t,0, \amp.kr(0.3) );
 
 					}).play
@@ -158,19 +171,9 @@ OSCdef(\chaosIntroSynthX,{ |msg, time, addr, recvPort|
 OSCdef(\chaosIntroSynthY,{ |msg, time, addr, recvPort|
 	var valY = msg[1];
 	var index = msg[2].linlin(0,1,0,6).round.asInteger;
-	var func = [
-		{ |sig| sig },
-		{ |sig| Decimator.ar(sig, SampleRate.ir * \xArg.kr(1).linexp(0,1,0.01,0.6),24 * \yArg.kr(1).linexp(0,1,0.05,0.3),\yArg.kr(1).linexp(0,1,0.15,1)) },
-		{ |sig| RLPF.ar(sig,\xArg.kr(1).linlin(0,1,40,3000),\yArg.kr(1).linlin(0,1,0.01,0.5),12).tanh * -18.dbamp },
-		{ |sig| sig * SinOsc.ar(\xArg.kr(1).linexp(0,1,250,2500) * SinOsc.ar(\yArg.kr(0).linexp(0,1,0.2,20))) },
-		{ |sig| CombC.ar(sig,0.3,\xArg.kr(1).linexp(0,1,0.01,0.3),\yArg.kr(1,0.2).linlin(0,1,0.5,1.5))},    // for some reason changing the decay time zeros the buffer...
-		{ |sig| IFFT(PV_RectComb(FFT(LocalBuf(1024!2),sig),\xArg.kr(1).linlin(0,1,8,12),0,\yArg.kr(1).linlin(0,1,0.3,0.8))) },
-		{ |sig| IFFT(PV_BrickWall(PV_Freeze(FFT(LocalBuf(2048!2),sig),\yArg.kr(1).linlin(0,1,-0.1,0.3)),\xArg.kr(1).lincurve(0,1,-0.99,0.14,2.neg))) }
-	];
 
 	if(Ndef(\chaosIntro).isPlaying,{
-
-		Ndef(\chaosIntro).filter(1,func[index]);
+		Ndef(\chaosIntro).filter(1,filterFuncs[index]);
 		Ndef(\chaosIntro).set(\yArg,valY);
 	});
 
@@ -283,11 +286,11 @@ OSCdef(\chaosClick,{ |msg, time, addr, recvPort|
 					Click.loopCues['chaosElevenLoop'] = false;
 					DMXIS.cues['chaosEleven']['chaosElevenLoop'] = false;
 				},
-				4,{
+				3,{
 					bombs.play;
 					"BOMB".postln;
 				},
-				5,{
+				4,{
 					endClick.play;
 					"ending start".postln;
 				}

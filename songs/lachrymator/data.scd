@@ -23,7 +23,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 	),(
 		name: 'lachImproLoop',
 		click: [[ ClickConCatLoop(cueKeys[0], Click(240,4), Click(300,4)) ]],
-		lights:[ DMXIS.makePat('lachAsection',pathToDMXMIDI ++ "Asection.mid") ],   //must change
+		lights:[ DMXIS.makePat('lachImproLoop',pathToDMXMIDI ++ "Asection.mid") ],   //must change
 	),(
 		name: 'lachTapping',
 		click: [[ ClickLoop(120,4,loopKey: cueKeys[1]) ]],

@@ -13,19 +13,6 @@ YAWNShow {
 	var <>setList;
 	var <lights, <kempers, <songArray, <clickAmp;
 
-	*initClass {
-
-		StartUp.add{
-
-			SynthDef(\stereoYawnPlayBack,{
-				var bufnum = \bufnum.kr();
-				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * \rate.kr(1),doneAction: 2);
-				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(0.8));
-				OffsetOut.ar(\outBus.kr(0),sig);
-			}).add;
-		}
-	}
-
 	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 		// if(clickOut.notNil,{ click = true, })
 		// must pass some arrays here: hardware ins/outs
@@ -53,8 +40,8 @@ YAWNShow {
 
 			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
-				// song.loadData; etc.
-				// song.loadPBtracks;
+				song.loadData;
+				song.loadPBtracks;
 
 				song.clicks.deepDo(3,{ |click|                   // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
@@ -127,15 +114,14 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 		if(songPaths[songName].notNil,{
 
-			data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
-
+			/*data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
 
 			pbTracks = PathName(songPaths[songName] ++ "tracks").entries.collect({ |entry|
 
 				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
 
 			});
-
+*/
 			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
 
 			// load oscDefs....or does this depend on the interface argument in YAWNShow???
@@ -146,18 +132,21 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	}
 
 	init2 {
+		var key = songName.asSymbol;
+		if(songPaths[key].isNil,{
+			var songPath = PathName( Platform.userExtensionDir +/+ "YAWN/songs/%/".format(key) );
+			songPaths.put(key,songPath.fullPath);
+		});
+		pbTracks = IdentityDictionary();
 
 	}
 
-	loadData {
+	loadData {                                                                                   //modularize this! .loadClicks, .loadLights, etc
 		^data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
 	}
 
 	loadPBtracks {
-		pbTracks = IdentityDictionary();
-
 		PathName(songPaths[songName] ++ "tracks").entries.do({ |entry|
-
 			var key = entry.fileNameWithoutExtension;
 			pbTracks.put(key.asSymbol,	Buffer.read(Server.default,entry.fullPath) ) // make server a variable? Will it be used elsewhere?
 
@@ -179,7 +168,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		^clickArray
 	}
 
-	cueFrom { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, countIn = false| // eventually add bTracks = true, osv.
+	cueFrom { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, bTracks = true, countIn = false|
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
 		var countInArray, cuedArray = [];
@@ -203,12 +192,18 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 				clkArray = clkArray.collect({ |clk| Pseq(clk) });
 
-				sectionArray = sectionArray.add( Ppar([ clkArray ]) );
+				sectionArray = sectionArray.add( Ppar( clkArray ) );
 			});
 
 			if( lights,{ sectionArray = sectionArray.add( Ppar( data[index]['lights'] ) ) });
 
 			if( kemper,{ sectionArray = sectionArray.add( Ppar( data[index]['kemper'] ) ) });
+
+			if( bTracks,{
+				var trackArray = data[index]['bTracks'].collect({ |track| Pseq(track) });
+
+				sectionArray = sectionArray.add( Ppar( trackArray ) );
+			});
 
 			cuedArray = cuedArray.add( Ppar( sectionArray ) );
 		});

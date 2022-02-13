@@ -3,7 +3,7 @@
 (
 var tokamak = YAWNSong('tokamak');
 var clickSlots = Array.fill(2,{0});
-var startClick = tokamak.cueFrom('tokamakCount','tokamakOutro',true,true); // must test!
+var startClick = tokamak.cueFrom('tokamakCount','tokamakOutro',true,true,false); // must test!
 
 // bitCrusher on & off
 
