@@ -42,10 +42,7 @@ var pathToDMXMIDI = "/Users/mikemccormick/Library/Application Support/SuperColli
 		lights:[ DMXIS.makePat('cementImpro',pathToDMXMIDI ++ "impro.mid",cueKeys[0]) ],
 	),(
 		name:  'cementCue',
-		click: [[
-			ClickCue(170,4,repeats: 2), ClickCue(170,2,repeats: 2), ClickCue(170,1,repeats: 4),
-			Click(170,4),
-		]],
+		click: [[ ClickCue(170,4,repeats: 2), ClickCue(170,2,repeats: 2), ClickCue(170,1,repeats: 4), Click(170,4) ]],
 		lights:[ DMXIS.makePat('cementCue',pathToDMXMIDI ++ "cue.mid") ],
 	),(
 		name:  'cementBsectionAgain',

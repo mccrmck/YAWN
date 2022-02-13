@@ -16,6 +16,7 @@ YAWNShow {
 	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 		// if(clickOut.notNil,{ click = true, })
 		// must pass some arrays here: hardware ins/outs
+
 		^super.newCopyArgs(setList.asArray).init(kemperMIDIDevice, clickOut, ui);
 	}
 
@@ -40,8 +41,8 @@ YAWNShow {
 
 			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
-				song.loadData;
-				song.loadPBtracks;
+				// song.loadData;
+				// song.loadPBtracks;
 
 				song.clicks.deepDo(3,{ |click|                   // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
@@ -49,6 +50,8 @@ YAWNShow {
 				});
 
 			});
+
+			server.sync;
 
 			switch(controller,
 				{ \lemur },{ this.loadLemurInterface(setList) },
@@ -99,11 +102,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	var <songName, sections, <data, <pbTracks;
 
 	*initClass {
-		var path = Platform.userExtensionDir +/+ "YAWN" +/+ "songs";
-
 		songPaths = IdentityDictionary();
-
-		PathName(path).entries.do({ |folderPath| songPaths.put(folderPath.folderName.asSymbol,folderPath.fullPath) });
 	}
 
 	*new { |name|
@@ -111,34 +110,13 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	}
 
 	init {
-
-		if(songPaths[songName].notNil,{
-
-			/*data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
-
-			pbTracks = PathName(songPaths[songName] ++ "tracks").entries.collect({ |entry|
-
-				Buffer.read(Server.default,entry.fullPath); // make server a variable? Will it be used elsewhere?
-
-			});
-*/
-			// there needs to be accesible dictionaries for busses, .asr synths, parameters, etc.
-
-			// load oscDefs....or does this depend on the interface argument in YAWNShow???
-
-		},{
-			"song folder does not exist".warn;
-		});
-	}
-
-	init2 {
 		var key = songName.asSymbol;
-		if(songPaths[key].isNil,{
-			var songPath = PathName( Platform.userExtensionDir +/+ "YAWN/songs/%/".format(key) );
-			songPaths.put(key,songPath.fullPath);
-		});
-		pbTracks = IdentityDictionary();
+		var songPath = PathName( Platform.userExtensionDir +/+ "YAWN/songs/%/".format(key) );
+		songPaths.put(key,songPath.fullPath);
+		this.loadData;
 
+		pbTracks = IdentityDictionary();
+		^this
 	}
 
 	loadData {                                                                                   //modularize this! .loadClicks, .loadLights, etc
@@ -184,7 +162,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			)
 		});
 
-		for(fromIndex,toIndex,{ |index|
+		for(fromIndex,toIndex,{ |index|                                                     // this needs to figure out how to handle empty arrays!
 			var sectionArray = [];
 
 			if( click,{
@@ -192,17 +170,33 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 
 				clkArray = clkArray.collect({ |clk| Pseq(clk) });
 
-				sectionArray = sectionArray.add( Ppar( clkArray ) );
+				if(clkArray.size > 0,{
+					sectionArray = sectionArray.add( Ppar( clkArray ) );
+				});
 			});
 
-			if( lights,{ sectionArray = sectionArray.add( Ppar( data[index]['lights'] ) ) });
+			if( lights,{
+				var lightArray = data[index]['lights'];
 
-			if( kemper,{ sectionArray = sectionArray.add( Ppar( data[index]['kemper'] ) ) });
+				if(lightArray.size > 0,{
+					sectionArray = sectionArray.add( Ppar( lightArray ) );
+				});
+			});
+
+			if( kemper,{
+				var kemperArray = data[index]['kemper'];
+
+				if(kemperArray.size > 0,{
+					sectionArray = sectionArray.add( Ppar( kemperArray ) );
+				});
+			});
 
 			if( bTracks,{
-				var trackArray = data[index]['bTracks'].collect({ |track| Pseq(track) });
+				var trackArray = data[index]['bTracks'];
 
-				sectionArray = sectionArray.add( Ppar( trackArray ) );
+				if(trackArray.size > 0,{
+					sectionArray = sectionArray.add( Ppar( trackArray ) );
+				});
 			});
 
 			cuedArray = cuedArray.add( Ppar( sectionArray ) );

@@ -51,5 +51,13 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 DMXIS.setPreset(0);
 DMXIS.free
 
-Safety.enable
+
+
+YAWNShow(,
+	[\cement,\numberOne,\numberTwo,\numberFour], //setList
+	['kemperMIDIdevice'],
+	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
+	[\masterOut -> 0,\click -> 2, \tracks -> 3], // HWoutputs
+	\lemur, // interface/UI
+)
 

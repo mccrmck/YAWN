@@ -15,22 +15,11 @@ YAWNPlayback {
 		}
 	}
 
-	*new {
-		^super.new.init;
-	}
-
-	init {
-
-		// ??
-
-	}
-
-	makePat { |bufnum, outBus, ampBus|
+	*makePat { |bufnum, outBus, ampBus|
 
 		^Pbind(
 			\instrument, \stereoYawnPlayBack,
-			\dur, bufnum.duration,
-			\bufnum,bufnum,
+			\bufnum,Pseq([bufnum],1),
 			\outBus,outBus,
 			\amp,Pfunc({ ampBus.getSynchronous }),
 		)
