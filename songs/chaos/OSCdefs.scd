@@ -1,14 +1,14 @@
 ///////////////////////////////////////////////// YAWN oscDefs: chaos /////////////////////////////////////////////////
 
-({ |chaosInstance|
-
+({ |yawnShow, chaosInstance|
 	var switchSlots = Array.fill(6,{0});
 	var clickSlots = Array.fill(6,{0});
 	var startClick = chaosInstance.cueFrom('chaosGitIntro','chaosElevenLast',true,true,false);
-	var bombs = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,true,false);
-	var endClick = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,true,false);
-
+	var bombs      = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,true,false);
+	var endClick   = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,true,false);
 	var introBufs = chaosInstance.pbTracks;
+	var gitar = yawnShow.gitarIn;
+	var drums = yawnShow.snareIn;
 
 	var filterFuncs = [
 		{ |sig| sig },
@@ -83,7 +83,7 @@
 						"gtrFreeze ON".postln;
 						Ndef(\chaosGtrFreeze,{
 							var frames = 2048;
-							var sig = SoundIn.ar(\inBus.kr(0));
+							var sig = SoundIn.ar(gitar);
 							sig = FFT(LocalBuf(frames),sig);
 							sig = PV_Freeze(sig,1);
 							sig = IFFT(sig);
@@ -93,7 +93,7 @@
 					2,{
 						"gtrStutter ON".postln;
 						Ndef(\chaosGtrStutter,{
-							var sig = SoundIn.ar(\inBus.kr(0));
+							var sig = SoundIn.ar(gitar);
 							var gate = Env.sine(0.2).kr();
 							var rand = Rand(0.008,0.2);
 							sig = CombC.ar(sig * gate,0.3,rand,inf);
@@ -104,7 +104,7 @@
 						"drumFreeze ON".postln;
 						Ndef(\chaosDrumFreeze,{
 							var frames = 2048;
-							var sig = SoundIn.ar(\inBus.kr(3));
+							var sig = SoundIn.ar(drums);
 							sig = FFT(LocalBuf(frames),sig);
 							sig = PV_Freeze(sig,1);
 							sig = IFFT(sig);
@@ -114,7 +114,7 @@
 					4,{
 						"drumStutter ON".postln;
 						Ndef(\chaosDrumStutter,{
-							var sig = SoundIn.ar(\inBus.kr(3));
+							var sig = SoundIn.ar(drums);
 							var gate = Env.sine(0.2).kr();
 							var rand = Rand(0.008,0.2);
 							sig = CombC.ar(sig * gate,0.3,rand,inf);

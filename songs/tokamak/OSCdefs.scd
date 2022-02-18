@@ -1,10 +1,11 @@
 ///////////////////////////////////////////////// YAWN oscDefs: tokamak /////////////////////////////////////////////////
 
-({ |tokamakInstance|
+({ |yawnShow, tokamakInstance|
 
 	var clickSlots = Array.fill(2,{0});
 	var startClick = tokamakInstance.cueFrom('tokamakCount','tokamakOutro',true,true,false); // must test!
 	var tracks = tokamakInstance.pbTracks;
+	var gitar = yawnShow.gitarIn;
 
 	// bitCrusher on & off
 
@@ -17,7 +18,7 @@
 		}
 		{val == 1}{
 			Ndef(\tokamakBitCrush,{
-				var sig = SoundIn.ar(\inBus.kr(0));
+				var sig = SoundIn.ar(gitar);
 				sig = Decimator.ar(sig,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
 				sig = Pan2.ar(Limiter.ar(sig),\pan.kr(0),\amp.kr(0.8));
 			}).play

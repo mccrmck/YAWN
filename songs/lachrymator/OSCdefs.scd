@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////// YAWN oscDefs: lachrymator /////////////////////////////////////////////////
 
-({ |lachrymatorInstance|
+({ |yawnShow, lachrymatorInstance|
 
 	var switchSlots = Array.fill(4,{0});
 	var clickSlots = Array.fill(5,{0});
@@ -13,7 +13,7 @@
 		sig = Balance2.ar(sig[0],sig[1],0,amp).tanh;
 		sig;
 	};
-
+	var gitar = yawnShow.gitarIn;
 
 	// switches
 
@@ -56,7 +56,7 @@
 					0,{
 						"delay ON".postln;
 						Ndef(\lachrymatorImpro,{
-							var sig = SoundIn.ar(\inBus.kr(0));
+							var sig = SoundIn.ar(gitar);
 							var mute = \mute.kr;
 							var local = LocalIn.ar(2);
 							sig = DelayC.ar((sig * (1-mute)) + local,1.5,LFNoise1.ar(\speed.kr(0).linlin(0,1,0.05,7)!2).range(0.2,\delay.kr(0).linlin(0,1,0.3,1.5)));

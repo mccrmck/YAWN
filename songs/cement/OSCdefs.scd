@@ -1,9 +1,10 @@
 ///////////////////////////////////////////////// YAWN oscDefs: cement /////////////////////////////////////////////////
 
-({ |cementInstance|
+({ |yawnShow, cementInstance|
 	var clickSlots = Array.fill(2,{0});
 	var startClick = cementInstance.cueFrom('cementCount','cementAsectionLast',true,true,false);
-	var introTrack = cementInstance.pbTracks;
+	var introTrack = cementInstance.pbTracks['introVoice'];
+	var gitar = yawnShow.gitarIn;
 
 	// turn intro voice on & off
 
@@ -37,7 +38,7 @@
 			Ndef(\cementMorph,{
 				var voices = 10;
 				var freq = { 500.exprand(1500.0) }!voices;
-				var sig = SoundIn.ar(\inBus.kr(0));
+				var sig = SoundIn.ar(gitar).sum;
 
 				sig = sig * LFNoise2.kr(0.5).range(0.5,1);
 

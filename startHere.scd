@@ -9,8 +9,16 @@ DMXIS.vst.editor
 ~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"Pro40",0);  //change clickOut to 2...this is for testing w/ Sapphire
 ~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"OCTA-CAPTURE",2);  //change clickOut to 2
 
-~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"IAC Driver",2);  //change clickOut to 2
-
+(
+~yawn = YAWNShow(
+	[\cement,\chaos,\lachrymator,\tokamak],               // setList
+	['gitarIn' -> [0,1], 'bassDIn' -> 2, 'snareIn' -> 3], // inputs
+	false,                                                // lights
+	["IAC Driver"],                                       // kemper
+	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3], // outputs
+	\lemur,                                               // UI
+)
+);
 
 
 // between fem and fire!
@@ -27,10 +35,10 @@ OSCdef(\test,{ |msg, time, addr, recvPort|
 NetAddr.localAddr
 OSCdef(\test).free
 
-s.sendMsg("/n_free",1051)
+s.sendMsg("/n_free",1067)
+s.sendMsg("/n_set",1003,\amp,1)
 
 (
-
 // MUST RUN THIS CODE!!
 
 OSCdef(\yawnShowClickAmp,{ |msg, time,addr, recvPort|
@@ -53,24 +61,11 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 DMXIS.setPreset(0);
 DMXIS.free
 
-YAWNSong(\cement).loadData
-clicks.deepDo(3,{ |click| click.postln})
 
-
-a = Click()
-a.out_(2)
-a.play
-
-(
-YAWNShow(
-	[\cement,\chaos,\lachrymator,\tokamak], //setList
-	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // inputs
-	true, // lights
-	["IAC Driver"], // kemper
-	[\masterOut -> 0,\clickOut -> 2, \trackOut -> 3], // outputs
-	\lemur, // interface/UI
-)
-)
+a = YAWNSong('cement')
+a.path
+a.loadData
+b = a.cueFrom('cementCount','cementIntro',true,false,false)
 
 
 

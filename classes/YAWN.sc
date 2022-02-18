@@ -2,18 +2,26 @@ YAWNShow {
 
 	var <>setList, <inputs, <kemperMIDI, <outputs;
 	var <songArray, <clickAmp;
+	var <gitarIn, <bassDIn, <snareIn;
+	var <clickOut;
 
 	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
-		^super.newCopyArgs(setList.asArray, inputs.asDict,kemperMIDIDevice,outputs.asDict).init(lights,ui);
+		^super.newCopyArgs(setList.asArray, inputs.asDict, kemperMIDIDevice, outputs.asDict).init(lights,ui);
 	}
 
-	init { |lights,controller|
+	init { |lights, controller|
 		var server = Server.default;
 
 		server.waitForBoot({
 
-			if(lights,{ DMXIS() });  // right??!?!?
+			gitarIn = inputs['gitarIn'];
+			bassDIn = inputs['bassDIn'];
+			snareIn = inputs['snareIn'];
+
+			clickOut = outputs['clickOut'];
+
+			if(lights,{ DMXIS() });
 
 			server.sync;
 
@@ -21,22 +29,23 @@ YAWNShow {
 
 			server.sync;
 
-			clickAmp = Bus.control(server,1).set(0.5);        // eventually get this on the \db.spec system!!
+			clickAmp = Bus.control(server,1).set(0.5);
 
 			songArray = setList.collect({ |item|
 				YAWNSong(item.asSymbol);
 			});
 
 			songArray.do({ |song| song.loadPBtracks });
-			songArray.do({ |song| song.loadData(song) });
-
 			server.sync;
 
-			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+			songArray.do({ |song| song.loadData });
+			server.sync;
 
-				song.clicks.deepDo(3,{ |click|                   // this can change - click[0] == first channel, click[1] == second channel, etc.
+			songArray.do({ |song|                              // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+
+				song.clicks.deepDo(3,{ |click|                 // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
-					// click.out = clickOut;                        // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
+					click.out = clickOut;                      // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
 				});
 
 			});
@@ -44,21 +53,21 @@ YAWNShow {
 			server.sync;
 
 			switch(controller,
-				{ \lemur },{ this.loadLemurInterface(songArray) },
+				{ \lemur },{ this.loadLemurInterface(this, songArray) },
 				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
 				{ \scGUI },{ "scGUI not implemented yet".warn }
 			);
 		});
 	}
 
-	loadLemurInterface { |songArray|
+	loadLemurInterface { |show, songArray|
 
 		songArray.do({ |song|
 			var songPath = song.path;
-			File.readAllString(songPath +/+ "OSCdefs.scd").interpret.value(song);
+			File.readAllString(songPath +/+ "OSCdefs.scd").interpret.value(show, song);
 		})
 
-		// lemur.sendMsg('/main/setList/init',*songNames);
+		// lemur.sendMsg('/main/setList/init',*songNames); // this should be a method that inits the master controls and updates the interface
 	}
 
 	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
@@ -69,7 +78,7 @@ YAWNShow {
 
 /* ========================================== */
 
-YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
+YAWNSong {
 
 	classvar songFolderPath;
 	var <songName, <path, <pbTracks, <data;
@@ -87,8 +96,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		^this
 	}
 
-	loadData { |song|                                                                     //modularize this! .loadClicks, .loadLights, etc
-		data = File.readAllString(path +/+ "data.scd").interpret.value(song);
+	loadData {                                                           //modularize this! .loadClicks, .loadLights, etc
+		data = File.readAllString(path +/+ "data.scd").interpret.value(this);
 		^this
 	}
 
@@ -96,8 +105,13 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		server = server ? Server.default;
 		pbTracks = IdentityDictionary();
 		PathName(path +/+ "tracks").entries.do({ |entry|
-			var key = entry.fileNameWithoutExtension;
-			pbTracks.put(key.asSymbol,	Buffer.read(server,entry.fullPath) )    // make server a variable? Will it be used elsewhere?
+			var key = entry.folderName.asSymbol;
+			var folder = entry.entries.collect({ |track|
+				Buffer.read(server,track.fullPath)
+			});
+
+			pbTracks.put(key,folder)
+
 		});
 	}
 

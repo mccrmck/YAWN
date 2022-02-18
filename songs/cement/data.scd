@@ -2,16 +2,24 @@
 ({ |cementInstance|
 	var cueKeys = ['cementLoop'];
 	var pathToDMXMIDI = cementInstance.path +/+ "dmxMIDI/";
-	// var pathToKemperMIDI = cementInstance.path +/+ "kemperMIDI/";
-	// var introPB = cementInstance.pbTracks['introVoice'];   //this is probably going to be a different folder structure, no?
+	var pathToKemperMIDI = cementInstance.path +/+ "kemperMIDI/";
+	var introPB = cementInstance.pbTracks['leads'][0];
+	var introFX   = cementInstance.pbTracks['efx'][0];
+	var introPerc = cementInstance.pbTracks['perc'][0];
+	var introAdds = cementInstance.pbTracks['adds'][0];
 
 	[
 		(
 			name: 'cementCount',
-			// click: [[ ClickRest( (60/introPb.duration) - Click(160,8).duration), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
-			click: [[ Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
+			click: [[ ClickRest( (60/introPb.duration) - Click(160,8).duration), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
+			// click: [[ Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
 			lights:[ DMXIS.makePat('cementCount',pathToDMXMIDI ++ "count.mid") ],
-			// btracks:[ YAWNPlayback.makePat(introPB,0) ]
+			bTracks:[
+				Pseq([
+					ClickRest( (60/introPb.duration) - Click(160,8).duration),
+					Ppar([YAWNPlayback.makePat(introFX,0), YAWNPlayback.makePat(introPerc,0), YAWNPlayback.makePat(introAdds,0)])
+				])
+			]
 		),(
 			name: 'cementIntro',
 			click:[[
