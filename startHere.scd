@@ -21,6 +21,15 @@ DMXIS.vst.editor
 );
 
 
+b = ~yawn.songArray[0].cueFrom('cementRit','cementAsectionLast',true,false,false,true)
+b.play
+
+
+c = ~yawn.songArray[0].data[10]['bTracks']
+
+p = c[0]
+p.play
+
 // between fem and fire!
 // evaluate clickAmp below!!
 
@@ -60,12 +69,3 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 ~yawn.clickAmp.set(0.3);
 DMXIS.setPreset(0);
 DMXIS.free
-
-
-a = YAWNSong('cement')
-a.path
-a.loadData
-b = a.cueFrom('cementCount','cementIntro',true,false,false)
-
-
-

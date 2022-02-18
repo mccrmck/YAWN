@@ -1,25 +1,25 @@
 ///////////////////////////////////////////////// YAWN Data: cement /////////////////////////////////////////////////
-({ |cementInstance|
+({ |yawnShow, cementInstance|
 	var cueKeys = ['cementLoop'];
 	var pathToDMXMIDI = cementInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = cementInstance.path +/+ "kemperMIDI/";
-	var introPB = cementInstance.pbTracks['leads'][0];
-	var introFX   = cementInstance.pbTracks['efx'][0];
-	var introPerc = cementInstance.pbTracks['perc'][0];
-	var introAdds = cementInstance.pbTracks['adds'][0];
+
+	var mainOut = yawnShow.masterOut;
+	var trackOut = yawnShow.trackOut;
+	var leads = cementInstance.pbTracks['leads'];
+	var efx   = cementInstance.pbTracks['efx'];
+	var perc  = cementInstance.pbTracks['perc'];
+	var adds  = cementInstance.pbTracks['adds'];
+
+	var rit = ClickConCat(1,(1.0,1.08..2.12).collect({ |i| Click(200 / i) }));
 
 	[
 		(
 			name: 'cementCount',
-			click: [[ ClickRest( (60/introPb.duration) - Click(160,8).duration), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
+			click: [[ ClickRest( 60 / (leads[0].duration - Click(160,8).duration) ), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
 			// click: [[ Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
 			lights:[ DMXIS.makePat('cementCount',pathToDMXMIDI ++ "count.mid") ],
-			bTracks:[
-				Pseq([
-					ClickRest( (60/introPb.duration) - Click(160,8).duration),
-					Ppar([YAWNPlayback.makePat(introFX,0), YAWNPlayback.makePat(introPerc,0), YAWNPlayback.makePat(introAdds,0)])
-				])
-			]
+			bTracks:[ YAWNPlayback.makePat(leads[0],mainOut)]
 		),(
 			name: 'cementIntro',
 			click:[[
@@ -28,6 +28,7 @@
 				Click(160,7), Click(160,6), Click(160,5), Click(160,4,repeats: 2)
 			]],
 			lights:[ DMXIS.makePat('cementIntro',pathToDMXMIDI ++ "intro.mid") ],
+			bTracks:[ YAWNPlayback.makePat(efx[0],trackOut), YAWNPlayback.makePat(perc[0],trackOut), YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name: 'cementAsection',
 			click:[[
@@ -56,6 +57,7 @@
 			name:  'cementCue',
 			click: [[ ClickCue(170,4,repeats: 2), ClickCue(170,2,repeats: 2), ClickCue(170,1,repeats: 4), Click(170,4) ]],
 			lights:[ DMXIS.makePat('cementCue',pathToDMXMIDI ++ "cue.mid") ],
+			bTracks:[ YAWNPlayback.makePat(leads[1],trackOut),YAWNPlayback.makePat(efx[1],trackOut), YAWNPlayback.makePat(perc[1],trackOut), YAWNPlayback.makePat(adds[1],trackOut) ]
 		),(
 			name:  'cementBsectionAgain',
 			click: [[
@@ -76,11 +78,12 @@
 			lights:[ DMXIS.makePat('cementQuint',pathToDMXMIDI ++ "quint.mid") ],
 		),(
 			name: 'cementRit',
-			click: [[
-				(1.0,1.08..2.12).collect({ |i| Click(200 / i) }),
-				Click(170 * 2,3)
-			].flat],
+			click: [[ rit, Click(170 * 2,3) ]],
 			lights:[ DMXIS.makePat('cementRit',pathToDMXMIDI ++ "rit.mid") ],
+			bTracks:[
+				Pseq([ ClickRest( 60 / (rit.duration) ).pattern, YAWNPlayback.makePat(perc[2],trackOut) ]),
+				Pseq([ ClickRest( 60 / (rit.duration) ).pattern, YAWNPlayback.makePat(adds[2],trackOut) ])
+			]
 		),(
 			name: 'cementAsectionLast',
 			click:[[

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: chaos /////////////////////////////////////////////////
-({ |chaosInstance|
+({ |yawnShow, chaosInstance|
 	var cueKeys = ['chaosIntroLoop','chaosElevenLoop'];
 	var pathToDMXMIDI = chaosInstance.path +/+ "dmxMIDI/";
 

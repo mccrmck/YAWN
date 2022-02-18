@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: tokamak /////////////////////////////////////////////////
-({ |tokamakInstance|
+({ |yawnShow, tokamakInstance|
 	var cueKeys = ['tokamakLoop'];
 	var pathToDMXMIDI = tokamakInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = tokamakInstance.path +/+ "kemperMIDI/";

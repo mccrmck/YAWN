@@ -3,7 +3,7 @@ YAWNShow {
 	var <>setList, <inputs, <kemperMIDI, <outputs;
 	var <songArray, <clickAmp;
 	var <gitarIn, <bassDIn, <snareIn;
-	var <clickOut;
+	var <masterOut, <clickOut, <trackOut;
 
 	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
@@ -19,7 +19,9 @@ YAWNShow {
 			bassDIn = inputs['bassDIn'];
 			snareIn = inputs['snareIn'];
 
-			clickOut = outputs['clickOut'];
+			masterOut = outputs['masterOut'];
+			clickOut  = outputs['clickOut'];
+			trackOut  = outputs['trackOut'];
 
 			if(lights,{ DMXIS() });
 
@@ -38,7 +40,7 @@ YAWNShow {
 			songArray.do({ |song| song.loadPBtracks });
 			server.sync;
 
-			songArray.do({ |song| song.loadData });
+			songArray.do({ |song| song.loadData(this) });
 			server.sync;
 
 			songArray.do({ |song|                              // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
@@ -96,8 +98,8 @@ YAWNSong {
 		^this
 	}
 
-	loadData {                                                           //modularize this! .loadClicks, .loadLights, etc
-		data = File.readAllString(path +/+ "data.scd").interpret.value(this);
+	loadData { |yawnShow|                                                           //modularize this! .loadClicks, .loadLights, etc
+		data = File.readAllString(path +/+ "data.scd").interpret.value(yawnShow,this);
 		^this
 	}
 

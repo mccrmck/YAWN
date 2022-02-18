@@ -6,26 +6,6 @@
 	var introTrack = cementInstance.pbTracks['introVoice'];
 	var gitar = yawnShow.gitarIn;
 
-	// turn intro voice on & off
-
-	OSCdef(\cementIntroVoice,{ |msg, time,addr, recvPort|
-		var val = msg[1].asInteger;
-
-		case
-		{val == 0}{ Ndef(\cementIntro).clear }
-		{val == 1}{ Ndef(\cementIntro,\stereoShowPlayBack).set(\bufnum,introTrack).play };
-
-	},'/cement/introVoice/x');
-
-	// intro voice amp
-
-	OSCdef(\cementIntroVoiceAmp,{ |msg, time,addr, recvPort|
-		var val = msg[1];
-		val = \db.asSpec.map(val).dbamp;
-
-		Ndef(\cementIntro).set(\amp,val)
-
-	},'/cement/introVoiceAmp/x');
 
 	// turn morph on & off
 

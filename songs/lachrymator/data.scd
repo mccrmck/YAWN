@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: lachrymator /////////////////////////////////////////////////
-({ |lachrymatorInstance|
+({ |yawnShow,lachrymatorInstance|
 	var cueKeys = ['lachTap'];
 	var pathToDMXMIDI = lachrymatorInstance.path +/+ "dmxMIDI/";
 
