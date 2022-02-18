@@ -1,35 +1,23 @@
-
-
-// YAWNShow(
-// 	[\cement,\numberOne,\numberTwo,\numberFour], //setList
-// 	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
-// 	[\masterOut -> 0,\click -> 2], // HWoutputs
-// \lemur, // interface/UI
-// )
-
-
 YAWNShow {
 
-	var <>setList;
-	var <lights, <kempers, <songArray, <clickAmp;
+	var <>setList, <inputs, <kemperMIDI, <outputs;
+	var <songArray, <clickAmp;
 
-	*new { |setList, kemperMIDIDevice, clickOut, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
-		// if(clickOut.notNil,{ click = true, })
-		// must pass some arrays here: hardware ins/outs
+	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
-		^super.newCopyArgs(setList.asArray).init(kemperMIDIDevice, clickOut, ui);
+		^super.newCopyArgs(setList.asArray, inputs.asDict,kemperMIDIDevice,outputs.asDict).init(lights,ui);
 	}
 
-	init { |kemperMIDIDevice, clickOut, controller|
+	init { |lights,controller|
 		var server = Server.default;
 
 		server.waitForBoot({
 
-			lights = DMXIS();                                   // right??!?!?
+			if(lights,{ DMXIS() });  // right??!?!?
 
 			server.sync;
 
-			kempers = KemperMIDI(kemperMIDIDevice.asString);    // right???!?!?!
+			if(kemperMIDI.notNil,{ KemperMIDI(kemperMIDI.unbubble.asString) }); // right???!?!?!
 
 			server.sync;
 
@@ -39,14 +27,16 @@ YAWNShow {
 				YAWNSong(item.asSymbol);
 			});
 
-			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+			songArray.do({ |song| song.loadPBtracks });
+			songArray.do({ |song| song.loadData(song) });
 
-				// song.loadData;
-				// song.loadPBtracks;
+			server.sync;
+
+			songArray.do({ |song|                            // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
 
 				song.clicks.deepDo(3,{ |click|                   // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
-					click.out = clickOut;                             // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
+					// click.out = clickOut;                        // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
 				});
 
 			});
@@ -54,35 +44,18 @@ YAWNShow {
 			server.sync;
 
 			switch(controller,
-				{ \lemur },{ this.loadLemurInterface(setList) },
+				{ \lemur },{ this.loadLemurInterface(songArray) },
 				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
 				{ \scGUI },{ "scGUI not implemented yet".warn }
 			);
-
-			//load buffers, busses, etc.
-
 		});
-
-		/*
-		make a bunch of <>Dictionaries?
-
-		inHardware = Dictionary(); // adding an input adds a bus to the dictionary?
-		outHardware = Dictionary();
-
-		cues = Dictionary(); //maybe this isn't necessary if the Click class can store the cues in an instance??
-		busses = Dictionary(); // reverb/master added automatically
-		groups = Dictionary(); ??
-		OSCdefs = Dictionary() ???
-		*/
-
-
 	}
 
-	loadLemurInterface { |setList|
+	loadLemurInterface { |songArray|
 
-		setList.do({ |songName|
-			var path = YAWNSong.songPaths;
-			File.readAllString(path[songName]  ++ "OSCdefs.scd").interpret;
+		songArray.do({ |song|
+			var songPath = song.path;
+			File.readAllString(songPath +/+ "OSCdefs.scd").interpret.value(song);
 		})
 
 		// lemur.sendMsg('/main/setList/init',*songNames);
@@ -98,11 +71,11 @@ YAWNShow {
 
 YAWNSong { 	// each song needs to carry information about what it needs: allocated buffers? control/audio busses? Faders/knobs/gui stuff etc?
 
-	classvar <songPaths;
-	var <songName, sections, <data, <pbTracks;
+	classvar songFolderPath;
+	var <songName, <path, <pbTracks, <data;
 
 	*initClass {
-		songPaths = IdentityDictionary();
+		songFolderPath = Platform.userExtensionDir +/+ "YAWN/songs/";    // can this be more robust? check Daniel Mayer's PathName extension!
 	}
 
 	*new { |name|
@@ -110,40 +83,32 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 	}
 
 	init {
-		var key = songName.asSymbol;
-		var songPath = PathName( Platform.userExtensionDir +/+ "YAWN/songs/%/".format(key) );
-		songPaths.put(key,songPath.fullPath);
-		this.loadData;
-
-		pbTracks = IdentityDictionary();
+		path = songFolderPath +/+ songName;
 		^this
 	}
 
-	loadData {                                                                                   //modularize this! .loadClicks, .loadLights, etc
-		^data = File.readAllString(songPaths[songName]  ++ "data.scd").interpret;
+	loadData { |song|                                                                     //modularize this! .loadClicks, .loadLights, etc
+		data = File.readAllString(path +/+ "data.scd").interpret.value(song);
+		^this
 	}
 
-	loadPBtracks {
-		PathName(songPaths[songName] ++ "tracks").entries.do({ |entry|
+	loadPBtracks { |server|
+		server = server ? Server.default;
+		pbTracks = IdentityDictionary();
+		PathName(path +/+ "tracks").entries.do({ |entry|
 			var key = entry.fileNameWithoutExtension;
-			pbTracks.put(key.asSymbol,	Buffer.read(Server.default,entry.fullPath) ) // make server a variable? Will it be used elsewhere?
-
+			pbTracks.put(key.asSymbol,	Buffer.read(server,entry.fullPath) )    // make server a variable? Will it be used elsewhere?
 		});
-		^pbTracks
-	}
-
-	*catalogue {
-		this.songPaths.keysDo(_.postln);
 	}
 
 	sections {
-		var sectArray =	data.collect({ |section| section['name'] });
-		^sectArray
+		if(data.isNil,{ this.loadData });
+		^data.collect({ |section| section['name'] });
 	}
 
 	clicks {
-		var clickArray = data.collect({ |section| section['click'] });
-		^clickArray
+		if(data.isNil,{ this.loadData });
+		^data.collect({ |section| section['click'] });
 	}
 
 	cueFrom { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, bTracks = true, countIn = false|
@@ -154,7 +119,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 		if(countIn,{
 			var bpm = this.clicks[fromIndex].flat.first.bpm;
 
-			countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
+			countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);   // must add outputs for these clicks as well!!
 		},{
 			countInArray = Pbind(
 				\dur, Pseq([0],1),
@@ -162,7 +127,7 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			)
 		});
 
-		for(fromIndex,toIndex,{ |index|                                                     // this needs to figure out how to handle empty arrays!
+		for(fromIndex,toIndex,{ |index|
 			var sectionArray = [];
 
 			if( click,{
@@ -202,82 +167,8 @@ YAWNSong { 	// each song needs to carry information about what it needs: allocat
 			cuedArray = cuedArray.add( Ppar( sectionArray ) );
 		});
 
-		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
+		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, bTracks, countIn).asSymbol,
 			Pseq( [countInArray] ++ cuedArray )
 		);
 	}
-
-	/*
-	cueFromOld { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, countIn = false| // eventually add bTracks = true, osv.
-	var fromIndex = this.sections.indexOf(from);
-	var toIndex = this.sections.indexOf(to);
-	var countInArray, cuedArray = [];
-
-	if(countIn,{
-	var bpm = this.clicks[fromIndex].flat.first.bpm;
-
-	countInArray = Pseq([ Click(bpm,2,repeats: 2).pattern, Click(bpm,1,repeats: 4).pattern ]);  // must add outputs for these clicks as well!!
-	},{
-	countInArray = Pbind(
-	\dur,Pseq([0],1),
-	\note, Rest(0.1)
-	)
-	});
-
-	if(click,{
-	var clickArray = [];
-
-	for(fromIndex,toIndex,{ |index|
-
-	clickArray = clickArray ++ data[index]['click'];
-	});
-
-	clickArray = clickArray.deepCollect(3,{ |clk| clk.pattern.key });
-	clickArray = Psym( Pseq(clickArray) );
-
-	cuedArray = cuedArray.add(clickArray);
-	});
-
-	if(lights,{
-	var lightArray = [];
-
-	for(fromIndex,toIndex,{ |index|
-
-	lightArray = lightArray.add( data[index]['lights'] );
-	});
-
-	lightArray = lightArray.collect(_.unbubble);
-	lightArray = Pseq(lightArray);
-
-	cuedArray = cuedArray.add(lightArray);
-	});
-
-	if(kemper,{
-	var kempArray = [];
-
-	for(fromIndex,toIndex,{ |index|
-
-	kempArray = kempArray.add( data[index]['kemper'] );
-	});
-
-	kempArray = kempArray.collect(_.unbubble);
-	kempArray = Pseq(kempArray);
-
-	cuedArray = cuedArray.add(kempArray);
-	});
-
-	^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, countIn).asSymbol,
-	Pseq([
-	countInArray,
-	Ppar(cuedArray)
-	])
-	);
-	}
-	*/
 }
-
-
-
-
-
-

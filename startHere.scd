@@ -7,9 +7,11 @@ DMXIS.vst.editor
 // start here!
 ~yawn.free
 ~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"Pro40",0);  //change clickOut to 2...this is for testing w/ Sapphire
-~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"IAC Driver",0);  //change clickOut to 2
+~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"OCTA-CAPTURE",2);  //change clickOut to 2
 
-~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"IAC Driver",0);  //change clickOut to 2
+~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"IAC Driver",2);  //change clickOut to 2
+
+
 
 // between fem and fire!
 // evaluate clickAmp below!!
@@ -51,13 +53,24 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 DMXIS.setPreset(0);
 DMXIS.free
 
+YAWNSong(\cement).loadData
+clicks.deepDo(3,{ |click| click.postln})
 
 
-YAWNShow(,
-	[\cement,\numberOne,\numberTwo,\numberFour], //setList
-	['kemperMIDIdevice'],
-	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // HWinputs
-	[\masterOut -> 0,\click -> 2, \tracks -> 3], // HWoutputs
+a = Click()
+a.out_(2)
+a.play
+
+(
+YAWNShow(
+	[\cement,\chaos,\lachrymator,\tokamak], //setList
+	[\torfinnGitar -> [0,1],\bassTrigger -> 2, \snare -> 3], // inputs
+	true, // lights
+	["IAC Driver"], // kemper
+	[\masterOut -> 0,\clickOut -> 2, \trackOut -> 3], // outputs
 	\lemur, // interface/UI
 )
+)
+
+
 
