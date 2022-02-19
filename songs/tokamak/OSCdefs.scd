@@ -4,7 +4,7 @@
 
 	var clickSlots = Array.fill(2,{0});
 	var startClick = tokamakInstance.cueFrom('tokamakCount','tokamakOutro',true,true,false); // must test!
-	var tracks = tokamakInstance.pbTracks;
+	var bowTrack = tokamakInstance.pbTracks['leads'][0];
 	var gitar = yawnShow.gitarIn;
 
 	// bitCrusher on & off
@@ -69,7 +69,7 @@
 			Routine({
 				"bowing in 10 seconds".postln;
 				5.wait;
-				Ndef(\tokamakBow,\stereoShowPlayBack).set(\bufnum,tracks[0]).play
+				Ndef(\tokamakBow,\stereoShowPlayBack).set(\bufnum,bowTrack).play
 			}).play
 		};
 

@@ -3,7 +3,7 @@
 ({ |yawnShow, cementInstance|
 	var clickSlots = Array.fill(2,{0});
 	var startClick = cementInstance.cueFrom('cementCount','cementAsectionLast',true,true,false);
-	var introTrack = cementInstance.pbTracks['introVoice'];
+	var introTrack = cementInstance.pbTracks['leads'][0];
 	var gitar = yawnShow.gitarIn;
 
 

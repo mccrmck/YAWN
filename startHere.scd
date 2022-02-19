@@ -14,7 +14,7 @@ DMXIS.vst.editor
 	[\cement,\chaos,\lachrymator,\tokamak],               // setList
 	['gitarIn' -> [0,1], 'bassDIn' -> 2, 'snareIn' -> 3], // inputs
 	false,                                                // lights
-	["IAC Driver"],                                       // kemper
+	["OCTA-CAPTURE"], //["IAC Driver"],                    // kemper
 	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3], // outputs
 	\lemur,                                               // UI
 )
@@ -24,14 +24,12 @@ DMXIS.vst.editor
 b = ~yawn.songArray[0].cueFrom('cementRit','cementAsectionLast',true,false,false,true)
 b.play
 
-
-c = ~yawn.songArray[0].data[10]['bTracks']
+~yawn.songArray[1].pbTracks['impro'].size
 
 p = c[0]
 p.play
 
-// between fem and fire!
-// evaluate clickAmp below!!
+P// evaluate clickAmp below!!
 
 (
 OSCdef(\test,{ |msg, time, addr, recvPort|
@@ -69,3 +67,5 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 ~yawn.clickAmp.set(0.3);
 DMXIS.setPreset(0);
 DMXIS.free
+
+SynthDescLib.global.browse

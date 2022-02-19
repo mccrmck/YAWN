@@ -80,10 +80,6 @@
 			name: 'cementRit',
 			click: [[ rit, Click(170 * 2,3) ]],
 			lights:[ DMXIS.makePat('cementRit',pathToDMXMIDI ++ "rit.mid") ],
-			bTracks:[
-				Pseq([ ClickRest( 60 / (rit.duration) ).pattern, YAWNPlayback.makePat(perc[2],trackOut) ]),
-				Pseq([ ClickRest( 60 / (rit.duration) ).pattern, YAWNPlayback.makePat(adds[2],trackOut) ])
-			]
 		),(
 			name: 'cementAsectionLast',
 			click:[[
@@ -93,6 +89,7 @@
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
 			]],
 			lights:[ DMXIS.makePat('cementAsectionLast',pathToDMXMIDI ++ "AsectionLast.mid") ],
+			bTracks:[ YAWNPlayback.makePat(perc[2],trackOut), YAWNPlayback.makePat(adds[2],trackOut) ]
 		),
 	]
 })

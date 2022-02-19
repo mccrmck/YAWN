@@ -6,7 +6,8 @@
 	var startClick = chaosInstance.cueFrom('chaosGitIntro','chaosElevenLast',true,true,false);
 	var bombs      = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,true,false);
 	var endClick   = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,true,false);
-	var introBufs = chaosInstance.pbTracks;
+
+	var introBufs  = chaosInstance.pbTracks['impro'];
 	var gitar = yawnShow.gitarIn;
 	var drums = yawnShow.snareIn;
 

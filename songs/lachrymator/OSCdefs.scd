@@ -7,7 +7,9 @@
 	var startClick = lachrymatorInstance.cueFrom('lachCountPart1','lachAsection',true,true,false);
 	var jazzClick = lachrymatorInstance.cueFrom('lachTapping','lachJazzBsectionAgain',true,true,false);
 	var endClick = lachrymatorInstance.cueFrom('lachCountPart3','lachOutro',true,true,false);
-	var tracks = lachrymatorInstance.pbTracks;
+
+	var pianoSamps = lachrymatorInstance.pbTracks['impro'];
+
 	var improFunc = { | bufnum, rate, pan, amp|
 		var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * rate,doneAction: 2);
 		sig = Balance2.ar(sig[0],sig[1],0,amp).tanh;
@@ -81,7 +83,7 @@
 					3,{
 						"impro ON".postln;
 						Ndef(\lachrymatorImpro).filter(10,{
-							var bufnum = tracks.choose;
+							var bufnum = pianoSamps.choose;
 							var rate = 0.8.exprand(4) * 1.xrand2.sign;
 							var pan = 0.6.rand2;
 							var amp = \improAmp.kr(0.5);

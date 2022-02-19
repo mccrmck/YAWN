@@ -3,15 +3,20 @@
 	var cueKeys = ['chaosIntroLoop','chaosElevenLoop'];
 	var pathToDMXMIDI = chaosInstance.path +/+ "dmxMIDI/";
 
+	var trackOut = yawnShow.trackOut;
+	var leads = chaosInstance.pbTracks['leads'];
+	var efx   = chaosInstance.pbTracks['efx'];
+	var perc  = chaosInstance.pbTracks['perc'];
+	var adds  = chaosInstance.pbTracks['adds'];
+
 	[
 		(
 			name:  'chaosGitIntro',
 			click: [[ ClickLoop(160,4,repeats: 4,loopKey: cueKeys[0]) ]],
 			lights:[ DMXIS.makePat('chaosGitIntro',pathToDMXMIDI ++ "gitIntro.mid",cueKeys[0]) ],
 			kemper: [],
-			bTracks: []
-		),
-		(
+			bTracks: [ YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut)]
+		),(
 			name:  'chaosDrumCue',
 			click: [[ Click(160,4,repeats: 2), ClickCue(160,2,repeats: 2), ClickCue(160,1,repeats: 4) ]],
 			lights:[ DMXIS.makePat('chaosDrumCue',pathToDMXMIDI ++ "drumCue.mid") ],
