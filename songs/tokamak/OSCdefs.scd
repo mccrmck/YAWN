@@ -3,7 +3,7 @@
 ({ |yawnShow, tokamakInstance|
 
 	var clickSlots = Array.fill(2,{0});
-	var startClick = tokamakInstance.cueFrom('tokamakCount','tokamakOutro',true,true,false); // must test!
+	var startClick = tokamakInstance.cueFrom('tokamakCount','tokamakOutro',true,false,false,false); // must test!
 	var bowTrack = tokamakInstance.pbTracks['leads'][0];
 	var gitar = yawnShow.gitarIn;
 

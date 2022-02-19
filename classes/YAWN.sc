@@ -7,7 +7,7 @@ YAWNShow {
 
 	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
-		^super.newCopyArgs(setList.asArray, inputs.asDict, kemperMIDIDevice, outputs.asDict).init(lights,ui);
+		^super.newCopyArgs(setList.asArray, inputs.asDict, kemperMIDIDevice.asArray, outputs.asDict).init(lights,ui);
 	}
 
 	init { |lights, controller|
@@ -27,7 +27,7 @@ YAWNShow {
 
 			server.sync;
 
-			if(kemperMIDI.notNil,{ KemperMIDI(kemperMIDI.unbubble.asString) }); // right???!?!?!
+			if(kemperMIDI.notNil,{ KemperMIDI(kemperMIDI[0],kemperMIDI[1]) }); // right???!?!?!
 
 			server.sync;
 

@@ -4,9 +4,9 @@
 
 	var switchSlots = Array.fill(4,{0});
 	var clickSlots = Array.fill(5,{0});
-	var startClick = lachrymatorInstance.cueFrom('lachCountPart1','lachAsection',true,true,false);
-	var jazzClick = lachrymatorInstance.cueFrom('lachTapping','lachJazzBsectionAgain',true,true,false);
-	var endClick = lachrymatorInstance.cueFrom('lachCountPart3','lachOutro',true,true,false);
+	var startClick = lachrymatorInstance.cueFrom('lachCountPart1','lachAsection',true,false,false,false);
+	var jazzClick = lachrymatorInstance.cueFrom('lachTapping','lachJazzBsectionAgain',true,false,false,false);
+	var endClick = lachrymatorInstance.cueFrom('lachCountPart3','lachOutro',true,false,false,false);
 
 	var pianoSamps = lachrymatorInstance.pbTracks['impro'];
 
