@@ -12,47 +12,29 @@ DMXIS.vst.editor
 (
 ~yawn = YAWNShow(
 	[\cement,\chaos,\lachrymator,\tokamak],               // setList
-	['gitarIn' -> [0,1], 'bassDIn' -> 2, 'snareIn' -> 3, /*'ohIn' -> [2,3]*/], // inputs
-	false,                                                // lights
-	// ["OCTA-CAPTURE", "MIDI" ],                         // kemper
-	["IAC Driver", "Bus 1"],                           // kemper
+	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ], // inputs
+	false,                                                 // lights
+	["EXP OCTA-CAPTURE", "MIDI" ],                         // kemper
+	// ["IAC Driver", "Bus 1"],                           // kemper
 	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3], // outputs
 	\lemur,                                               // UI
 )
 );
 
 
-b = ~yawn.songArray[0].cueFrom('cementBsection','cementBsection',true,false,true,true)
+b = ~yawn.songArray[2].clicks[0][0][0].play
 b.play
 b.stop
 
+KemperMIDI.cues['tokamakCue']['times']
 
-~yawn.songArray[1].pbTracks['impro'].size
+a = ClickLoop(120,out: 2)
+a.stop
 
-m = MIDIOut.newByName("OCTA-CAPTURE","MIDI")
+a = ~yawn.songArray[0].pbTracks['leads'][0]
 
-x = SimpleMIDIFile.read("/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/YAWN/songs/cement/kemperMIDI/Bsection.mid")
-.timeMode_(\seconds)
-.midiEvents;
-x.do(_.postln)
+a.play
 
-
-KemperMIDI.cues['cementBsection']['times'][..4]
-
-
-p = Pbind(
-	\instrument,\default,
-	\dur,Pseq([0.5,0.25,0.5],inf),
-	\degree, Pseq([1,2,3,4])
-)
-
-p.play
-
-
-midiOut = MIDIOut.newByName(device,port);
-
-p = c[0]
-p.play
 
 // evaluate clickAmp below!!
 
@@ -64,10 +46,13 @@ OSCdef(\test,{ |msg, time, addr, recvPort|
 },'/main/masterAmp/z');
 )
 
+
+KemperMIDI.midiOut
+
 NetAddr.localAddr
 OSCdef(\test).free
 
-s.sendMsg("/n_free",1067)
+s.sendMsg("/n_free",1188)
 s.sendMsg("/n_set",1003,\amp,1)
 
 (

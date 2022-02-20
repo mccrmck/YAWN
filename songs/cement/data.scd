@@ -11,7 +11,6 @@
 	var perc  = cementInstance.pbTracks['perc'];
 	var adds  = cementInstance.pbTracks['adds'];
 
-	// Pseq([ ClickRest( 60 / (leads[0].duration - Click(160,8).duration) ).pattern
 	[
 		(
 			name: 'cementCount',

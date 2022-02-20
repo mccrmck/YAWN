@@ -2,6 +2,7 @@
 ({ |yawnShow,lachrymatorInstance|
 	var cueKeys = ['lachTap'];
 	var pathToDMXMIDI = lachrymatorInstance.path +/+ "dmxMIDI/";
+	var pathToKemperMIDI = lachrymatorInstance.path +/+ "kemperMIDI/";
 
 	var trackOut = yawnShow.trackOut;
 	var leads = lachrymatorInstance.pbTracks['leads'];
@@ -15,6 +16,7 @@
 			click: [[ Click(240,2,repeats: 2), Click(240,1,repeats: 4) ]],
 			lights:[ DMXIS.makePat('lachCountPart1',pathToDMXMIDI ++ "countPart1.mid") ],
 			kemper:[ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
+			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name:  'lachAsection',
 			click: [[
@@ -29,7 +31,6 @@
 			]],
 			lights:[ DMXIS.makePat('lachAsection',pathToDMXMIDI ++ "Asection.mid") ],
 			kemper:[ KemperMIDI.makePat('lachAsection',pathToKemperMIDI +/+ "Asection.mid") ],
-			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name: 'lachTapping',
 			click: [[ ClickLoop(120,4,loopKey: cueKeys[0]) ]],
@@ -101,7 +102,7 @@
 				ClickConCat(5, Click(340,5), Click(340,4)), ClickCue(340,5), ClickCue(340,1,repeats: 4),
 				ClickConCat(5, Click(340,5), Click(340,4)), ClickCue(340,5), ClickCue(340,1,repeats: 4),
 				ClickConCat(5, Click(340,5), Click(340,4)), ClickCue(340,1,repeats: 5), Click(340,4),
-				ClickConCat(4, Click(340,5), Click(340,4)),	Click(170,4,repeats: 2)
+				ClickConCat(3, Click(340,5), Click(340,4)),	Click(170,4,repeats: 2)
 			]],
 			lights:[ DMXIS.makePat('lachAsectionNine',pathToDMXMIDI ++ "AsectionNine.mid") ],
 			kemper:[ KemperMIDI.makePat('lachAsectionNine',pathToKemperMIDI +/+ "AsectionNine.mid") ],

@@ -3,9 +3,9 @@
 ({ |yawnShow, tokamakInstance|
 
 	var clickSlots = Array.fill(2,{0});
-	var startClick = tokamakInstance.cueFrom('tokamakCount','tokamakOutro',true,false,false,false); // must test!
+	var startClick = tokamakInstance.cueFrom('tokamakPB','tokamakOutro',true,false,true,true); // must test!
 	var bowTrack = tokamakInstance.pbTracks['leads'][0];
-	var gitar = yawnShow.gitarIn;
+	var gitar = yawnShow.inputs['gitarIn'];
 
 	// bitCrusher on & off
 
@@ -19,7 +19,7 @@
 		{val == 1}{
 			Ndef(\tokamakBitCrush,{
 				var sig = SoundIn.ar(gitar);
-				sig = Decimator.ar(sig,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
+				sig = Decimator.ar(sig.sum,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
 				sig = Pan2.ar(Limiter.ar(sig),\pan.kr(0),\amp.kr(0.8));
 			}).play
 		};

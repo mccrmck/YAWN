@@ -15,13 +15,9 @@ YAWNShow {
 
 		server.waitForBoot({
 
-			gitarIn = inputs['gitarIn'];
-			bassDIn = inputs['bassDIn'];
-			snareIn = inputs['snareIn'];
-
 			masterOut = outputs['masterOut'];
-			clickOut  = outputs['clickOut'];
-			trackOut  = outputs['trackOut'];
+			clickOut = outputs['clickOut'];
+			trackOut = outputs['trackOut'];
 
 			if(lights,{ DMXIS() });
 

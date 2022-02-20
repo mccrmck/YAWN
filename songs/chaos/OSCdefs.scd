@@ -3,13 +3,13 @@
 ({ |yawnShow, chaosInstance|
 	var switchSlots = Array.fill(6,{0});
 	var clickSlots = Array.fill(6,{0});
-	var startClick = chaosInstance.cueFrom('chaosGitIntro','chaosElevenLast',true,false,true,true);
+	var startClick = chaosInstance.cueFrom('chaosIntro','chaosElevenLast',true,false,true,true);
 	var bombs      = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,false,true,true);
 	var endClick   = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,false,true,true);
 
 	var introBufs  = chaosInstance.pbTracks['impro'];
-	var gitar = yawnShow.gitarIn;
-	var drums = yawnShow.snareIn;
+	var gitar = yawnShow.inputs['gitarIn'];
+	var drums = yawnShow.inputs['ohIn'];
 
 	var filterFuncs = [
 		{ |sig| sig },
@@ -97,7 +97,7 @@
 							var sig = SoundIn.ar(gitar);
 							var gate = Env.sine(0.2).kr();
 							var rand = Rand(0.008,0.2);
-							sig = CombC.ar(sig * gate,0.3,rand,inf);
+							sig = CombC.ar(sig.sum * gate,0.3,rand,inf);
 							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
 						}).play
 					},
@@ -106,7 +106,7 @@
 						Ndef(\chaosDrumFreeze,{
 							var frames = 2048;
 							var sig = SoundIn.ar(drums);
-							sig = FFT(LocalBuf(frames),sig);
+							sig = FFT(LocalBuf(frames),sig.sum);
 							sig = PV_Freeze(sig,1);
 							sig = IFFT(sig);
 							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
@@ -118,7 +118,7 @@
 							var sig = SoundIn.ar(drums);
 							var gate = Env.sine(0.2).kr();
 							var rand = Rand(0.008,0.2);
-							sig = CombC.ar(sig * gate,0.3,rand,inf);
+							sig = CombC.ar(sig.sum * gate,0.3,rand,inf);
 							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
 						}).play
 					},
@@ -247,13 +247,12 @@
 					1,{
 						"chaosIntroLoop: true".postln;
 						Click.loopCues['chaosIntroLoop'] = true;
-						DMXIS.cues['chaosIntro']['chaosIntroLoop'] = true;
-						KemperMIDI.cues['chaosIntro']['chaosIntroLoop'] = true;
+						// DMXIS.cues['chaosIntro']['chaosIntroLoop'] = true;
 					},
 					2,{
 						"chaosElevenLoop: true".postln;
 						Click.loopCues['chaosElevenLoop'] = true;
-						DMXIS.cues['chaosEleven']['chaosElevenLoop'] = true;
+						// DMXIS.cues['chaosEleven']['chaosElevenLoop'] = true;
 					},
 					3,{
 						bombs.stop;
@@ -274,13 +273,12 @@
 					1,{
 						"chaosIntroLoop: false".postln;
 						Click.loopCues['chaosIntroLoop'] = false;
-						DMXIS.cues['chaosIntro']['chaosIntroLoop'] = false;
-						// KemperMIDI.cues['chaosIntro']['chaosIntroLoop'] = false;
+						// DMXIS.cues['chaosIntro']['chaosIntroLoop'] = false;
 					},
 					2,{
 						"chaosElevenLoop: false".postln;
 						Click.loopCues['chaosElevenLoop'] = false;
-						DMXIS.cues['chaosEleven']['chaosElevenLoop'] = false;
+						// DMXIS.cues['chaosEleven']['chaosElevenLoop'] = false;
 					},
 					3,{
 						bombs.play;
