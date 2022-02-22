@@ -4,7 +4,7 @@
 	var pathToDMXMIDI = tokamakInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = tokamakInstance.path +/+ "kemperMIDI/";
 
-	var trackOut = yawnShow.trackOut;
+	var trackOut = yawnShow.outputs['trackOut'];
 	var leads = tokamakInstance.pbTracks['leads'];
 	var efx   = tokamakInstance.pbTracks['efx'];
 	var perc  = tokamakInstance.pbTracks['perc'];
@@ -14,7 +14,7 @@
 		(
 			name:  'tokamakPB',
 			click: [[ ClickRest(142,4,47) ]],
-			bTracks: [ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
+			bTracks: [ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut) ]
 		),(
 			name:  'tokamakCount',
 			click: [[ Click(142,2,repeats: 2), Click(142,1,repeats: 4) ]],

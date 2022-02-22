@@ -9,20 +9,24 @@ DMXIS.vst.editor
 ~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"Pro40",0);  //change clickOut to 2...this is for testing w/ Sapphire
 ~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"OCTA-CAPTURE",2);  //change clickOut to 2
 
+
+s.options.device = "Saffire"
+
 (
 ~yawn = YAWNShow(
 	[\cement,\chaos,\lachrymator,\tokamak],               // setList
 	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ], // inputs
 	false,                                                 // lights
-	["EXP OCTA-CAPTURE", "MIDI" ],                         // kemper
-	// ["IAC Driver", "Bus 1"],                           // kemper
-	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3], // outputs
+	// ["EXP OCTA-CAPTURE", "MIDI" ],                      // kemper -> concert
+	["IAC Driver", "Bus 1"],                           // kemper -> laptop
+	// ["Pro40", "MIDI"],                                    // kemper -> faxe
+	['masterOut' -> 0, 'clickOut' -> 0, 'trackOut' -> 0], // outputs
 	\lemur,                                               // UI
 )
 );
 
 
-b = ~yawn.songArray[2].clicks[0][0][0].play
+b = ~yawn.songArray[3].cueFrom('tokamakGuitar','tokamakFunk',true,false,true,true)
 b.play
 b.stop
 
@@ -35,6 +39,8 @@ a = ~yawn.songArray[0].pbTracks['leads'][0]
 
 a.play
 
+
+MIDIClient.init
 
 // evaluate clickAmp below!!
 
@@ -52,7 +58,7 @@ KemperMIDI.midiOut
 NetAddr.localAddr
 OSCdef(\test).free
 
-s.sendMsg("/n_free",1188)
+s.sendMsg("/n_free",3619)
 s.sendMsg("/n_set",1003,\amp,1)
 
 (

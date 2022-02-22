@@ -4,7 +4,7 @@
 	var pathToDMXMIDI = lachrymatorInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = lachrymatorInstance.path +/+ "kemperMIDI/";
 
-	var trackOut = yawnShow.trackOut;
+	var trackOut = yawnShow.outputs['trackOut'];
 	var leads = lachrymatorInstance.pbTracks['leads'];
 	var efx   = lachrymatorInstance.pbTracks['efx'];
 	var perc  = lachrymatorInstance.pbTracks['perc'];
@@ -16,7 +16,7 @@
 			click: [[ Click(240,2,repeats: 2), Click(240,1,repeats: 4) ]],
 			lights:[ DMXIS.makePat('lachCountPart1',pathToDMXMIDI ++ "countPart1.mid") ],
 			kemper:[ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
-			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(perc[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
+			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name:  'lachAsection',
 			click: [[
@@ -40,7 +40,7 @@
 			name: 'lachCountPart2',
 			click: [[ Click(120,4,repeats: 4), ClickCue(120,4,repeats: 2), ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4) ]],
 			lights:[ DMXIS.makePat('lachCountPart2',pathToDMXMIDI ++ "countPart2.mid") ],
-			bTracks: [ YAWNPlayback.makePat(leads[1],trackOut),YAWNPlayback.makePat(efx[1],trackOut),YAWNPlayback.makePat(perc[1],trackOut),YAWNPlayback.makePat(adds[1],trackOut) ]
+			bTracks: [ YAWNPlayback.makePat(leads[1],trackOut),YAWNPlayback.makePat(efx[1],trackOut),YAWNPlayback.makePat(perc[0],trackOut) ]
 		),(
 			name: 'lachJazzIntro',
 			click: [[
@@ -89,7 +89,7 @@
 			click: [[ ClickRest(60 / ( ClickConCat(4, Click(340,5), Click(340,4)).duration )), ClickConCat(2, Click(340,5), Click(340,4)) ]],
 			lights:[ DMXIS.makePat('lachCountPart3',pathToDMXMIDI ++ "countPart3.mid") ],
 			kemper:[ KemperMIDI.makePat('lachCountPart3',pathToKemperMIDI +/+ "countPart3.mid") ],
-			bTracks: [ YAWNPlayback.makePat(leads[2],trackOut),YAWNPlayback.makePat(efx[2],trackOut),YAWNPlayback.makePat(perc[2],trackOut),YAWNPlayback.makePat(adds[2],trackOut) ]
+			bTracks: [ YAWNPlayback.makePat(leads[2],trackOut),YAWNPlayback.makePat(efx[2],trackOut),YAWNPlayback.makePat(perc[1],trackOut),YAWNPlayback.makePat(adds[1],trackOut) ]
 		),(
 			name: 'lachAsectionNine',
 			click: [[

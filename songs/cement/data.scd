@@ -4,8 +4,9 @@
 	var pathToDMXMIDI = cementInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = cementInstance.path +/+ "kemperMIDI/";
 
-	var mainOut = yawnShow.masterOut;
-	var trackOut = yawnShow.trackOut;
+	var mainOut = yawnShow.outputs['masterOut'];
+	var trackOut = yawnShow.outputs['trackOut'];
+	var welcome = cementInstance.pbTracks['welcome'];
 	var leads = cementInstance.pbTracks['leads'];
 	var efx   = cementInstance.pbTracks['efx'];
 	var perc  = cementInstance.pbTracks['perc'];
@@ -18,7 +19,7 @@
 			// click: [[ Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
 			lights:[ DMXIS.makePat('cementCount',pathToDMXMIDI +/+ "count.mid") ],
 			kemper: [ KemperMIDI.makePat('cementCount',pathToKemperMIDI +/+ "count.mid") ],
-			bTracks:[ YAWNPlayback.makePat(leads[0],mainOut)]
+			bTracks:[ YAWNPlayback.makePat(welcome[0],mainOut)]
 		),(
 			name: 'cementIntro',
 			click:[[
@@ -61,7 +62,7 @@
 			click: [[ ClickCue(170,4,repeats: 2), ClickCue(170,2,repeats: 2), ClickCue(170,1,repeats: 4), Click(170,4) ]],
 			lights:[ DMXIS.makePat('cementCue',pathToDMXMIDI +/+ "cue.mid") ],
 			kemper: [ KemperMIDI.makePat('cementCue',pathToKemperMIDI +/+ "cue.mid") ],
-			bTracks:[ YAWNPlayback.makePat(leads[1],trackOut),YAWNPlayback.makePat(efx[1],trackOut), YAWNPlayback.makePat(perc[1],trackOut), YAWNPlayback.makePat(adds[1],trackOut) ]
+			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[1],trackOut), YAWNPlayback.makePat(perc[1],trackOut), YAWNPlayback.makePat(adds[1],trackOut) ]
 		),(
 			name:  'cementBsectionAgain',
 			click: [[

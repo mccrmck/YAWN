@@ -15,11 +15,7 @@ YAWNShow {
 
 		server.waitForBoot({
 
-			masterOut = outputs['masterOut'];
-			clickOut = outputs['clickOut'];
-			trackOut = outputs['trackOut'];
-
-			if(lights,{ DMXIS() });
+			if(lights,{ DMXIS() });    // needs to be set to preset !
 
 			server.sync;
 
@@ -33,19 +29,18 @@ YAWNShow {
 				YAWNSong(item.asSymbol);
 			});
 
-			songArray.do({ |song| song.loadPBtracks });
+			songArray.do({ |song| song.loadPBtracks(server) });
 			server.sync;
 
 			songArray.do({ |song| song.loadData(this) });
 			server.sync;
 
-			songArray.do({ |song|                              // a bunch of stuff will probably happen here evenutally, no? changing DMX channels, for example?
+			songArray.do({ |song|
 
 				song.clicks.deepDo(3,{ |click|                 // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
-					click.out = clickOut;                      // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
+					click.out = outputs['clickOut'];                      // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
 				});
-
 			});
 
 			server.sync;
@@ -100,7 +95,6 @@ YAWNSong {
 	}
 
 	loadPBtracks { |server|
-		server = server ? Server.default;
 		pbTracks = IdentityDictionary();
 		PathName(path +/+ "tracks").entries.do({ |entry|
 			var key = entry.folderName.asSymbol;

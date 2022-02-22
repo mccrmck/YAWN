@@ -4,7 +4,7 @@
 	var pathToDMXMIDI = chaosInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = chaosInstance.path +/+ "kemperMIDI/";
 
-	var trackOut = yawnShow.trackOut;
+	var trackOut = yawnShow.outputs['trackOut'];
 	var leads = chaosInstance.pbTracks['leads'];
 	var efx   = chaosInstance.pbTracks['efx'];
 	var perc  = chaosInstance.pbTracks['perc'];
