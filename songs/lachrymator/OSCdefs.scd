@@ -150,7 +150,7 @@
 					2,{
 						"fusion: true".postln;
 						Click.loopCues['lachTap'] = true;
-						DMXIS.cues['lachTapping']['lachTap'] = true;
+						DMXIS.loopCues['lachTap'] = true;
 					},
 					3,{
 						endClick.stop;
@@ -175,7 +175,7 @@
 					2,{
 						"fusion: false".postln;
 						Click.loopCues['lachTap'] = false;
-						DMXIS.cues['lachTapping']['lachTap'] = false;
+						DMXIS.loopCues['lachTap'] = false;
 					},
 					3,{
 						endClick.play;

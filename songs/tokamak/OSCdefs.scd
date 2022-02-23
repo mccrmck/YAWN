@@ -108,7 +108,7 @@
 					1,{
 						"loop: true".postln;
 						Click.loopCues['tokamakLoop'] = true;
-						DMXIS.cues['tokamakImproLoop']['tokamakLoop'] = true;
+						DMXIS.loopCues['tokamakLoop'] = true;
 					}
 				);
 			},
@@ -121,7 +121,7 @@
 					1,{
 						"loop: false".postln;
 						Click.loopCues['tokamakLoop'] = false;
-						DMXIS.cues['tokamakImproLoop']['tokamakLoop'] = false;
+						DMXIS.loopCues['tokamakLoop'] = false;
 					}
 				);
 			}

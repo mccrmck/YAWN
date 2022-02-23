@@ -18,7 +18,7 @@
 		),(
 			name:  'tokamakCount',
 			click: [[ Click(142,2,repeats: 2), Click(142,1,repeats: 4) ]],
-			lights:[ DMXIS.makePat('tokamakCount',pathToDMXMIDI +/+ "count.mid") ],
+			// lights:[ DMXIS.makePat('tokamakCount',pathToDMXMIDI +/+ "count.mid") ],
 			kemper:[ KemperMIDI.makePat('tokamakCount',pathToKemperMIDI +/+ "count.mid") ],
 		),(
 			name:  'tokamakIntro',
@@ -43,23 +43,23 @@
 		),(
 			name:  'tokamakImproIntro',
 			click: [[ Click(142,4,repeats: 16) ]],
-			lights:[ DMXIS.makePat('tokamakImproIntro',pathToDMXMIDI +/+ "impro.mid")],    //this needs to change!!!
+			// lights:[ DMXIS.makePat('tokamakImproIntro',pathToDMXMIDI +/+ "impro.mid")],
 			kemper:[ KemperMIDI.makePat('tokamakImproIntro',pathToKemperMIDI +/+ "improIntro.mid") ]
 		),(
 			name:  'tokamakImpro',
 			click: [[ ClickLoop(142,loopKey: cueKeys[0]) ]],
-			lights:[ DMXIS.makePat('tokamakImproLoop',pathToDMXMIDI +/+ "impro.mid",cueKeys[0])],
+			// lights:[ DMXIS.makePat('tokamakImproLoop',pathToDMXMIDI +/+ "impro.mid",cueKeys[0])],
 			kemper:[ KemperMIDI.makePat('tokamakImproLoop',pathToKemperMIDI +/+ "impro.mid") ]
 		),(
 			name:  'tokamakCue',
 			click: [[ ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4), Click(142,4,repeats: 5) ]],
-			lights:[ DMXIS.makePat('tokamakCue',pathToDMXMIDI +/+ "cue.mid")],
+			// lights:[ DMXIS.makePat('tokamakCue',pathToDMXMIDI +/+ "cue.mid")],
 			kemper:[ KemperMIDI.makePat('tokamakCue',pathToKemperMIDI +/+ "cue.mid") ],
 			bTracks: [ YAWNPlayback.makePat(adds[1],trackOut),YAWNPlayback.makePat(perc[1],trackOut) ]
 		),(
 			name:  'tokamakOutro',
 			click: [[ Click(142,4,repeats: 57), Click(142,2) ]],
-			lights:[ DMXIS.makePat('tokamakOutro',pathToDMXMIDI +/+ "outro.mid") ],
+			// lights:[ DMXIS.makePat('tokamakOutro',pathToDMXMIDI +/+ "outro.mid") ],
 			kemper:[ KemperMIDI.makePat('tokamakOutro',pathToKemperMIDI +/+ "outro.mid") ]
 		)
 	]

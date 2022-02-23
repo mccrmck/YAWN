@@ -14,14 +14,25 @@ s.options.device = "Saffire"
 
 (
 ~yawn = YAWNShow(
-	[\cement,\chaos,\lachrymator,\tokamak],               // setList
-	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ], // inputs
-	false,                                                 // lights
-	// ["EXP OCTA-CAPTURE", "MIDI" ],                      // kemper -> concert
-	["IAC Driver", "Bus 1"],                           // kemper -> laptop
-	// ["Pro40", "MIDI"],                                    // kemper -> faxe
-	['masterOut' -> 0, 'clickOut' -> 0, 'trackOut' -> 0], // outputs
-	\lemur,                                               // UI
+	// setList
+	[\cement,\chaos,\lachrymator,\tokamak],
+
+	// inputs
+	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ],
+
+	// lights
+	false,
+
+	// kemper
+	// ["EXP OCTA-CAPTURE", "MIDI" ], // concert
+	["IAC Driver", "Bus 1"],       // laptop
+	// ["Pro40", "MIDI"],             // faxe
+
+	// outputs
+	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3],
+
+	// UI
+	\lemur,
 )
 );
 

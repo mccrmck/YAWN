@@ -68,7 +68,7 @@
 					1,{
 						"openCement: true".postln;
 						Click.loopCues['cementLoop'] = true;
-						DMXIS.cues['cementImpro']['cementLoop'] = true;
+						DMXIS.loopCues['cementLoop'] = true;
 					}
 				);
 			},
@@ -81,7 +81,7 @@
 					1,{
 						"openCement: false".postln;
 						Click.loopCues['cementLoop'] = false;
-						DMXIS.cues['cementImpro']['cementLoop'] = false;
+						DMXIS.loopCues['cementLoop'] = false;
 					}
 				);
 			}

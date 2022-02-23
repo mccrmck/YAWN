@@ -247,12 +247,12 @@
 					1,{
 						"chaosIntroLoop: true".postln;
 						Click.loopCues['chaosIntroLoop'] = true;
-						// DMXIS.cues['chaosIntro']['chaosIntroLoop'] = true;
+						DMXIS.loopCues['chaosIntroLoop'] = true;
 					},
 					2,{
 						"chaosElevenLoop: true".postln;
 						Click.loopCues['chaosElevenLoop'] = true;
-						// DMXIS.cues['chaosEleven']['chaosElevenLoop'] = true;
+						DMXIS.loopCues['chaosElevenLoop'] = true;
 					},
 					3,{
 						bombs.stop;
@@ -273,12 +273,12 @@
 					1,{
 						"chaosIntroLoop: false".postln;
 						Click.loopCues['chaosIntroLoop'] = false;
-						// DMXIS.cues['chaosIntro']['chaosIntroLoop'] = false;
+						DMXIS.loopCues['chaosIntroLoop'] = false;
 					},
 					2,{
 						"chaosElevenLoop: false".postln;
 						Click.loopCues['chaosElevenLoop'] = false;
-						// DMXIS.cues['chaosEleven']['chaosElevenLoop'] = false;
+						DMXIS.loopCues['chaosElevenLoop'] = false;
 					},
 					3,{
 						bombs.play;
