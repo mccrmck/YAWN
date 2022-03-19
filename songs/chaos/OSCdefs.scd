@@ -2,10 +2,10 @@
 
 ({ |yawnShow, chaosInstance|
 	var switchSlots = Array.fill(6,{0});
-	var clickSlots = Array.fill(6,{0});
-	var startClick = chaosInstance.cueFrom('chaosIntro','chaosElevenLast',true,false,true,true);
-	var bombs      = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,false,true,true);
-	var endClick   = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,false,true,true);
+	var clickSlots = Array.fill(5,{0});
+	var startClick = chaosInstance.cueFrom('chaosIntro','chaosElevenLast',true,true,true,true);
+	var bombs      = chaosInstance.cueFrom('chaosBomb','chaosBomb',true,true,true,true);
+	var endClick   = chaosInstance.cueFrom('chaosCountAgain','chaosOutro',true,true,true,true);
 
 	var introBufs  = chaosInstance.pbTracks['impro'];
 	var gitar = yawnShow.inputs['gitarIn'];
@@ -60,14 +60,14 @@
 					},
 					5,{
 						"shiftRegister OFF".postln;
-						Ndef(\shiftRegister).clear;
+						Ndef(\shiftRegister).clear(2);
 					}
 				);
 			},
 			1,{
 				switch(index,
 					0,{
-						"intro synth ON".postln;
+						// "intro synth ON".postln;s
 						Ndef(\chaosIntro,{
 							var bufnum = \bufnum.kr(introBufs.first);
 							var frames = BufFrames.kr(bufnum);
@@ -78,52 +78,56 @@
 
 						}).play;
 
-						Ndef(\chaosIntro).filter(20,{|sig| Limiter.ar(sig) * \amp.kr(0.5) });
+						Ndef(\chaosIntro).filter(20,{|sig| Limiter.ar(sig) * \amp.kr(0.5) * \on.kr(0,0.2) });
 					},
 					1,{
-						"gtrFreeze ON".postln;
+						// "gtrFreeze ON".postln;
 						Ndef(\chaosGtrFreeze,{
-							var frames = 2048;
+							var trig = \trig.kr;
+							var frames = TChoose.kr(trig,[512,1024,2048,4096]);
 							var sig = SoundIn.ar(gitar);
 							sig = FFT(LocalBuf(frames),sig.sum);
-							sig = PV_Freeze(sig,1);
+							sig = PV_Freeze(sig,trig - 0.5);
 							sig = IFFT(sig);
-							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
+							sig = Pan2.ar(sig * trig,TRand.kr(-0.8,0.8,trig),\amp.kr(1)).tanh;
 						}).play
 					},
 					2,{
-						"gtrStutter ON".postln;
+						// "gtrStutter ON".postln;
 						Ndef(\chaosGtrStutter,{
 							var sig = SoundIn.ar(gitar);
-							var gate = Env.sine(0.2).kr();
-							var rand = Rand(0.008,0.2);
-							sig = CombC.ar(sig.sum * gate,0.3,rand,inf);
-							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
+							var trig = \trig.kr;
+							var gate = Env.sine(0.2).kr(gate: trig);
+							var rand = TExpRand.kr(0.008,0.2,trig);
+							sig = CombC.ar(sig.sum * gate,0.3,rand,Select.kr(trig,[0,inf]) );
+							sig = Pan2.ar(sig,TRand.kr(-0.8,0.8,trig),\amp.kr(1)).tanh;
 						}).play
 					},
 					3,{
-						"drumFreeze ON".postln;
+						// "drumFreeze ON".postln;
 						Ndef(\chaosDrumFreeze,{
-							var frames = 2048;
+							var trig = \trig.kr;
+							var frames = TChoose.kr(trig,[512,1024,2048,4096]);
 							var sig = SoundIn.ar(drums);
 							sig = FFT(LocalBuf(frames),sig.sum);
-							sig = PV_Freeze(sig,1);
+							sig = PV_Freeze(sig,trig - 0.5);
 							sig = IFFT(sig);
-							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
+							sig = Pan2.ar(sig * trig,TRand.kr(-0.8,0.8,trig),\amp.kr(1)).tanh;
 						}).play
 					},
 					4,{
-						"drumStutter ON".postln;
+						// "drumStutter ON".postln;
 						Ndef(\chaosDrumStutter,{
 							var sig = SoundIn.ar(drums);
-							var gate = Env.sine(0.2).kr();
-							var rand = Rand(0.008,0.2);
-							sig = CombC.ar(sig.sum * gate,0.3,rand,inf);
-							sig = Pan2.ar(sig,Rand(-1.0,1.0),\amp.kr(1));
+							var trig = \trig.kr;
+							var gate = Env.sine(0.2).kr(gate: trig);
+							var rand = TExpRand.kr(0.008,0.2,trig);
+							sig = CombC.ar(sig.sum * gate,0.3,rand,Select.kr(trig,[0,inf]) );
+							sig = Pan2.ar(sig,TRand.kr(-0.8,0.8,trig),\amp.kr(1)).tanh;
 						}).play
 					},
 					5,{
-						"shiftRegister ON".postln;
+						// "shiftRegister ON".postln;
 						Ndef(\shiftRegister,{
 							var sr = SampleRate.ir / \sRate.kr(0).linexp(0,1,12,24);
 							var n = \bits.kr(0).linexp(0,1,12,16);
@@ -144,7 +148,7 @@
 							t = t * (0.5**(n-1)) - 1; // scaling to -1, 1
 							t = LPF.ar(t,18000);
 							t = LeakDC.ar(t) * -9.dbamp;
-							Pan2.ar(t,0, \amp.kr(0.3) );
+							Pan2.ar(t,0, \amp.kr(0.3) * \on.kr(0,0.2) );
 
 						}).play
 					}
@@ -221,6 +225,24 @@
 
 	},'/chaos/amps/x');
 
+	// multiSlider - triggers                                             // must check if this causes problems!!
+
+	OSCdef(\chaosSynthGates,{ |msg, time,addr, recvPort|
+		var introOn = msg[1];
+		var gtrFreezeTrig  = msg[2];
+		var gtrStutterTrig = msg[3];
+		var drmFreezeTrig  = msg[4];
+		var drmStuttertrig = msg[5];
+		var shiftRegOn = msg[6];
+
+		Ndef(\chaosIntro).set(\on,introOn);
+		Ndef(\chaosGtrFreeze).set(\trig,gtrFreezeTrig);
+		Ndef(\chaosGtrStutter).set(\trig,gtrStutterTrig);
+		Ndef(\chaosDrumFreeze).set(\trig,drmFreezeTrig);
+		Ndef(\chaosDrumStutter).set(\trig,drmStuttertrig);
+		Ndef(\shiftRegister).set(\on,shiftRegOn);
+
+	},'/chaos/amps/z');
 
 	// turn click on & off
 

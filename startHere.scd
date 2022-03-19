@@ -1,16 +1,8 @@
 
-// must make it so that YAWNSong.data[i]['lights'] == nil doesn't create an error
-
-
-DMXIS.vst.editor
-
 // start here!
 ~yawn.free
-~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"Pro40",0);  //change clickOut to 2...this is for testing w/ Sapphire
-~yawn = YAWNShow([\cement,\chaos,\lachrymator,\tokamak],"OCTA-CAPTURE",2);  //change clickOut to 2
 
-
-s.options.device = "Saffire"
+s.options.device = "default"
 
 (
 ~yawn = YAWNShow(
@@ -21,11 +13,11 @@ s.options.device = "Saffire"
 	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ],
 
 	// lights
-	false,
+	true,
 
 	// kemper
-	// ["EXP OCTA-CAPTURE", "MIDI" ], // concert
-	["IAC Driver", "Bus 1"],       // laptop
+	["OCTA-CAPTURE", "MIDI" ], // concert
+	// ["IAC Driver", "Bus 1"],       // laptop
 	// ["Pro40", "MIDI"],             // faxe
 
 	// outputs
@@ -36,22 +28,17 @@ s.options.device = "Saffire"
 )
 );
 
+DMXIS.setPreset(0)
+DMXIS()
+DMXIS.free
+DMXIS.vst.editor
 
-b = ~yawn.songArray[3].cueFrom('tokamakGuitar','tokamakFunk',true,false,true,true)
-b.play
-b.stop
+Server.all
+Server.default.options.device
 
-KemperMIDI.cues['tokamakCue']['times']
+s.sendMsg("/n_free",1001)
 
-a = ClickLoop(120,out: 2)
-a.stop
-
-a = ~yawn.songArray[0].pbTracks['leads'][0]
-
-a.play
-
-
-MIDIClient.init
+Server.killAll
 
 // evaluate clickAmp below!!
 
@@ -64,12 +51,10 @@ OSCdef(\test,{ |msg, time, addr, recvPort|
 )
 
 
-KemperMIDI.midiOut
-
 NetAddr.localAddr
 OSCdef(\test).free
 
-s.sendMsg("/n_free",3619)
+s.sendMsg("/n_free",1053)
 s.sendMsg("/n_set",1003,\amp,1)
 
 (
@@ -90,9 +75,3 @@ OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
 },'/main/masterAmp/x');
 
 )
-
-~yawn.clickAmp.set(0.3);
-DMXIS.setPreset(0);
-DMXIS.free
-
-SynthDescLib.global.browse

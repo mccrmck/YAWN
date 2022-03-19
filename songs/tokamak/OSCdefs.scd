@@ -3,9 +3,10 @@
 ({ |yawnShow, tokamakInstance|
 
 	var clickSlots = Array.fill(2,{0});
-	var startClick = tokamakInstance.cueFrom('tokamakPB','tokamakOutro',true,false,true,true); // must test!
-	var bowTrack = tokamakInstance.pbTracks['leads'][0];
+	var startClick = tokamakInstance.cueFrom('tokamakPB','tokamakOutro',true,true,true,true);
+	var bowPat = tokamakInstance.cueFrom('bow','bow',true,true,true,true);
 	var gitar = yawnShow.inputs['gitarIn'];
+	var drums = yawnShow.inputs['ohIn'];
 
 	// bitCrusher on & off
 
@@ -18,9 +19,9 @@
 		}
 		{val == 1}{
 			Ndef(\tokamakBitCrush,{
-				var sig = SoundIn.ar(gitar);
-				sig = Decimator.ar(sig.sum,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
-				sig = Pan2.ar(Limiter.ar(sig),\pan.kr(0),\amp.kr(0.8));
+				var sig = SoundIn.ar(gitar) + SoundIn.ar(drums);
+				sig = Decimator.ar(sig,SampleRate.ir * \sRate.kr(1), 24 * \bits.kr(1));
+				Limiter.ar(sig) * \amp.kr(0.8);
 			}).play
 		};
 
@@ -58,32 +59,22 @@
 
 	// outro voice on & off
 
-	OSCdef(\tokamakBowVoice,{ |msg, time,addr, recvPort|
+	OSCdef(\tokamakBow,{ |msg, time,addr, recvPort|
 		var val = msg[1].asInteger;
 
 		case
 		{val == 0}{
-			Ndef(\tokamakBow).clear;
+			bowPat.stop;
 		}
 		{val == 1}{
 			Routine({
 				"bowing in 10 seconds".postln;
 				5.wait;
-				Ndef(\tokamakBow,\stereoShowPlayBack).set(\bufnum,bowTrack).play
+				bowPat.play;
 			}).play
 		};
 
-	},'/tokamak/bowVoice/x');
-
-	// outro voice amp
-
-	OSCdef(\tokamakBowVoiceAmp,{ |msg, time,addr, recvPort|
-		var val = msg[1];
-		val = \db.asSpec.map(val).dbamp;
-
-		Ndef(\tokamakBow).set(\amp,val)
-
-	},'/tokamak/bowVoiceAmp/x');
+	},'/tokamak/bow/x');
 
 	OSCdef(\tokamakClick,{ |msg, time,addr, recvPort|    //this can be optimized with a Changed function, shouldn't need to iterate!
 		var val,index;

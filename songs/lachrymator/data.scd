@@ -12,10 +12,10 @@
 
 	[
 		(
-			name:  'lachCountPart1',
-			click: [[ Click(240,2,repeats: 2), Click(240,1,repeats: 4) ]],
-			// lights:[ DMXIS.makePat('lachCountPart1',pathToDMXMIDI ++ "countPart1.mid") ],
-			kemper:[ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
+			name:   'lachCountPart1',
+			click:  [[ Click(240,2,repeats: 2), Click(240,1,repeats: 4) ]],
+			lights: [ DMXIS.makePresetPat('lachCountPart1',1,0) ],
+			kemper: [ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
 			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[0],trackOut),YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name:  'lachAsection',
@@ -29,17 +29,17 @@
 				ClickConCat(9, Click(240,4), Click(300,4)), ClickCue(240,4), ClickCue(300,1,repeats: 4),
 				ClickConCat(34,Click(240,4), Click(300,4))  //transition to impro
 			]],
-			// lights:[ DMXIS.makePat('lachAsection',pathToDMXMIDI ++ "Asection.mid") ],
+			lights:[ Pseq([ DMXIS.makePat('lachAsection',pathToDMXMIDI ++ "Asection.mid"), DMXIS.makePresetPat('lachAsection',0,2) ]) ],
 			kemper:[ KemperMIDI.makePat('lachAsection',pathToKemperMIDI +/+ "Asection.mid") ],
 		),(
 			name: 'lachTapping',
 			click: [[ ClickLoop(120,4,loopKey: cueKeys[0]) ]],
-			// lights:[ DMXIS.makePat('lachTapping',pathToDMXMIDI ++ "tapping.mid",cueKeys[0]) ],
+			lights:[ DMXIS.makePresetPat('lachTapping',0,2) ],
 			kemper:[ KemperMIDI.makePat('lachTapping',pathToKemperMIDI +/+ "tapping.mid") ],
 		),(
 			name: 'lachCountPart2',
 			click: [[ Click(120,4,repeats: 4), ClickCue(120,4,repeats: 2), ClickCue(120,2,repeats: 2), ClickCue(120,1,repeats: 4) ]],
-			// lights:[ DMXIS.makePat('lachCountPart2',pathToDMXMIDI ++ "countPart2.mid") ],
+			lights:[ Pseq([ DMXIS.makePresetPat('lachCountPart2',(60/120) * 31.5,2), DMXIS.makePresetPat('lachJazzIntro',(60/120) * 0.5,0) ]) ],
 			bTracks: [ YAWNPlayback.makePat(leads[1],trackOut),YAWNPlayback.makePat(efx[1],trackOut),YAWNPlayback.makePat(perc[0],trackOut) ]
 		),(
 			name: 'lachJazzIntro',
@@ -50,7 +50,7 @@
 				Click(120,3,repeats: 2), Click(120,4),
 				Click(120,3)
 			]],
-			// lights:[ DMXIS.makePat('lachJazzIntro',pathToDMXMIDI ++ "jazzIntro.mid") ],
+			lights:[ DMXIS.makePat('lachJazzIntro',pathToDMXMIDI ++ "jazzIntro.mid") ],
 			kemper:[ KemperMIDI.makePat('lachJazzIntro',pathToKemperMIDI +/+ "jazzIntro.mid") ],
 		),(
 			name: 'lachJazzAsection',
@@ -61,12 +61,12 @@
 				Click(120,3,repeats: 2), Click(120,4),
 				Click(120,3)
 			]],
-			// lights:[ DMXIS.makePat('lachJazzAsection',pathToDMXMIDI ++ "jazzAsection.mid") ],
+			lights:[ DMXIS.makePat('lachJazzAsection',pathToDMXMIDI ++ "jazzAsection.mid") ],
 			kemper:[ KemperMIDI.makePat('lachJazzAsection',pathToKemperMIDI +/+ "jazzAsection.mid") ],
 		),(
 			name: 'lachJazzBsection',
 			click: [[ Click(120,3,repeats: 16) ]],
-			// lights:[ DMXIS.makePat('lachJazzBsection',pathToDMXMIDI ++ "jazzBsection.mid") ],
+			lights:[ DMXIS.makePat('lachJazzBsection',pathToDMXMIDI ++ "jazzBsection.mid") ],
 			kemper:[ KemperMIDI.makePat('lachJazzBsection',pathToKemperMIDI +/+ "jazzBsection.mid") ],
 		),(
 			name: 'lachJazzAsectionAgain',
@@ -77,17 +77,17 @@
 				Click(120,3,repeats: 2), Click(120,4),
 				Click(120,3)
 			]],
-			// lights:[ DMXIS.makePat('lachJazzAsectionAgain',pathToDMXMIDI ++ "jazzAsectionAgain.mid") ],
+			lights:[ DMXIS.makePat('lachJazzAsectionAgain',pathToDMXMIDI ++ "jazzAsectionAgain.mid") ],
 			kemper:[ KemperMIDI.makePat('lachJazzAsectionAgain',pathToKemperMIDI +/+ "jazzAsectionAgain.mid") ],
 		),(
 			name: 'lachJazzBsectionAgain',
 			click: [[ Click(120,3,repeats: 15), Click(120,2) ]],
-			// lights:[ DMXIS.makePat('lachJazzBsectionAgain',pathToDMXMIDI ++ "jazzBsectionAgain.mid") ],
+			lights:[ Pseq([ DMXIS.makePat('lachJazzBsectionAgain',pathToDMXMIDI ++ "jazzBsectionAgain.mid"), DMXIS.makePresetPat('lachJazzBsectionAgain',0,3) ]) ],
 			kemper:[ KemperMIDI.makePat('lachJazzBsectionAgain',pathToKemperMIDI +/+ "jazzBsectionAgain.mid") ],
 		),(
 			name: 'lachCountPart3',
-			click: [[ ClickRest(60 / ( ClickConCat(4, Click(340,5), Click(340,4)).duration )), ClickConCat(2, Click(340,5), Click(340,4)) ]],
-			// lights:[ DMXIS.makePat('lachCountPart3',pathToDMXMIDI ++ "countPart3.mid") ],
+			click: [[ ClickRest(60 / 6.3529411764706 ), ClickConCat(2, Click(340,5), Click(340,4)) ]],
+			lights:[ Pseq([ DMXIS.makePresetPat('lachCountPart3', 9.3529411764706, 3), DMXIS.makePresetPat('lachAsectionNine',0,0) ]) ],
 			kemper:[ KemperMIDI.makePat('lachCountPart3',pathToKemperMIDI +/+ "countPart3.mid") ],
 			bTracks: [ YAWNPlayback.makePat(leads[2],trackOut),YAWNPlayback.makePat(efx[2],trackOut),YAWNPlayback.makePat(perc[1],trackOut),YAWNPlayback.makePat(adds[1],trackOut) ]
 		),(
@@ -104,7 +104,7 @@
 				ClickConCat(5, Click(340,5), Click(340,4)), ClickCue(340,1,repeats: 5), Click(340,4),
 				ClickConCat(3, Click(340,5), Click(340,4)),	Click(170,4,repeats: 2)
 			]],
-			// lights:[ DMXIS.makePat('lachAsectionNine',pathToDMXMIDI ++ "AsectionNine.mid") ],
+			lights:[ DMXIS.makePat('lachAsectionNine',pathToDMXMIDI ++ "AsectionNine.mid") ],
 			kemper:[ KemperMIDI.makePat('lachAsectionNine',pathToKemperMIDI +/+ "AsectionNine.mid") ],
 
 		),(
@@ -123,7 +123,7 @@
 				}),
 				ClickCue()
 			].flat],
-			// lights:[ DMXIS.makePat('lachOutro',pathToDMXMIDI ++ "outro.mid") ],
+			lights:[ Pseq([ DMXIS.makePat('lachOutro',pathToDMXMIDI ++ "outro.mid"), DMXIS.makePresetPat('lachOutro',1,4) ]) ],
 		)
 	]
 })

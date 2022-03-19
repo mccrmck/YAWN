@@ -12,6 +12,7 @@ YAWNShow {
 
 	init { |lights, controller|
 		var server = Server.default;
+		// var cond = CondVar();
 
 		server.waitForBoot({
 
@@ -26,30 +27,35 @@ YAWNShow {
 			clickAmp = Bus.control(server,1).set(0.5);
 
 			songArray = setList.collect({ |item|
-				YAWNSong(item.asSymbol);
+				YAWNSong( item.asSymbol );
 			});
+			0.postln; server.sync;
 
 			songArray.do({ |song| song.loadPBtracks(server) });
-			server.sync;
+			1.postln; server.sync;
 
-			songArray.do({ |song| song.loadData(this) });
-			server.sync;
+			songArray.do({ |song| song.loadData(this) });   // this takes a long time and need to use a Condition...this is the worst one I think!
+			2.postln; server.sync;
 
-			songArray.do({ |song|
+			songArray.do({ |song|                           // and this too!
 
 				song.clicks.deepDo(3,{ |click|                 // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
-					click.out = outputs['clickOut'];                      // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
-				});
+					click.out = outputs['clickOut'];           // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
+				})
+
 			});
 
-			server.sync;
+			3.postln; server.sync;
 
 			switch(controller,
 				{ \lemur },{ this.loadLemurInterface(this, songArray) },
 				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
 				{ \scGUI },{ "scGUI not implemented yet".warn }
 			);
+			4.postln;
+
+			"YAWNShow: % ready!".format(setList).postln;
 		});
 	}
 
@@ -89,8 +95,15 @@ YAWNSong {
 		^this
 	}
 
-	loadData { |yawnShow|                                                           //modularize this! .loadClicks, .loadLights, etc
-		data = File.readAllString(path +/+ "data.scd").interpret.value(yawnShow,this);
+	loadData { |yawnShow|
+		// var cond = CondVar();
+
+		// fork {
+		var file = File.readAllString(path +/+ "data.scd").interpret;
+		data = file.value( yawnShow, this );
+		// cond.wait({ data.notNil });
+		// };
+
 		^this
 	}
 
@@ -105,15 +118,17 @@ YAWNSong {
 			pbTracks.put(key,folder)
 
 		});
+
+		^this
 	}
 
 	sections {
-		if(data.isNil,{ this.loadData });
+		if(data.isNil,{ this.loadData });                           // this is a problem - cannot be called without passing in a |yawnShow|
 		^data.collect({ |section| section['name'] });
 	}
 
 	clicks {
-		if(data.isNil,{ this.loadData });
+		if(data.isNil,{ this.loadData });                          // this is a problem - cannot be called without passing in a |yawnShow|
 		^data.collect({ |section| section['click'] });
 	}
 

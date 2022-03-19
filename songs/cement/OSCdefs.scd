@@ -2,7 +2,7 @@
 
 ({ |yawnShow, cementInstance|
 	var clickSlots = Array.fill(2,{0});
-	var startClick = cementInstance.cueFrom('cementCount','cementAsectionLast',true,false,true,true);
+	var startClick = cementInstance.cueFrom('cementCount','cementAsectionLast',true,true,true,true);
 	var gitar = yawnShow.inputs['gitarIn'];
 
 
@@ -36,7 +36,7 @@
 	OSCdef(\cementMorphAmp,{ |msg, time,addr, recvPort|
 		var amp = msg[1];
 		var gain = msg[2];
-		amp = \db.asSpec.map(amp).dbamp;
+		amp  = \db.asSpec.map(amp).dbamp;
 		gain = \db.asSpec.map(gain).dbamp;
 
 		Ndef(\cementMorph).set(\amp,amp,\gain,gain);
