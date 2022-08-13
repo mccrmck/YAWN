@@ -15,12 +15,14 @@
 	[
 		(
 			name:   'cementCount',
-			click:  [[ ClickRest( 60 / (welcome[0].duration - 3.0) /* duration of the count in */ ), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
-			lights: [ DMXIS.makePat('cementCount',pathToDMXMIDI +/+ "count.mid") ],
-			kemper: [ KemperMIDI.makePat('cementCount',pathToKemperMIDI +/+ "count.mid") ],
-			bTracks:[ YAWNPlayback.makePat(welcome[0],mainOut) ]
+			countIn: [[ ]],
+			click:   [[ ClickRest( 60 / (welcome[0].duration - 3.0) /* duration of the count in */ ), Click(160,2,repeats: 2), Click(160,1,repeats:4) ]],
+			lights:  [ DMXIS.makePat('cementCount',pathToDMXMIDI +/+ "count.mid") ],
+			kemper:  [ KemperMIDI.makePat('cementCount',pathToKemperMIDI +/+ "count.mid") ],
+			bTracks: [ YAWNPlayback.makePat(welcome[0],mainOut) ]
 		),(
 			name: 'cementIntro',
+			countIn: [[ ]],
 			click:[[
 				Click(160,7), Click(160,6), Click(160,5), Click(160,4), Click(160,3),
 				Click(160,7), Click(160,6), Click(160,5), Click(160,4), Click(160,3),
@@ -31,6 +33,7 @@
 			bTracks:[ YAWNPlayback.makePat(efx[0],trackOut), YAWNPlayback.makePat(perc[0],trackOut), YAWNPlayback.makePat(adds[0],trackOut) ]
 		),(
 			name: 'cementAsection',
+			countIn: [[ ]],
 			click:[[
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
@@ -40,6 +43,7 @@
 			kemper: [ KemperMIDI.makePat('cementAsection',pathToKemperMIDI +/+ "Asection.mid") ],
 		),(
 			name:   'cementMelody',
+			countIn: [[ ]],
 			click:  [[
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
@@ -49,21 +53,25 @@
 			kemper: [ KemperMIDI.makePat('cementMelody',pathToKemperMIDI +/+ "melody.mid") ],
 		),(
 			name:   'cementBsection',
+			countIn: [[ ]],
 			click:  [[ Click(170,4,repeats: 14), Click(170,3) ]],
 			lights: [ DMXIS.makePat('cementBsection',pathToDMXMIDI +/+ "Bsection.mid") ],
 			kemper: [ KemperMIDI.makePat('cementBsection',pathToKemperMIDI +/+ "Bsection.mid") ],
 		),(
 			name:   'cementImpro',
+			countIn: [[ ]],
 			click:  [[ ClickLoop(170,loopKey: cueKeys[0]) ]],
 			lights: [ DMXIS.makePresetPat('cementImpro',1,1) ],
 		),(
 			name:   'cementCue',
+			countIn: [[ ]],
 			click:  [[ ClickCue(170,4,repeats: 2), ClickCue(170,2,repeats: 2), ClickCue(170,1,repeats: 4), Click(170,4) ]],
 			lights: [ Pseq([ DMXIS.makePresetPat('cementImpro',(60/170) * 16,1),DMXIS.makePresetPat('cementImpro',1,0) ]) ],
 			kemper: [ KemperMIDI.makePat('cementCue',pathToKemperMIDI +/+ "cue.mid") ],
 			bTracks:[ YAWNPlayback.makePat(leads[0],trackOut),YAWNPlayback.makePat(efx[1],trackOut), YAWNPlayback.makePat(perc[1],trackOut), YAWNPlayback.makePat(adds[1],trackOut) ]
 		),(
 			name:   'cementBsectionAgain',
+			countIn: [[ ]],
 			click:  [[
 				Click(170,4,repeats: 10), Click(170,2), Click(170,4,repeats: 5), Click(170,5), Click(170 * 2,3),
 				Click(170,4,repeats: 10), Click(170,2), Click(170,4,repeats: 5), Click(170,5), Click(170 * 2,3),
@@ -72,11 +80,13 @@
 			kemper: [ KemperMIDI.makePat('cementBsectionAgain',pathToKemperMIDI +/+ "BsectionAgain.mid") ],
 		),(
 			name:  'cementSolo',
+			countIn: [[ ]],
 			click: [[ ClickConCat(4, Click(170,4,repeats: 10), Click(170,2), Click(170,4,repeats: 5), Click(170,5), Click(170 * 2,3)) ]],
 			lights:[ DMXIS.makePat('cementSolo',pathToDMXMIDI +/+ "solo.mid") ],
 			kemper: [ KemperMIDI.makePat('cementSolo',pathToKemperMIDI +/+ "solo.mid") ],
 		),(
 			name: 'cementQuint',
+			countIn: [[ ]],
 			click: [
 				[ ClickConCat(3, Click(160,4,repeats: 3), ClickRest(160,4)) ],
 				[ ClickConCat(3, Click(200,5,repeats: 3), Click(160,4)) ]
@@ -85,10 +95,12 @@
 			kemper: [ KemperMIDI.makePat('cementQuint',pathToKemperMIDI +/+ "quint.mid") ],
 		),(
 			name: 'cementRit',
+			countIn: [[ ]],
 			click: [[ ClickConCat(1,(1.0,1.08..2.12).collect({ |i| Click(200 / i) }) ), Click(170 * 2,3) ]],
 			lights:[ DMXIS.makePat('cementRit',pathToDMXMIDI +/+ "rit.mid") ],
 		),(
 			name: 'cementAsectionLast',
+			countIn: [[ ]],
 			click:[[
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
 				Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),

@@ -1,32 +1,49 @@
 
-// start here!
-~yawn.free
 
-s.options.device = "default"
+/*
+TO DO
+-make new GUI
+-integrate dante (look at OJKOS.sc for tips)
+-make YAWNShow methods class methods
+-noisy instruments?
+-fix the YAWNSong.loadData thing!
+-add countIns to all the clicks!!
+-communicate w/ Oskar, fix the backing tracks! Or maybe just do it mysel in REAPER
+-consider replacing the .interpret methods w/ .executeFile
+
+-reconsider YAWNShow/Song structure - do I need a class like YAWNi/o or something?
+
+*/
+
+
+var ins = [
+	'torfinnGtr' -> [0,1], 'mikeGtr' -> [2,3],
+	'snareTop' -> 4, 'snareBtm' -> 5, // OSV
+
+]
+
+var outs = [
+	'processOut' -> 0, 'synthOut' -> 2,
+	'addsOut' -> 4, 'leadsOut' -> 6, 'fxOut' -> 8, 'percOut' -> 10,
+	'clickMike' -> 11, 'clickTorfinn' -> 12, 'clickOskar' -> 13,
+];
+
 
 (
-~yawn = YAWNShow(
-	// setList
-	[\cement,\chaos,\lachrymator,\tokamak],
+var setlist = [\cement,\chaos,\lachrymator,\tokamak];
+var ins = ['gitarIn' -> [0,1], 'ohIn' -> [2,3] ];
+var kemper = ["OCTA-CAPTURE", "MIDI" ]; // concert
+// ["IAC Driver", "Bus 1"];       // laptop
+// ["Pro40", "MIDI"];        // faxe
+var outs = ['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3];
 
-	// inputs
-	['gitarIn' -> [0,1], 'ohIn' -> [2,3] ],
+YAWNShow(setlist, ins, true, kemper, outs, \lemur);
 
-	// lights
-	true,
-
-	// kemper
-	["OCTA-CAPTURE", "MIDI" ], // concert
-	// ["IAC Driver", "Bus 1"],       // laptop
-	// ["Pro40", "MIDI"],             // faxe
-
-	// outputs
-	['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3],
-
-	// UI
-	\lemur,
-)
 );
+
+
+
+//
 
 DMXIS.setPreset(0)
 DMXIS()

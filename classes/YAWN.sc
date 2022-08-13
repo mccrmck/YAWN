@@ -5,7 +5,7 @@ YAWNShow {
 	var <gitarIn, <bassDIn, <snareIn;
 	var <masterOut, <clickOut, <trackOut;
 
-	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \lemur|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
+	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \openStageControl|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
 		^super.newCopyArgs(setList.asArray, inputs.asDict, kemperMIDIDevice.asArray, outputs.asDict).init(lights,ui);
 	}
@@ -34,10 +34,10 @@ YAWNShow {
 			songArray.do({ |song| song.loadPBtracks(server) });
 			1.postln; server.sync;
 
-			songArray.do({ |song| song.loadData(this) });   // this takes a long time and need to use a Condition...this is the worst one I think!
+			songArray.do({ |song| song.loadData(this) });      // this takes a long time and need to use a Condition...this is the worst one I think!
 			2.postln; server.sync;
 
-			songArray.do({ |song|                           // and this too!
+			songArray.do({ |song|                              // and this too!
 
 				song.clicks.deepDo(3,{ |click|                 // this can change - click[0] == first channel, click[1] == second channel, etc.
 					click.amp = { clickAmp.getSynchronous };
@@ -49,6 +49,7 @@ YAWNShow {
 			3.postln; server.sync;
 
 			switch(controller,
+				{ \openStageControl },{ this.loadLemurInterface(this, songArray) },
 				{ \lemur },{ this.loadLemurInterface(this, songArray) },
 				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
 				{ \scGUI },{ "scGUI not implemented yet".warn }
@@ -135,7 +136,7 @@ YAWNSong {
 	cueFrom { |from = 'intro', to = 'outro', click = true, lights = true, kemper = true, bTracks = true, countIn = false|
 		var fromIndex = this.sections.indexOf(from);
 		var toIndex = this.sections.indexOf(to);
-		var countInArray, cuedArray = [];
+		var countInArray = [], cuedArray = [];
 
 		if(countIn,{
 			var bpm = this.clicks[fromIndex].flat.first.bpm;
@@ -147,6 +148,17 @@ YAWNSong {
 				\note, Rest(0.1)
 			)
 		});
+
+		// to test:
+		/*
+		if( countIn,{
+		if(data[fromIndex]['countIn'].flat.size > 0, {
+		var count = data[fromIndex]['countIn'].deepCollect(2,{ |clk| clk.pattern });
+		count = count.collect({ |clk| Pseq(clk) });
+		countInArray = countInArray.add( Ppar( count ) );
+		})
+		});
+		*/
 
 		for(fromIndex,toIndex,{ |index|
 			var sectionArray = [];
@@ -189,7 +201,7 @@ YAWNSong {
 		});
 
 		^Pdef("%_%|%|%|%|%".format(from, to, click, lights, kemper, bTracks, countIn).asSymbol,
-			Pseq( [countInArray] ++ cuedArray )
+			Pseq( countInArray ++ cuedArray )
 		);
 	}
 }
