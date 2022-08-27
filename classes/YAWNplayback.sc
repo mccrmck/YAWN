@@ -15,7 +15,7 @@ YAWNPlayback {
 		}
 	}
 
-	*makePat { |bufnum, outBus|
+	*makePat { |bufnum, outBus|         // what's a convenient way to access this after init if I want to start/stop playback? Does it happen here, or in YAWNShow?
 
 		^Pbind(
 			\instrument, \stereoYawnPlayBack,

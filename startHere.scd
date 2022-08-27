@@ -15,31 +15,39 @@ TO DO
 
 */
 
+(
+var server = Server.default;
+var set = [\cement, \chaos, \lachrymator, \tokamak];
 
 var ins = [
 	'torfinnGtr' -> [0,1], 'mikeGtr' -> [2,3],
 	'snareTop' -> 4, 'snareBtm' -> 5, // OSV
 
-]
+];
 
 var outs = [
 	'processOut' -> 0, 'synthOut' -> 2,
 	'addsOut' -> 4, 'leadsOut' -> 6, 'fxOut' -> 8, 'percOut' -> 10,
-	'clickMike' -> 11, 'clickTorfinn' -> 12, 'clickOskar' -> 13,
+	'clickMike' -> 11, 'clickTorfinn' -> 12, 'clickOskar' -> 13, 'clickAll' -> [11,12,13],
 ];
 
-
-(
-var setlist = [\cement,\chaos,\lachrymator,\tokamak];
-var ins = ['gitarIn' -> [0,1], 'ohIn' -> [2,3] ];
-var kemper = ["OCTA-CAPTURE", "MIDI" ]; // concert
-// ["IAC Driver", "Bus 1"];       // laptop
+// var kemper = ["OCTA-CAPTURE", "MIDI" ]; // concert
+var kemper = nil; // ["IAC Driver", "Bus 1"];       // laptop
 // ["Pro40", "MIDI"];        // faxe
-var outs = ['masterOut' -> 0, 'clickOut' -> 2, 'trackOut' -> 3];
 
-YAWNShow(setlist, ins, true, kemper, outs, \lemur);
+//server init stuff
+server.options.numInputBusChannels = 32;
+server.options.numOutputBusChannels = 32;
+// server.options.device = "Dante Virtual Soundcard";
+
+YAWNShow(set, ins, outs, kemper, false, 'openStageControl');
 
 );
+
+
+YAWNShow.outDict.keys.dopostln
+
+MIDIClient.init
 
 
 

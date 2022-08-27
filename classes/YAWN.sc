@@ -1,63 +1,47 @@
 YAWNShow {
 
-	var <>setList, <inputs, <kemperMIDI, <outputs;
-	var <songArray, <clickAmp;
-	var <gitarIn, <bassDIn, <snareIn;
-	var <masterOut, <clickOut, <trackOut;
+	classvar <>setList, <inDict, <outDict, <kemperMIDI;
 
-	*new { |setList, inputs, lights, kemperMIDIDevice, outputs, ui = \openStageControl|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
+	*new { |setList, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
-		^super.newCopyArgs(setList.asArray, inputs.asDict, kemperMIDIDevice.asArray, outputs.asDict).init(lights,ui);
+		^super.new.init(setList.asArray, inputs.asDict, outputs.asDict, kemperMIDIDevice, dmxBool, gui);
 	}
 
-	init { |lights, controller|
-		var server = Server.default;
-		// var cond = CondVar();
+	init { |set, ins, outs, kemperMIDIDevice, dmxBool, controller|
+		var server = Server.default; // CondVar here or?
+
+		setList = set;
+		inDict = ins;
+		outDict = outs;
+		kemperMIDI = kemperMIDIDevice.asArray;
 
 		server.waitForBoot({
 
-			if(lights,{ DMXIS() });    // needs to be set to preset !
+			// allocate buffers, busses...anything else?
+
+
+			if(dmxBool,{ DMXIS() });    // needs to be set to preset !
 
 			server.sync;
 
-			if(kemperMIDI.notNil,{ KemperMIDI(kemperMIDI[0],kemperMIDI[1]) }); // right???!?!?!
+			if(kemperMIDIDevice.notNil,{ KemperMIDI(kemperMIDI[0],kemperMIDI[1]) }); // right???!?!?!
 
 			server.sync;
 
-			clickAmp = Bus.control(server,1).set(0.5);
+			// launch gui
+			// this.loadOpenStageControl;
 
-			songArray = setList.collect({ |item|
-				YAWNSong( item.asSymbol );
-			});
-			0.postln; server.sync;
-
-			songArray.do({ |song| song.loadPBtracks(server) });
-			1.postln; server.sync;
-
-			songArray.do({ |song| song.loadData(this) });      // this takes a long time and need to use a Condition...this is the worst one I think!
-			2.postln; server.sync;
-
-			songArray.do({ |song|                              // and this too!
-
-				song.clicks.deepDo(3,{ |click|                 // this can change - click[0] == first channel, click[1] == second channel, etc.
-					click.amp = { clickAmp.getSynchronous };
-					click.out = outputs['clickOut'];           // can later make this a conditional: if(clickOut.size > 1,{do some fancy routing shit})
-				})
-
-			});
-
-			3.postln; server.sync;
-
-			switch(controller,
-				{ \openStageControl },{ this.loadLemurInterface(this, songArray) },
-				{ \lemur },{ this.loadLemurInterface(this, songArray) },
-				{ \touchOSC },{ "touchOSC functionality not implemented yet".warn },
-				{ \scGUI },{ "scGUI not implemented yet".warn }
-			);
-			4.postln;
-
-			"YAWNShow: % ready!".format(setList).postln;
+			"YAWNShow - INIT".postln;
 		});
+	}
+
+	loadOpenStageControl {
+		var unixString = "open /Applications/open-stage-control.app --args " ++
+		"--send 127.0.0.1:57120 " ++
+		// "--read-only " ++
+		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
+		// returns pid, can use that to evenutally stop process on GUI close?
+		^unixString.unixCmd;
 	}
 
 	loadLemurInterface { |show, songArray|
@@ -69,8 +53,6 @@ YAWNShow {
 
 		// lemur.sendMsg('/main/setList/init',*songNames); // this should be a method that inits the master controls and updates the interface
 	}
-
-	// addToSetList { |index,item| // maybe udpates the setlist and creates a YAWNShow(newSetList)?}
 
 	free { DMXIS.free } // must be more here, right???
 
@@ -96,14 +78,10 @@ YAWNSong {
 		^this
 	}
 
-	loadData { |yawnShow|
-		// var cond = CondVar();
+	loadData {
+		var dataPath = path +/+ "data.scd";
 
-		// fork {
-		var file = File.readAllString(path +/+ "data.scd").interpret;
-		data = file.value( yawnShow, this );
-		// cond.wait({ data.notNil });
-		// };
+		data = thisProcess.interpreter.executeFile(dataPath).value(this);
 
 		^this
 	}
