@@ -16,7 +16,7 @@ TO DO
 
 (
 var server = Server.default;
-var set = 'test';
+var set = '22_march';
 
 var ins = [
 	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2,
@@ -49,12 +49,6 @@ YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
 
 );
 
-y.data
-y = YAWNSong('cement','22_march')
-y.songName
-y.loadData("done".postln)
-b = y.cueFrom('cementIntro','cementIntro',true,false,false,true,false)
-b.play
 
 // use this to get the IPs that other devices should find on the network!
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
@@ -67,9 +61,14 @@ n.sendMsg("/text","songs/gui.json")
 
 OSCFunc.trace(false)
 
-"echo  \"Hiya! Im sending this from SuperCollider...\" | mail s- \"Totally Not Spam1\" mccormick.mike.r@gmail.com".unixCmd
-
 SoundCheck(32).sweep(0.2)
 SoundCheck(32).clear
 
 
+
+/*======*/
+
+y = YAWNSong('cement','22_march')
+y.loadData
+b = y.cueFrom('cementIntro','cementIntro',true,false,false,true,false)
+b.play

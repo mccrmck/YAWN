@@ -39,6 +39,8 @@ YAWNShow {
 			// there should be a default set of OSCdefs for setup, soundcheck, live processing etc.
 			// then each YAWNSet loads the oscDefs of relevant YAWNSongs
 
+			// YAWNSet(setName)
+
 			"YAWNShow - INIT".postln;
 		});
 	}
@@ -48,8 +50,8 @@ YAWNShow {
 		"--send 127.0.0.1:57120 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
-		// returns pid, can use that to evenutally stop process on GUI close?
-		^unixString.unixCmd;
+		unixString.unixCmd; // returns pid, can use that to evenutally stop process on GUI close?
+		^this
 	}
 
 
@@ -83,17 +85,10 @@ YAWNSet {
 	}
 
 	loadSet {
-		var cond = CondVar();
-
-		fork{
-			songList.do({ |song|
-				song.loadData;                                                             // need a .signalOne somewhere here!!!!
-
-				// cond.wait { song.data.notNil }
-
-			})
-		}
-
+		songList.do({ |song|
+			song.loadData;
+		})
+		^this
 	}
 
 	*keys {
@@ -101,7 +96,6 @@ YAWNSet {
 			folder.folderName.postln
 		});
 	}
-
 }
 
 /* ========================================== */
@@ -125,14 +119,15 @@ YAWNSong {
 
 	}
 
-	loadData { |action|
+	loadData {
 		var dataPath = path +/+ "data.scd";
 		var cond = CondVar();
 
 		fork{
 			this.loadPBtracks({ cond.signalOne });
 			cond.wait { pbTracksLoaded };
-			data = thisProcess.interpreter.executeFile(dataPath).value(this);
+			data = thisProcess.interpreter.executeFile(dataPath).value(this);            // reevaluate
+			"% LOADED".format(songName).postln;
 		};
 
 		^this

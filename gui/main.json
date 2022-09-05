@@ -92,7 +92,7 @@
             "top": "0%",
             "left": "85%",
             "lock": false,
-            "id": "modal_1",
+            "id": "soundCheck",
             "visible": true,
             "interaction": true,
             "comments": "",
