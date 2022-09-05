@@ -27,8 +27,9 @@ Click(120,repeats: inf).play
 
 
 // double helix clicks
-b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2))//.clickArray.collect(_.tempoArray / 2).flat.dopostln
-c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2))
+b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2))//.clickArray.collect(_.tempoArray / 2).flat
+c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2))//.clickArray.collect(_.tempoArray / 2).flat
+[b,c].plot
 d = Click(60/0.570625,4,2,8)
 e = b.duration
 c.duration

@@ -1,16 +1,17 @@
 YAWNShow {
 
-	classvar <>setList, <inDict, <outDict, <kemperMIDI;
+	classvar <set, <inDict, <outDict, <kemperMIDI;
 
-	*new { |setList, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
+	*new { |setKey, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
-		^super.new.init(setList.asArray, inputs.asDict, outputs.asDict, kemperMIDIDevice, dmxBool, gui);
+		^super.new.init(setKey.asSymbol, inputs.asDict, outputs.asDict, kemperMIDIDevice, dmxBool, gui);
 	}
 
-	init { |set, ins, outs, kemperMIDIDevice, dmxBool, controller|
-		var server = Server.default; // CondVar here or?
+	init { |setName, ins, outs, kemperMIDIDevice, dmxBool, controller|
+		var server = Server.default;
+		var cond = CondVar();
 
-		setList = set;
+		set = setName;
 		inDict = ins;
 		outDict = outs;
 		kemperMIDI = kemperMIDIDevice.asArray;
@@ -28,9 +29,15 @@ YAWNShow {
 			server.sync;
 
 			// launch gui
+
 			// this.launchOpenStageControl;
 
-			// load OSCdefs for interacting w/ OpenStageControl
+			// can the o-s-c app send a message via OSC when it's successfully open/loaded that runs the rest of the load/init stuff?
+
+
+			// load appropriate OSCdefs for interacting w/ OpenStageControl
+			// there should be a default set of OSCdefs for setup, soundcheck, live processing etc.
+			// then each YAWNSet loads the oscDefs of relevant YAWNSongs
 
 			"YAWNShow - INIT".postln;
 		});
@@ -41,24 +48,59 @@ YAWNShow {
 		"--send 127.0.0.1:57120 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
-		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/EIDOLON/gui/main.json'";
 		// returns pid, can use that to evenutally stop process on GUI close?
 		^unixString.unixCmd;
 	}
 
-	*loadSetlist {
-		setList.do({ |song, index|
 
-			// I think this should be controlled by a CondVar(), no?
+	*cleanUp { } // what goes here?
 
-			/*
-			var ySong = YAWNSong(song.asSymbol);
-			ySong.loadData
-			*/
-		})
+}
+
+/* ========================================== */
+
+YAWNSet {
+
+	classvar <setFolderPath;
+	var <setKey,<setPath, <songList;
+
+	*initClass {
+		setFolderPath = Platform.userExtensionDir +/+ "YAWN/sets/";    // can this be more robust? check Daniel Mayer's PathName extension
 	}
 
-	free { DMXIS.free } // must be more here, right???
+	*new { |setKey|
+		^super.newCopyArgs(setKey).init
+	}
+
+	init {
+		setPath = setFolderPath +/+ setKey;
+		songList = PathName(setPath).entries.collect({ |folder|
+			var songkey = folder.folderName.asSymbol;
+			YAWNSong(songkey,setKey)
+		});
+		songList.collect({ |song| song.songName }).postln;
+		^this
+	}
+
+	loadSet {
+		var cond = CondVar();
+
+		fork{
+			songList.do({ |song|
+				song.loadData;                                                             // need a .signalOne somewhere here!!!!
+
+				// cond.wait { song.data.notNil }
+
+			})
+		}
+
+	}
+
+	*keys {
+		PathName(setFolderPath).folders.do({ |folder|
+			folder.folderName.postln
+		});
+	}
 
 }
 
@@ -66,25 +108,24 @@ YAWNShow {
 
 YAWNSong {
 
-	classvar songFolderPath;
 	var <songName, <path, <pbTracks, <data;
 	var pbTracksLoaded = false;
 
-	*initClass {
-		songFolderPath = Platform.userExtensionDir +/+ "YAWN/songs/";    // can this be more robust? check Daniel Mayer's PathName extension!
+	*new { |name, setKey|
+		^super.newCopyArgs(name).init(setKey);
 	}
 
-	*new { |name|
-		^super.newCopyArgs(name).init;
-	}
-
-	init {
-		path = songFolderPath +/+ songName;
+	init { |setKey|
+		path = YAWNSet.setFolderPath +/+ setKey +/+ songName;
 		pbTracks = IdentityDictionary();
 		^this
 	}
 
-	loadData {
+	loadOSCdefs {
+
+	}
+
+	loadData { |action|
 		var dataPath = path +/+ "data.scd";
 		var cond = CondVar();
 
@@ -92,7 +133,7 @@ YAWNSong {
 			this.loadPBtracks({ cond.signalOne });
 			cond.wait { pbTracksLoaded };
 			data = thisProcess.interpreter.executeFile(dataPath).value(this);
-		}
+		};
 
 		^this
 	}
@@ -120,12 +161,12 @@ YAWNSong {
 	}
 
 	sections {
-		if(data.isNil,{ this.loadData });
+		if(data.isNil,{ this.loadData });             // maybe a warning/error here instead? or .fork this so that .loadData has enough time before the next line starts trying to access it..
 		^data.collect({ |section| section['name'] });
 	}
 
 	clicks {
-		if(data.isNil,{ this.loadData });
+		if(data.isNil,{ this.loadData });                 // maybe a warning/error here instead? or .fork this so that .loadData has enough time before the next line starts trying to access it..
 		^data.collect({ |section| section['click'] });
 	}
 

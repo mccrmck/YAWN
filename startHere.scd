@@ -1,106 +1,75 @@
-
-
 /*
 TO DO
--make new GUI
--integrate dante (look at OJKOS.sc for tips)
--make YAWNShow methods class methods
 -noisy instruments?
 -fix the YAWNSong.loadData thing!
--add countIns to all the clicks!!
 -communicate w/ Oskar, fix the backing tracks! Or maybe just do it myself in REAPER
 -test light loops!
--make a line check controllable from o-s-c (can use SoundCheck or make something custom)
+-make a line check controllable from o-s-c -> make a sample player that can play back different sounds to indicate each channel
+-make a way to test the MIDI sent to the Kempers!!
 
 -maybe .cueFrom shouldn't return Pdefs? If .isPlaying == true they will start playing when this method is called (remember what happened w/ OJKOS!!)
 
--there are several places with light patterns that have Pseqs in the .data file...are these running in Parrallel? Or why the Pseqs? Surely we can improve upon this somehow...
+-there are several places with light patterns that have Pseqs in the .data file...are these running in Parallel? Or why the Pseqs? Surely we can improve upon this somehow...
 -the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use resources loading DMX patterns if we're not even connected
 
 */
 
 (
 var server = Server.default;
-var set = ['cement']; //'chaos', 'lachrymator', 'tokamak'
+var set = 'test';
 
 var ins = [
-	'torfinnGtr' -> [0,1], 'mikeGtr' -> [2,3],
-	'snareTop' -> 4, 'snareBtm' -> 5, // OSV
-
+	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2,
+	'rackTomL' -> 3, 'rackTomR' -> 4, 'floorTom' -> 5,'overheads' -> [6,7],
+	'mikeGtr' -> [8,9], 'torfinnGtr' -> [10,11],
+	'hiHat' -> 12
 ];
 
 var outs = [
-	'processOut' -> 0, 'synthOut' -> 2,
-	'addsOut' -> 4, 'leadsOut' -> 6, 'efxOut' -> 8, 'percOut' -> 10,
-	'clickMike' -> 11, 'clickTorfinn' -> 12, 'clickOskar' -> 13, 'clickAll' -> [11,12,13],
+	'clickOskar' -> 16, 'clickMike' -> 17, 'clickTorfinn' -> 18, 'clickAll' -> [16,17,18],
+	'bassOut' -> 19,
+	// the following are stereo
+	'synthOut' -> 20, 'gtrsOut' -> 22,'percOut' -> 24,
+	'ambienceOut' -> 26, 'processOut' -> 30
 ];
 
 // var kemper = ["OCTA-CAPTURE", "MIDI" ]; // concert
-var kemper = nil; // ["IAC Driver", "Bus 1"];       // laptop
-// ["Pro40", "MIDI"];        // faxe
+// var kemper = ["IAC Driver", "Bus 1"];   // laptop
+// var kemper = ["Pro40", "MIDI"];         // faxe
+var kemper = nil;
+
+var lights = false;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
-// server.options.device = "Dante Virtual Soundcard";
+server.options.device = "Dante Virtual Soundcard";
 
-YAWNShow(set, ins, outs, kemper, false, 'openStageControl');
+YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
 
 );
 
+y.data
+y = YAWNSong('cement','22_march')
+y.songName
+y.loadData("done".postln)
+b = y.cueFrom('cementIntro','cementIntro',true,false,false,true,false)
+b.play
 
 // use this to get the IPs that other devices should find on the network!
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
 
-
-//
-
-DMXIS.setPreset(0)
-DMXIS()
-DMXIS.free
-DMXIS.vst.editor
-
-Server.all
-Server.default.options.device
-
-s.sendMsg("/n_free",1001)
-
-Server.killAll
-
-// evaluate clickAmp below!!
-
-(
-OSCdef(\test,{ |msg, time, addr, recvPort|
-
-	msg.postln
-
-},'/main/masterAmp/z');
-
-)
+n = NetAddr("127.0.0.1",8080)
+n.sendMsg("/songFragment","songs/tokamakClick.json")
+n.sendMsg("/text","songs/gui.json")
 
 
-NetAddr.localAddr
-OSCdef(\test).free
+OSCFunc.trace(false)
 
-s.sendMsg("/n_free",1053)
-s.sendMsg("/n_set",1003,\amp,1)
+"echo  \"Hiya! Im sending this from SuperCollider...\" | mail s- \"Totally Not Spam1\" mccormick.mike.r@gmail.com".unixCmd
 
-(
-// MUST RUN THIS CODE!!
+SoundCheck(32).sweep(0.2)
+SoundCheck(32).clear
 
-OSCdef(\yawnShowClickAmp,{ |msg, time,addr, recvPort|
-	var val = msg[1];
-	val = \db.asSpec.map(val).dbamp;
 
-	~yawn.clickAmp.set(val);
-
-},'/main/clickAmp/x');
-
-OSCdef(\yawnShowMasterAmp,{ |msg, time,addr, recvPort|
-	var val = msg[1];
-	val = \db.asSpec.map(val).dbamp;
-
-},'/main/masterAmp/x');
-
-)
