@@ -19,9 +19,9 @@
 			lights:  [ DMXIS.makePresetPat('lachCountPart1',1,0) ],
 			kemper:  [ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
 			bTracks: [
-				YAWNPlayback.makePat(leads[0],outs['leadsOut']),
-				YAWNPlayback.makePat(efx[0],outs['efxOut']),
-				YAWNPlayback.makePat(adds[0],outs['addsOut'])
+				YAWNPlayback.makeStereoPat(leads[0], outs['leadsOut']),
+				YAWNPlayback.makeStereoPat( efx[0], outs['efxOut']),
+				YAWNPlayback.makeStereoPat(adds[0], outs['addsOut'])
 			]
 		),(
 			name:    'lachAsection',
@@ -57,9 +57,9 @@
 			]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('lachCountPart2',(60/120) * 31.5,2), DMXIS.makePresetPat('lachJazzIntro',(60/120) * 0.5,0) ]) ],
 			bTracks: [
-				YAWNPlayback.makePat(leads[1],outs['leadsOut']),
-				YAWNPlayback.makePat(efx[1],outs['efxOut']),
-				YAWNPlayback.makePat(perc[0],outs['percOut'])
+				YAWNPlayback.makeStereoPat(leads[1],outs['leadsOut']),
+				YAWNPlayback.makeStereoPat(efx[1],outs['efxOut']),
+				YAWNPlayback.makeStereoPat(perc[0],outs['percOut'])
 			]
 		),(
 			name:    'lachJazzIntro',
@@ -122,10 +122,10 @@
 			lights:  [ Pseq([ DMXIS.makePresetPat('lachCountPart3', 9.3529411764706, 3), DMXIS.makePresetPat('lachAsectionNine',0,0) ]) ],
 			kemper:  [ KemperMIDI.makePat('lachCountPart3',pathToKemperMIDI +/+ "countPart3.mid") ],
 			bTracks: [
-				YAWNPlayback.makePat(leads[2],outs['leadsOut']),
-				YAWNPlayback.makePat(efx[2],outs['efxOut']),
-				YAWNPlayback.makePat(perc[1],outs['percOut']),
-				YAWNPlayback.makePat(adds[1],outs['addsOut'])
+				YAWNPlayback.makeStereoPat(leads[2],outs['leadsOut']),
+				YAWNPlayback.makeStereoPat(efx[2],outs['efxOut']),
+				YAWNPlayback.makeStereoPat(perc[1],outs['percOut']),
+				YAWNPlayback.makeStereoPat(adds[1],outs['addsOut'])
 			]
 		),(
 			name:    'lachAsectionNine',

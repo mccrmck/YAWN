@@ -36,7 +36,7 @@
     "traversing": false,
     "widgetType": "button",
     "quantity": 2,
-    "props": "JS{\n  let colors = [\"green\",\"red\"];\n  let index = @{this}[$] || 0;\n  let labels = [\"startTokamak\",\"loopCue\"];\n  return {\"label\": labels[$],\"colorFill\": colors[index]}\n}",
+    "props": "JS{\n  const labels = ['startTokamak','loopCue']\n  return {\n    \"colorFill\":`#_{@_{this} == 1 ? \"red\" : \"green\"}`,\n    \"label\": labels[$]\n  }\n}",
     "value": "",
     "default": "",
     "linkId": "",

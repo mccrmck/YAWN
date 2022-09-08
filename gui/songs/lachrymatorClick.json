@@ -36,9 +36,14 @@
     "traversing": false,
     "widgetType": "button",
     "quantity": 4,
-    "props": "JS{\n  let colors = [\"green\",\"red\"];\n  let index = @{this}[$] || 0;\n  let labels = [\"startLachrymator\",\"startTapping\",\"startFusion\",\"outro\"];\n  return {\"label\": labels[$],\"colorFill\": colors[index]}\n}",
+    "props": "JS{\n  const labels = ['startLachrymator','startTapping','startFusion','startOutro']\n  return {\n    \"colorFill\":`#_{@_{this} == 1 ? \"red\" : \"green\"}`,\n    \"label\": labels[$]\n  }\n}",
     "value": "",
-    "default": "",
+    "default": [
+      0,
+      0,
+      0,
+      0
+    ],
     "linkId": "",
     "address": "auto",
     "preArgs": "",

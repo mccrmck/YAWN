@@ -19,10 +19,9 @@ var server = Server.default;
 var set = '22_march';
 
 var ins = [
-	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2,
-	'rackTomL' -> 3, 'rackTomR' -> 4, 'floorTom' -> 5,'overheads' -> [6,7],
-	'mikeGtr' -> [8,9], 'torfinnGtr' -> [10,11],
-	'hiHat' -> 12
+	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 	'hiHat' -> 3,
+	'rackTomL' -> 4, 'rackTomR' -> 5, 'floorTom' -> 6,'overheads' -> [7,8],
+	'mikeGtr' -> [9,10], 'torfinnGtr' -> [11,12],
 ];
 
 var outs = [
@@ -49,13 +48,17 @@ YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
 
 );
 
+// consider a new .play method for AbstractClick:
+play { var player = this.pattern.play; ^player } ?
+
+
 
 // use this to get the IPs that other devices should find on the network!
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
 
-n = NetAddr("127.0.0.1",8080)
-n.sendMsg("/songFragment","songs/tokamakClick.json")
+n = NetAddr("127.0.0.1",8080)s
+n.sendMsg("/clickUpdate","songs/chaosClick.json")
 n.sendMsg("/text","songs/gui.json")
 
 
@@ -64,6 +67,10 @@ OSCFunc.trace(false)
 SoundCheck(32).sweep(0.2)
 SoundCheck(32).clear
 
+
+c = Click(60,repeats: inf)
+d = c.out_(16).play
+d.play
 
 
 /*======*/

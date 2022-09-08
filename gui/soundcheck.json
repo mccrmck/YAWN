@@ -188,7 +188,7 @@
         "top": "65%",
         "left": "40%",
         "lock": false,
-        "id": "matrix_1",
+        "id": "dmxText",
         "visible": true,
         "interaction": true,
         "comments": "",

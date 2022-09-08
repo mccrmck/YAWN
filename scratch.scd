@@ -27,8 +27,8 @@ Click(120,repeats: inf).play
 
 
 // double helix clicks
-b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2))//.clickArray.collect(_.tempoArray / 2).flat
-c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2))//.clickArray.collect(_.tempoArray / 2).flat
+b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).clickArray.collect(_.tempoArray / 2).flat
+c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).clickArray.collect(_.tempoArray / 2).flat
 [b,c].plot
 d = Click(60/0.570625,4,2,8)
 e = b.duration
@@ -142,4 +142,13 @@ OSCdef(\test,{ |msg|
 
 Ndef(\emptySet).clear
 Ndef(\emptySet).set(\lagTime,4,\lagCurve,4)
+
+
+// blast
+
+c = ClickConCat(1,ClickCue(190,2,cueKey: 'four'),ClickCue(190,2,cueKey: 'two'),Click(190,4),Click(190),ClickRest(190),Click(190,2),Click(190))
+c = ClickConCat(1,ClickCue(190,4,cueKey: 'three'),Click(190,3),Click(190))
+c.play
+
+// write an algorithm with a sort of background RM siren that grows and develops gradually
 

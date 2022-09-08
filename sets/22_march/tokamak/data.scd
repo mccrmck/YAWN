@@ -19,9 +19,9 @@
 			click:   [[ ClickRest(142,4,47,out: outs['clickAll']) ]],
 			lights:  [ DMXIS.makePresetPat('tokamakPB',1,4) ],
 			bTracks: [
-				YAWNPlayback.makePat(leads[0],outs['leadsOut']),
-				YAWNPlayback.makePat(efx[0],outs['efxOut']),
-				YAWNPlayback.makePat(perc[0],outs['percOut'])
+				YAWNPlayback.makeStereoPat(leads[0],outs['leadsOut']),
+				YAWNPlayback.makeStereoPat(efx[0],outs['efxOut']),
+				YAWNPlayback.makeStereoPat(perc[0],outs['percOut'])
 			]
 		),(
 			name:    'tokamakCount',
@@ -71,8 +71,8 @@
 			lights:  [ Pseq([ DMXIS.makePresetPat('tokamakCue',0,0), DMXIS.makePat('tokamakCue',pathToDMXMIDI +/+ "cue.mid") ]) ],
 			kemper:  [ KemperMIDI.makePat('tokamakCue',pathToKemperMIDI +/+ "cue.mid") ],
 			bTracks: [
-				YAWNPlayback.makePat(adds[1],outs['addsOut']),
-				YAWNPlayback.makePat(perc[1],outs['percOut'])
+				YAWNPlayback.makeStereoPat(adds[1],outs['addsOut']),
+				YAWNPlayback.makeStereoPat(perc[1],outs['percOut'])
 			]
 		),(
 			name:    'tokamakOutro',
@@ -85,7 +85,7 @@
 			countIn: [[ ]],
 			click:   [[ ClickRest(out: outs['clickAll']) ]],
 			lights:  [ DMXIS.makePresetPat('bow',0,8) ],
-			bTracks: [ YAWNPlayback.makePat(bow[0],outs['synthOut']) ]
+			bTracks: [ YAWNPlayback.makeStereoPat(bow[0],outs['synthOut']) ]
 		)
 	]
 }
