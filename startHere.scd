@@ -48,6 +48,7 @@ YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
 
 );
 
+
 // consider a new .play method for AbstractClick:
 play { var player = this.pattern.play; ^player } ?
 
@@ -57,7 +58,7 @@ play { var player = this.pattern.play; ^player } ?
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
 
-n = NetAddr("127.0.0.1",8080)s
+n = NetAddr("127.0.0.1",8080)
 n.sendMsg("/clickUpdate","songs/chaosClick.json")
 n.sendMsg("/text","songs/gui.json")
 
@@ -77,5 +78,5 @@ d.play
 
 y = YAWNSong('cement','22_march')
 y.loadData
-b = y.cueFrom('cementIntro','cementIntro',true,false,false,true,false)
+b = y.cueFrom('cementIntro','cementBsection',true,false,false,true,false)
 b.play

@@ -27,17 +27,20 @@ Click(120,repeats: inf).play
 
 
 // double helix clicks
-b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).clickArray.collect(_.tempoArray / 2).flat
-c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).clickArray.collect(_.tempoArray / 2).flat
-[b,c].plot
-d = Click(60/0.570625,4,2,8)
+b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).out_(0).clickArray.collect(_.tempoArray / 2).flat
+c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).out_(1).clickArray.collect(_.tempoArray / 2).flat
+c.play
+d = Click(60/0.56836521053797,4,2,8)
 e = b.duration
-c.duration
+b.duration
 d.duration
 
-c.play
+.play
 
+b.pla
 e = ClickConCat(2,ClickEnv([60/0.570625,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2))
+
+Ppar([b.pattern,c.pattern]).play
 
 
 Buffer
