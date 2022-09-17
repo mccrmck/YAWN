@@ -26,7 +26,7 @@
 			]],
 			lights:  [ DMXIS.makePat('cementCount',pathToDMXMIDI +/+ "count.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementCount',pathToKemperMIDI +/+ "count.mid") ],
-			bTracks: [ YAWNPlayback.makeStereoPat(welcome[0], outs['synthOut'] ) ]
+			bTracks: [  ]
 		),(
 			name:    'cementIntro',
 			countIn: [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
@@ -39,11 +39,7 @@
 			]],
 			lights:  [ DMXIS.makePat('cementIntro',pathToDMXMIDI +/+ "intro.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementIntro',pathToKemperMIDI +/+ "intro.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat( efx[0], outs['efxOut'] ),
-				YAWNPlayback.makeStereoPat(perc[0], outs['percOut'] ),
-				YAWNPlayback.makeStereoPat(adds[0], outs['addsOut'] )
-			]
+			bTracks: [ ]
 		),(
 			name:    'cementAsection',
 			countIn: [[ countIn ]],
@@ -90,12 +86,7 @@
 			]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('cementImpro',(60/170) * 16,1), DMXIS.makePresetPat('cementImpro',1,0) ]) ],    // is this the best solution here???
 			kemper:  [ KemperMIDI.makePat('cementCue',pathToKemperMIDI +/+ "cue.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(leads[0], outs['leadsOut'] ),
-				YAWNPlayback.makeStereoPat( efx[1], outs['efxOut'] ),
-				YAWNPlayback.makeStereoPat(perc[1], outs['percOut'] ),
-				YAWNPlayback.makeStereoPat(adds[1], outs['addsOut'] )
-			]
+			bTracks: [ ]
 		),(
 			name:    'cementBsectionAgain',
 			countIn: [[ countIn ]],
@@ -146,10 +137,7 @@
 			]],
 			lights:  [ DMXIS.makePat('cementAsectionLast',pathToDMXMIDI +/+ "AsectionLast.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementAsectionLast',pathToKemperMIDI +/+ "AsectionLast.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(perc[2], outs['percOut'] ),
-				YAWNPlayback.makeStereoPat(adds[2], outs['addsOut'] )
-			]
+			bTracks: []
 		),
 	]
 }

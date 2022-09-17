@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<preset version="2.0.0">
+    <name>Dante routing - Yawn 2022</name>
+    <description>Dante Controller preset</description>
+    <device>
+        <name>Mikes-MacBook-Pro-5</name>
+        <default_name>Mikes-MacBook-Pro-5</default_name>
+        <instance_id>
+            <device_id>A0CEC8FFFE534F62</device_id>
+            <process_id>0</process_id>
+        </instance_id>
+        <friendly_name>Mikes-MacBook-Pro-5</friendly_name>
+        <txchannel danteId="1"/>
+        <txchannel danteId="2"/>
+        <txchannel danteId="3"/>
+        <txchannel danteId="4"/>
+        <txchannel danteId="5"/>
+        <txchannel danteId="6"/>
+        <txchannel danteId="7"/>
+        <txchannel danteId="8"/>
+        <txchannel danteId="9"/>
+        <txchannel danteId="10"/>
+        <txchannel danteId="11"/>
+        <txchannel danteId="12"/>
+        <txchannel danteId="13"/>
+        <txchannel danteId="14"/>
+        <txchannel danteId="15"/>
+        <txchannel danteId="16"/>
+        <txchannel danteId="17"/>
+        <txchannel danteId="18"/>
+        <txchannel danteId="19"/>
+        <txchannel danteId="20"/>
+        <txchannel danteId="21"/>
+        <txchannel danteId="22"/>
+        <txchannel danteId="23"/>
+        <txchannel danteId="24"/>
+        <txchannel danteId="25"/>
+        <txchannel danteId="26"/>
+        <txchannel danteId="27"/>
+        <txchannel danteId="28"/>
+        <txchannel danteId="29"/>
+        <txchannel danteId="30"/>
+        <txchannel danteId="31"/>
+        <txchannel danteId="32"/>
+        <rxchannel danteId="1">
+            <name>01</name>
+            <subscribed_channel>01</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="2">
+            <name>02</name>
+            <subscribed_channel>02</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="3">
+            <name>03</name>
+            <subscribed_channel>03</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="4">
+            <name>04</name>
+            <subscribed_channel>04</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="5">
+            <name>05</name>
+            <subscribed_channel>05</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="6">
+            <name>06</name>
+            <subscribed_channel>06</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="7">
+            <name>07</name>
+            <subscribed_channel>07</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="8">
+            <name>08</name>
+            <subscribed_channel>08</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="9">
+            <name>09</name>
+            <subscribed_channel>09</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="10">
+            <name>10</name>
+            <subscribed_channel>10</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="11">
+            <name>11</name>
+            <subscribed_channel>11</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="12">
+            <name>12</name>
+            <subscribed_channel>12</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="13">
+            <name>13</name>
+            <subscribed_channel>13</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="14">
+            <name>14</name>
+            <subscribed_channel>14</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="15">
+            <name>15</name>
+            <subscribed_channel>15</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="16">
+            <name>16</name>
+            <subscribed_channel>16</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="17">
+            <name>17</name>
+        </rxchannel>
+        <rxchannel danteId="18">
+            <name>18</name>
+        </rxchannel>
+        <rxchannel danteId="19">
+            <name>19</name>
+        </rxchannel>
+        <rxchannel danteId="20">
+            <name>20</name>
+        </rxchannel>
+        <rxchannel danteId="21">
+            <name>21</name>
+        </rxchannel>
+        <rxchannel danteId="22">
+            <name>22</name>
+        </rxchannel>
+        <rxchannel danteId="23">
+            <name>23</name>
+        </rxchannel>
+        <rxchannel danteId="24">
+            <name>24</name>
+        </rxchannel>
+        <rxchannel danteId="25">
+            <name>25</name>
+        </rxchannel>
+        <rxchannel danteId="26">
+            <name>26</name>
+        </rxchannel>
+        <rxchannel danteId="27">
+            <name>27</name>
+        </rxchannel>
+        <rxchannel danteId="28">
+            <name>28</name>
+        </rxchannel>
+        <rxchannel danteId="29">
+            <name>29</name>
+        </rxchannel>
+        <rxchannel danteId="30">
+            <name>30</name>
+        </rxchannel>
+        <rxchannel danteId="31">
+            <name>31</name>
+        </rxchannel>
+        <rxchannel danteId="32">
+            <name>32</name>
+        </rxchannel>
+    </device>
+    <device>
+        <name>Oskars-MacBook-Pro-2</name>
+        <default_name>Oskars-MacBook-Pro-2</default_name>
+        <instance_id>
+            <device_id>A0CEC8FFFEE7CDA3</device_id>
+            <process_id>0</process_id>
+        </instance_id>
+        <friendly_name>Oskars-MacBook-Pro-2</friendly_name>
+        <txchannel danteId="1"/>
+        <txchannel danteId="2"/>
+        <txchannel danteId="3"/>
+        <txchannel danteId="4"/>
+        <txchannel danteId="5"/>
+        <txchannel danteId="6"/>
+        <txchannel danteId="7"/>
+        <txchannel danteId="8"/>
+        <txchannel danteId="9"/>
+        <txchannel danteId="10"/>
+        <txchannel danteId="11"/>
+        <txchannel danteId="12"/>
+        <txchannel danteId="13"/>
+        <txchannel danteId="14"/>
+        <txchannel danteId="15"/>
+        <txchannel danteId="16"/>
+        <txchannel danteId="17"/>
+        <txchannel danteId="18"/>
+        <txchannel danteId="19"/>
+        <txchannel danteId="20"/>
+        <txchannel danteId="21"/>
+        <txchannel danteId="22"/>
+        <txchannel danteId="23"/>
+        <txchannel danteId="24"/>
+        <txchannel danteId="25"/>
+        <txchannel danteId="26"/>
+        <txchannel danteId="27"/>
+        <txchannel danteId="28"/>
+        <txchannel danteId="29"/>
+        <txchannel danteId="30"/>
+        <txchannel danteId="31"/>
+        <txchannel danteId="32"/>
+        <rxchannel danteId="1">
+            <name>01</name>
+            <subscribed_channel>01</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="2">
+            <name>02</name>
+            <subscribed_channel>02</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="3">
+            <name>03</name>
+            <subscribed_channel>03</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="4">
+            <name>04</name>
+            <subscribed_channel>04</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="5">
+            <name>05</name>
+            <subscribed_channel>05</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="6">
+            <name>06</name>
+            <subscribed_channel>06</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="7">
+            <name>07</name>
+            <subscribed_channel>07</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="8">
+            <name>08</name>
+            <subscribed_channel>08</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="9">
+            <name>09</name>
+            <subscribed_channel>09</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="10">
+            <name>10</name>
+            <subscribed_channel>10</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="11">
+            <name>11</name>
+            <subscribed_channel>11</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="12">
+            <name>12</name>
+            <subscribed_channel>12</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="13">
+            <name>13</name>
+            <subscribed_channel>13</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="14">
+            <name>14</name>
+            <subscribed_channel>14</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="15">
+            <name>15</name>
+            <subscribed_channel>15</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="16">
+            <name>16</name>
+            <subscribed_channel>16</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="17">
+            <name>17</name>
+            <subscribed_channel>17</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="18">
+            <name>18</name>
+            <subscribed_channel>18</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="19">
+            <name>19</name>
+            <subscribed_channel>19</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="20">
+            <name>20</name>
+            <subscribed_channel>20</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="21">
+            <name>21</name>
+            <subscribed_channel>21</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="22">
+            <name>22</name>
+            <subscribed_channel>22</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="23">
+            <name>23</name>
+            <subscribed_channel>23</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="24">
+            <name>24</name>
+            <subscribed_channel>24</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="25">
+            <name>25</name>
+            <subscribed_channel>25</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="26">
+            <name>26</name>
+            <subscribed_channel>26</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="27">
+            <name>27</name>
+            <subscribed_channel>27</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="28">
+            <name>28</name>
+            <subscribed_channel>28</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="29">
+            <name>29</name>
+            <subscribed_channel>29</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="30">
+            <name>30</name>
+            <subscribed_channel>30</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="31">
+            <name>31</name>
+            <subscribed_channel>31</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="32">
+            <name>32</name>
+            <subscribed_channel>32</subscribed_channel>
+            <subscribed_device>X-DANTE-1f0558</subscribed_device>
+        </rxchannel>
+    </device>
+    <device>
+        <name>X-DANTE-1f0558</name>
+        <default_name>X-DANTE-1f0558</default_name>
+        <instance_id>
+            <device_id>001DC11F05580000</device_id>
+            <process_id>0</process_id>
+        </instance_id>
+        <friendly_name>X-DANTE-1f0558</friendly_name>
+        <txchannel danteId="1"/>
+        <txchannel danteId="2"/>
+        <txchannel danteId="3"/>
+        <txchannel danteId="4"/>
+        <txchannel danteId="5"/>
+        <txchannel danteId="6"/>
+        <txchannel danteId="7"/>
+        <txchannel danteId="8"/>
+        <txchannel danteId="9"/>
+        <txchannel danteId="10"/>
+        <txchannel danteId="11"/>
+        <txchannel danteId="12"/>
+        <txchannel danteId="13"/>
+        <txchannel danteId="14"/>
+        <txchannel danteId="15"/>
+        <txchannel danteId="16"/>
+        <txchannel danteId="17"/>
+        <txchannel danteId="18"/>
+        <txchannel danteId="19"/>
+        <txchannel danteId="20"/>
+        <txchannel danteId="21"/>
+        <txchannel danteId="22"/>
+        <txchannel danteId="23"/>
+        <txchannel danteId="24"/>
+        <txchannel danteId="25"/>
+        <txchannel danteId="26"/>
+        <txchannel danteId="27"/>
+        <txchannel danteId="28"/>
+        <txchannel danteId="29"/>
+        <txchannel danteId="30"/>
+        <txchannel danteId="31"/>
+        <txchannel danteId="32"/>
+        <rxchannel danteId="1">
+            <name>01</name>
+        </rxchannel>
+        <rxchannel danteId="2">
+            <name>02</name>
+        </rxchannel>
+        <rxchannel danteId="3">
+            <name>03</name>
+        </rxchannel>
+        <rxchannel danteId="4">
+            <name>04</name>
+        </rxchannel>
+        <rxchannel danteId="5">
+            <name>05</name>
+        </rxchannel>
+        <rxchannel danteId="6">
+            <name>06</name>
+        </rxchannel>
+        <rxchannel danteId="7">
+            <name>07</name>
+        </rxchannel>
+        <rxchannel danteId="8">
+            <name>08</name>
+        </rxchannel>
+        <rxchannel danteId="9">
+            <name>09</name>
+        </rxchannel>
+        <rxchannel danteId="10">
+            <name>10</name>
+        </rxchannel>
+        <rxchannel danteId="11">
+            <name>11</name>
+        </rxchannel>
+        <rxchannel danteId="12">
+            <name>12</name>
+        </rxchannel>
+        <rxchannel danteId="13">
+            <name>13</name>
+        </rxchannel>
+        <rxchannel danteId="14">
+            <name>14</name>
+        </rxchannel>
+        <rxchannel danteId="15">
+            <name>15</name>
+        </rxchannel>
+        <rxchannel danteId="16">
+            <name>16</name>
+        </rxchannel>
+        <rxchannel danteId="17">
+            <name>17</name>
+            <subscribed_channel>17</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="18">
+            <name>18</name>
+            <subscribed_channel>18</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="19">
+            <name>19</name>
+            <subscribed_channel>19</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="20">
+            <name>20</name>
+            <subscribed_channel>20</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="21">
+            <name>21</name>
+            <subscribed_channel>21</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="22">
+            <name>22</name>
+            <subscribed_channel>22</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="23">
+            <name>23</name>
+            <subscribed_channel>23</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="24">
+            <name>24</name>
+            <subscribed_channel>24</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="25">
+            <name>25</name>
+            <subscribed_channel>25</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="26">
+            <name>26</name>
+            <subscribed_channel>26</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="27">
+            <name>27</name>
+            <subscribed_channel>27</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="28">
+            <name>28</name>
+            <subscribed_channel>28</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="29">
+            <name>29</name>
+            <subscribed_channel>29</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="30">
+            <name>30</name>
+            <subscribed_channel>30</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="31">
+            <name>31</name>
+            <subscribed_channel>31</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+        <rxchannel danteId="32">
+            <name>32</name>
+            <subscribed_channel>32</subscribed_channel>
+            <subscribed_device>Mikes-MacBook-Pro-5</subscribed_device>
+        </rxchannel>
+    </device>
+</preset>

@@ -56,11 +56,7 @@
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('lachCountPart2',(60/120) * 31.5,2), DMXIS.makePresetPat('lachJazzIntro',(60/120) * 0.5,0) ]) ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(leads[1],outs['leadsOut']),
-				YAWNPlayback.makeStereoPat(efx[1],outs['efxOut']),
-				YAWNPlayback.makeStereoPat(perc[0],outs['percOut'])
-			]
+			bTracks: [ ]
 		),(
 			name:    'lachJazzIntro',
 			countIn: [[ ClickConCat(1, Click(120,2,repeats: 2), Click(120,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
@@ -121,12 +117,7 @@
 			click:   [[ ClickRest(60 / 6.3529411764706,out: outs['clickAll'] ), ClickConCat(2, Click(340,5), Click(340,4)).out_( outs['clickAll'] ) ]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('lachCountPart3', 9.3529411764706, 3), DMXIS.makePresetPat('lachAsectionNine',0,0) ]) ],
 			kemper:  [ KemperMIDI.makePat('lachCountPart3',pathToKemperMIDI +/+ "countPart3.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(leads[2],outs['leadsOut']),
-				YAWNPlayback.makeStereoPat(efx[2],outs['efxOut']),
-				YAWNPlayback.makeStereoPat(perc[1],outs['percOut']),
-				YAWNPlayback.makeStereoPat(adds[1],outs['addsOut'])
-			]
+			bTracks: []
 		),(
 			name:    'lachAsectionNine',
 			countIn: [[ ClickConCat(2, Click(340,5), Click(340,4)).out_( outs['clickAll'] ) ]],

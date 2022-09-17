@@ -24,7 +24,7 @@
 			click:   [[ ClickConCat(1, Click(160,4,repeats: 6), ClickCue(160,2,repeats: 2), ClickCue(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('chaosDrumCue', 11.8125, 6), DMXIS.makePresetPat('chaosDrumCueReset', 0.1, 0) ]) ],
 			kemper:  [ KemperMIDI.makePat('chaosDrumCue',pathToKemperMIDI +/+ "drumCue.mid") ],
-			bTracks: [ YAWNPlayback.makeStereoPat(efx[0],outs['efxOut'] ) ]
+			bTracks: [ ]
 		),(
 			name:    'chaosGitDrums',
 			countIn: [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
@@ -37,7 +37,7 @@
 			]],
 			lights:  [ DMXIS.makePat('chaosGitDrums',pathToDMXMIDI +/+ "gitDrums.mid") ],
 			kemper:  [ KemperMIDI.makePat('chaosGitDrums',pathToKemperMIDI +/+ "gitDrums.mid") ],
-			bTracks: [ YAWNPlayback.makeStereoPat(perc[0],outs['percOut']) ]
+			bTracks: [ ]
 		),(
 			name:    'chaosNewTempo',
 			countIn: [[ ]],
@@ -50,11 +50,7 @@
 			click:   [[ ClickConCat(2, Click(120,4,repeats: 5),Click(120,3),Click(120,4,repeats: 2),Click(120,2),Click(120,4,repeats: 2),Click(120,3) ).out_( outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePat('chaosAsection',pathToDMXMIDI +/+ "Asection.mid") ],
 			kemper:  [ KemperMIDI.makePat('chaosAsection',pathToKemperMIDI +/+ "Asection.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(adds[0],outs['addsOut']),
-				YAWNPlayback.makeStereoPat(perc[1],outs['percOut']),
-				YAWNPlayback.makeStereoPat(leads[0],outs['leadsOut'])
-			]
+			bTracks: [ ]
 		),(
 			name:    'chaosElevenFirst',
 			countIn: [[ ClickConCat(1, Click(200,2,repeats: 2), Click(200,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
@@ -82,11 +78,7 @@
 				DMXIS.makePresetPat('chaosElevenLast',1,0)                                                                                                                           // what is this???!?!
 			],
 			kemper:  [ KemperMIDI.makePat('chaosElevenLast',pathToKemperMIDI +/+ "elevenLast.mid") ],
-			bTracks: [
-				YAWNPlayback.makeStereoPat(efx[1],outs['efxOut']),
-				YAWNPlayback.makeStereoPat(perc[2],outs['percOut']),
-				YAWNPlayback.makeStereoPat(adds[1],outs['addsOut'])
-			]
+			bTracks: [ ]
 		),(
 			name:    'chaosBomb',
 			countIn: [[ ]],
@@ -100,7 +92,7 @@
 				])
 			],
 			kemper:  [ KemperMIDI.makePat('chaosBomb',pathToKemperMIDI +/+ "bomb.mid") ],
-			bTracks: [ YAWNPlayback.makeStereoPat(adds[2],outs['addsOut']),YAWNPlayback.makePat(perc[3],outs['percOut']) ]
+			bTracks: [ ]
 		),(
 			name:    'chaosCountAgain',
 			countIn: [[ ]],
@@ -110,7 +102,7 @@
 				DMXIS.makePat('chaosCountAgain',pathToDMXMIDI ++ "countAgain.mid")
 			],
 			kemper:  [ KemperMIDI.makePat('chaosCountAgain',pathToKemperMIDI +/+ "countAgain.mid") ],
-			bTracks: [ YAWNPlayback.makeStereoPat(adds[3],outs['addsOut']),YAWNPlayback.makePat(perc[4],outs['percOut']),YAWNPlayback.makePat(leads[1],outs['leadsOut']) ]
+			bTracks: [ ]
 		),(
 			name:    'chaosAsectionAgain',
 			countIn: [[ ClickConCat(1, Click(120,2,repeats: 2), Click(120,1,repeats: 4) ).out_( outs['clickAll'] ) ]],

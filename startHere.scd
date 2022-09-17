@@ -48,10 +48,19 @@ YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
 
 );
 
-
+c = Click(60,repeats: inf).out_(YAWNShow.outDict['clickAll'])
+d = c.play
+d.stop
 // consider a new .play method for AbstractClick:
 play { var player = this.pattern.play; ^player } ?
 
+// is it possible/useful to remove keys from DMXIS and Kemper methods?
+// Do I need to access their data in a dictionary, or was that basically just for debugging?
+
+// consider a new Kemper paradigm -> MIDI connection is made upon YAWNShow startup through a KemperDevice class (or whatever)
+// and then each Kemper pattern is an instance of a different class - no need for events with loads of entries, just use instance <> methods?
+// can/should something similar be done with DMXIS also?
+// if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake
 
 
 // use this to get the IPs that other devices should find on the network!
@@ -67,7 +76,6 @@ OSCFunc.trace(false)
 
 SoundCheck(32).sweep(0.2)
 SoundCheck(32).clear
-
 
 c = Click(60,repeats: inf)
 d = c.out_(16).play

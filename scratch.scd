@@ -29,7 +29,7 @@ Click(120,repeats: inf).play
 // double helix clicks
 b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).out_(0).clickArray.collect(_.tempoArray / 2).flat
 c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).out_(1).clickArray.collect(_.tempoArray / 2).flat
-c.play
+[b,c].plot
 d = Click(60/0.56836521053797,4,2,8)
 e = b.duration
 b.duration
@@ -155,3 +155,4 @@ c.play
 
 // write an algorithm with a sort of background RM siren that grows and develops gradually
 
+13.do({|i| i ** i})
