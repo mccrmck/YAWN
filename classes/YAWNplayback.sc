@@ -24,7 +24,7 @@ YAWNPlayback {
 	*makeStereoPat { |bufnum,outBus|
 		^Pmono(
 			\stereoYawnPlayback,
-			\bufnum, bufnum,
+			\bufnum, Pseq([bufnum]),
 			\dur, bufnum.duration,
 			\outBus, outBus
 		)
@@ -33,7 +33,7 @@ YAWNPlayback {
 	*makeMonoPat { |bufnum,outBus|
 		^Pmono(
 			\monoYawnPlayback,
-			\bufnum, bufnum,
+			\bufnum, Pseq([bufnum]),
 			\dur, bufnum.duration,
 			\outBus, outBus
 		)

@@ -76,6 +76,7 @@ OSCFunc.trace(false)
 
 SoundCheck(32).sweep(0.2)
 SoundCheck(32).clear
+SoundCheck(32).static(19)
 
 c = Click(60,repeats: inf)
 d = c.out_(16).play

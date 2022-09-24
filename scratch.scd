@@ -35,9 +35,8 @@ e = b.duration
 b.duration
 d.duration
 
-.play
+b.play
 
-b.pla
 e = ClickConCat(2,ClickEnv([60/0.570625,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2))
 
 Ppar([b.pattern,c.pattern]).play
@@ -86,65 +85,83 @@ c = ['one','oneDan','two','twoDan','three','threeDan','four','fourDan'].collect(
 })
 
 
-Prand(c,inf).play
-
 // noiz
 
-Ndef(\emptySet,{
-	var varT = \lagTime.kr(0);
-	var varC = \lagCurve.kr(0);
-	var sig, freq = \freq.kr(40);
+(
+Ndef(\oskarNoise,{
+	var sig, freq = \freq.kr(40).linexp(0,1,40,8000);
 	var harms = (1..4);
-	var mid = VarSaw.ar(freq * harms,harms.reciprocal.reverse,\width.kr(0.5).varlag(varT,varC),harms.reciprocal).sum;
-	var side = PinkNoise.ar(1,\offset.kr(0).varlag(varT,varC)).clip2;
-	mid = (mid * \midGain.kr(0.5).varlag(varT,varC)).tanh;
+	var mid = VarSaw.ar(freq * harms,harms.reciprocal.reverse,\width.kr(0.5),harms.reciprocal).sum;
+	var side = PinkNoise.ar(1,\offset.kr(0).linlin(0,1,0,2)).clip2;
+	mid = (mid * \midGain.kr(0).linlin(0,1,1,12)).tanh;
 
-	side = LeakDC.ar( HPF.ar( HPF.ar(side,90),90) ) ;
-	side = (side * \sideGain.kr(4).varlag(varT,varC)).fold2;
+	side = HPF.ar( HPF.ar(side,90),90);
+	side = ( side * \sideGain.kr(0).linlin(0,1,1,12) ).fold2;
 
-	sig = MSMatrix.ar([mid * \midAmp.kr(1).varlag(varT,varC),side * \sideAmp.kr(1).varlag(varT,varC)]);
-	sig = (sig * \gain.kr(4).varlag(varT,varC));
+	sig = MSMatrix.ar([mid * \midAmp.kr(0),side * \sideAmp.kr(1)]);
+	sig = (sig * \gain.kr(0).linlin(0,1,1,8));
 
-	sig = RHPF.ar(sig,\hpFreq.kr(80).varlag(varT,varC).clip(20,20000),\hpQ.kr(0.1).varlag(varT,varC));
-	sig = RLPF.ar(sig,\lpFreq.kr(8000).varlag(varT,varC).clip(20,20000),\lpQ.kr(1).varlag(varT,varC));
+	sig = RHPF.ar(sig,\hpFreq.kr(0).linexp(0,1,40,10000),\hpQ.kr(0.9).linlin(0,1,1,0.01));
+	sig = RLPF.ar(sig,\lpFreq.kr(0.9).linexp(0,1,40,20000),\lpQ.kr(0).linlin(0,1,1,0.01));
 
 	sig = MidEQ.ar(sig,500,1,6);
+	sig = LeakDC.ar(sig,0.9);
 	sig = sig.tanh;
-	sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(0.25) * -18.dbamp);
-}).play;
-
+	sig = Balance2.ar(sig[0],sig[1],0,\amp.kr(0.25) * -18.dbamp);
+});
+)
 OSCFunc.trace(false)
 
-OSCdef(\test,{ |msg|
-	var vals = msg[1..];
+(
+/* ================= */
 
-	Ndef(\emptySet).set(
-		// 0
-		\freq,vals[0].linexp(0,1,40,2000),
-		\width,vals[1],
-		// 1
-		\offset,vals[2].linexp(0,1,0,2),
-		\midGain,vals[3].linexp(0,1,1,12),
-		// 2
-		\sideGain,vals[4].linexp(0,1,1,12),
-		\midAmp,vals[5].linexp(0,1,0,1),
-		// 3
-		\sideAmp,vals[6].linexp(0,1,0,1),
-		\gain,vals[7].linexp(0,1,1,12),
-		// 4
-		\hpFreq,vals[8].linexp(0,1,40,8000),
-		\hpQ,vals[9],
-		// 5
-		\lpFreq,vals[10].linexp(0,1,40,16000),
-		\lpQ,vals[11],
+['width','midGain','midAmp'].do({ |key,index|
 
-	)
+	OSCdef("oskarMid%".format(index).asSymbol,{ |msg|
 
-},'/yawnNoiseTest')
+		Ndef(\oskarNoise).set(key,msg[1])
 
+	},"/oskarNoiseMid/%".format(index).asSymbol)
+});
 
-Ndef(\emptySet).clear
-Ndef(\emptySet).set(\lagTime,4,\lagCurve,4)
+['offset','sideGain','sideAmp'].do({ |key,index|
+
+	OSCdef("oskarSides%".format(index).asSymbol,{ |msg|
+
+		Ndef(\oskarNoise).set(key,msg[1])
+
+	},"/oskarNoiseSides/%".format(index).asSymbol)
+});
+
+['gain','amp'].do({ |key,index|
+
+	OSCdef("oskarMain%".format(index).asSymbol,{ |msg|
+
+		Ndef(\oskarNoise).set(key,msg[1])
+
+	},"/oskarNoiseMain/%".format(index).asSymbol);
+});
+
+/* ================= */
+
+OSCdef(\oskarNoisePlay,{ |msg|
+
+	if(msg[1] == 1,{ Ndef(\oskarNoise).play },{ Ndef(\oskarNoise).stop });
+
+},'/oskarNoisePlay');
+
+OSCdef(\oskarFund,{ |msg|
+
+	Ndef(\oskarNoise).set(\freq,msg[1])
+
+},'/oskarNoiseFund');
+
+OSCdef(\oskarXY,{ |msg|
+
+	Ndef(\oskarNoise).set(\hpFreq,msg[1],\hpQ,msg[2],\lpFreq,msg[3],\lpQ,msg[4])
+
+},'/oskarNoiseFreqQ');
+)
 
 
 // blast
@@ -155,4 +172,91 @@ c.play
 
 // write an algorithm with a sort of background RM siren that grows and develops gradually
 
-13.do({|i| i ** i})
+// chaos impro
+
+
+// snareTop, overheads, torfinnGtr
+(
+
+// x/y pads -> onTouch launches synth, y is amp, x is pan
+
+SynthDef(\repeater,{
+	var sig = SoundIn.ar(\inBus.kr(0!2)); // make this stereo?
+	sig = sig.sum * Env.sine(0.1).ar;
+	sig = sig + LocalIn.ar(2);
+	sig = DelayC.ar(sig,0.4,TRand.kr(0.01,0.4,1));
+	sig = sig.clip2;
+	LocalOut.ar(sig * \feedB.kr(0.1).linlin(0,1,0.9,1.4));
+	sig = sig.tanh;
+	sig = sig * Env.asr(0.01,1,0.01,0).ar(2,\gate.kr(1) + Impulse.kr(0));
+	sig = Balance2.ar(sig[0],sig[1],\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
+
+	Out.ar(\outBus.kr(0),sig)
+}).add;
+
+SynthDef(\freeze,{
+	var sig = SoundIn.ar(\inBus.kr(0!2)); // make this stereo?
+	sig = FFT(LocalBuf(2048),sig.sum);
+	sig = PV_Freeze(sig,1);
+	sig = IFFT(sig);
+	sig = BPF.ar(sig,\freq.kr(0.5).linexp(0,1,250,8000,0.5));
+	sig = sig.tanh;
+	sig = sig * Env.asr(0.01,1,0.01,0).ar(2,\gate.kr(1) + Impulse.kr(0));
+	sig = Pan2.ar(sig,\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
+	Out.ar(\outBus.kr(0),sig)
+
+}).add;
+);
+
+x = Synth(\repeater,[\inBus,[0,1],\pan,0 ])
+x = Synth(\freeze,[\inBus,[0,1],\pan,0 ])
+x.free
+
+OSCFunc.trace(false)
+
+(
+
+var ins = YAWNShow.inDict;
+var outs = YAWNShow.outDict;
+var busses = [
+	[ins['snareTop'], ins['snareBot']],
+	ins['overheads'],
+	ins['torfinnGtr'],
+];
+var synths = 0!6;
+
+OSCdef(\chaosOnOff,{ |msg|
+	var index = msg[1];
+	var val = msg[2];
+
+	if(val == 'start',{
+		case
+		{index < 3}{ synths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
+		{index > 2}{ synths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
+	},{
+		case
+		{index < 3}{ synths[index].release }
+		{index > 2}{ synths[index].release }
+
+	})
+
+},'/chaos');
+
+
+6.do({ |index|
+
+	OSCdef("chaosCtrl%".format(index).asSymbol,{ |msg|
+		var xVal = msg[1];
+		var yVal = msg[2];
+
+		case
+		{index < 3}{ synths[index].set(\pan,xVal,\feedB,yVal) }
+		{index > 2}{ synths[index].set(\pan,xVal,\freq,yVal) }
+
+	},"/chaosXY/%".format(index).asSymbol);
+})
+
+)
+
+
+
