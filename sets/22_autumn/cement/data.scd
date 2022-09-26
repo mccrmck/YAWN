@@ -48,7 +48,8 @@
 			lights:  [ DMXIS.makePat('cementAsection',pathToDMXMIDI +/+ "Asection.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementAsection',pathToKemperMIDI +/+ "Asection.mid") ],
 			bTracks: [
-				YAWNPlayback.makeStereoPat( ambience[0], outs['ambienceOut'] ),
+				Pseq([ ClickRest(170,25).pattern, YAWNPlayback.makeStereoPat( ambience[0], outs['ambienceOut'] ) ]),
+				Pseq([ ClickRest(170,63).pattern, YAWNPlayback.makeStereoPat( ambience[1], outs['ambienceOut'] ) ]),
 				YAWNPlayback.makeMonoPat( bass[0], outs['bassOut'] ),
 				YAWNPlayback.makeStereoPat( perc[1], outs['percOut'] ),
 				YAWNPlayback.makeStereoPat( synths[0], outs['synthsOut'] ),
@@ -67,17 +68,11 @@
 			kemper:  [ KemperMIDI.makePat('cementMelody',pathToKemperMIDI +/+ "melody.mid") ],
 			bTracks: [
 				YAWNPlayback.makeMonoPat( bass[1], outs['bassOut'] ),
-				// YAWNPlayback.makeStereoPat( gtrs[0], outs['gtrsOut'] ),                                              // this needs to be a different file
+				YAWNPlayback.makeStereoPat( gtrs[1], outs['gtrsOut'] ),
 				YAWNPlayback.makeStereoPat( perc[2], outs['percOut'] ),
 				YAWNPlayback.makeStereoPat( synths[1], outs['synthsOut'] ),
+				YAWNPlayback.makeStereoOverlap( synths[2], outs['synthsOut'] ),
 			]
-		),(
-			name:    'cementImpro',
-			countIn: [[  ]],
-			click:   [[ ]],
-			lights:  [  ],
-			kemper:  [ ],
-			bTracks: []
 		),(
 			name:    'cementBsection',
 			countIn: [[ countIn ]],
@@ -86,10 +81,9 @@
 			kemper:  [ KemperMIDI.makePat('cementBsection',pathToKemperMIDI +/+ "Bsection.mid") ],
 			bTracks: [
 				YAWNPlayback.makeMonoPat( bass[2], outs['bassOut'] ),
-				Pseq([ ClickRest(170,58).pattern,YAWNPlayback.makeStereoPat( gtrs[1], outs['gtrsOut'] ) ]),
-				Pseq([ ClickRest(170,58).pattern,YAWNPlayback.makeStereoPat( perc[4], outs['percOut'] ) ]),
-				YAWNPlayback.makeStereoPat( perc[3], outs['percOut'] ),
-				YAWNPlayback.makeStereoPat( synths[2], outs['synthsOut'] ),
+				Pseq([ ClickRest(170,58.5).pattern,YAWNPlayback.makeMonoPat( bass[3], outs['bassOut'] ) ]),
+				Pseq([ ClickRest(170,58.5).pattern,YAWNPlayback.makeStereoPat( perc[3], outs['percOut'] ) ]),
+				YAWNPlayback.makeStereoPat( synths[3], outs['synthsOut'] ),
 			]
 		),(
 			name:    'cementCountAgain',
@@ -107,11 +101,13 @@
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ DMXIS.makePat('cementBsectionAgain',pathToDMXMIDI +/+ "BsectionAgain.mid") ],
-			kemper:  [ KemperMIDI.makePat('cementBsectionAgain',pathToKemperMIDI +/+ "BsectionAgain.mid") ],
+			kemper:  [ KemperMIDI.makePat('cementBsectionAgain',pathToKemperMIDI +/+ "BsectionAgain.mid") ],             // weird shit happening in mike's guitar
 			bTracks: [
-				YAWNPlayback.makeMonoPat( bass[3], outs['bassOut'] ),
-				YAWNPlayback.makeStereoPat( perc[6], outs['percOut'] ),
-				YAWNPlayback.makeStereoPat( synths[3], outs['synthsOut'] ),
+				YAWNPlayback.makeStereoOverlap( ambience[2], outs['ambienceOut'] ),
+				Pseq([ ClickRest(170,68.5).pattern,YAWNPlayback.makeStereoOverlap( ambience[3], outs['ambienceOut']  ) ]),
+				YAWNPlayback.makeMonoPat( bass[4], outs['bassOut'] ),
+				YAWNPlayback.makeStereoPat( perc[4], outs['percOut'] ),
+				YAWNPlayback.makeStereoOverlap( synths[4], outs['synthsOut'] ),
 			]
 		),(
 			name:    'cementSolo',
@@ -126,10 +122,11 @@
 			lights:  [ DMXIS.makePat('cementSolo',pathToDMXMIDI +/+ "solo.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementSolo',pathToKemperMIDI +/+ "solo.mid") ],
 			bTracks: [
-				Pseq([ ClickRest(170,137).pattern,YAWNPlayback.makeMonoPat( bass[4], outs['bassOut'] ) ]),
-				Pseq([ ClickRest(170,137).pattern,YAWNPlayback.makeStereoPat( synths[4], outs['synthsOut'] ) ]),
-				YAWNPlayback.makeStereoPat( perc[7], outs['percOut'] ),
-				Pseq([ ClickRest(170,114.5).pattern,YAWNPlayback.makeStereoPat( ambience[2], outs['ambienceOut'] ) ]),
+				Pseq([ ClickRest(170,114.5).pattern,YAWNPlayback.makeStereoPat( ambience[4], outs['ambienceOut'] ) ]),
+				Pseq([ ClickRest(170,137).pattern,YAWNPlayback.makeMonoPat( bass[5], outs['bassOut'] ) ]),
+				Pseq([ ClickRest(170,137).pattern,YAWNPlayback.makeStereoPat( gtrs[2], outs['gtrsOut'] ) ]),
+				Pseq([ ClickRest(170,137).pattern,YAWNPlayback.makeStereoPat( synths[5], outs['synthsOut'] ) ]),
+				YAWNPlayback.makeStereoPat( perc[5], outs['percOut'] ),
 			]
 		),(
 			name:    'cementQuint',
@@ -141,9 +138,9 @@
 			lights:  [ DMXIS.makePat('cementQuint',pathToDMXMIDI +/+ "quint.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementQuint',pathToKemperMIDI +/+ "quint.mid") ],                                        // this is fucked also
 			bTracks: [
-				YAWNPlayback.makeMonoPat( bass[5], outs['bassOut'] ),
-				YAWNPlayback.makeStereoPat( perc[8], outs['percOut']),
-				YAWNPlayback.makeStereoPat( synths[5], outs['synthsOut'])
+				YAWNPlayback.makeMonoPat( bass[6], outs['bassOut'] ),
+				YAWNPlayback.makeStereoPat( perc[6], outs['percOut']),
+				YAWNPlayback.makeStereoPat( synths[6], outs['synthsOut'])
 			]
 		),(
 			name:    'cementRit',
@@ -152,9 +149,9 @@
 			lights:  [ DMXIS.makePat('cementRit',pathToDMXMIDI +/+ "rit.mid") ],
 			kemper:  [ Pseq([ ClickRest(60/6.384).pattern, KemperMIDI.makePat('cementQuint',pathToKemperMIDI +/+ "rit.mid")] ) ],
 			bTracks: [
-				YAWNPlayback.makeMonoPat( bass[6], outs['bassOut'] ),
-				YAWNPlayback.makeStereoPat( perc[9], outs['percOut']),
-				YAWNPlayback.makeStereoPat( synths[6], outs['synthsOut'])
+				YAWNPlayback.makeMonoPat( bass[7], outs['bassOut'] ),
+				YAWNPlayback.makeStereoPat( perc[7], outs['percOut']),
+				YAWNPlayback.makeStereoPat( synths[7], outs['synthsOut'])
 			]
 		),(
 			name:    'cementAsectionLast',
@@ -170,10 +167,12 @@
 			lights:  [ DMXIS.makePat('cementAsectionLast',pathToDMXMIDI +/+ "AsectionLast.mid") ],
 			kemper:  [ KemperMIDI.makePat('cementAsectionLast',pathToKemperMIDI +/+ "AsectionLast.mid") ],
 			bTracks: [
-				YAWNPlayback.makeMonoPat( bass[7], outs['bassOut'] ),
-				Pseq([ ClickRest(170,75).pattern,YAWNPlayback.makeStereoPat( gtrs[2], outs['gtrsOut'] ) ]),
-				YAWNPlayback.makeStereoPat( perc[10], outs['percOut']),
-				YAWNPlayback.makeStereoPat( synths[7], outs['synthsOut']),
+				YAWNPlayback.makeMonoPat( bass[8], outs['bassOut'] ),
+				YAWNPlayback.makeStereoPat( gtrs[3], outs['gtrsOut'] ),
+				Pseq([ ClickRest(170,76).pattern,YAWNPlayback.makeStereoPat( gtrs[4], outs['gtrsOut'] ) ]),
+				YAWNPlayback.makeStereoPat( perc[8], outs['percOut']),
+				YAWNPlayback.makeStereoPat( synths[8], outs['synthsOut']),
+				YAWNPlayback.makeStereoPat( synths[9], outs['synthsOut']),
 			]
 		),
 	]

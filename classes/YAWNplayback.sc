@@ -38,4 +38,22 @@ YAWNPlayback {
 			\outBus, outBus
 		)
 	}
+
+	*makeStereoOverlap { |bufnum,outBus|
+		^Pbind(
+			\instrument,\stereoYawnPlayback,
+			\bufnum, Pseq([bufnum]),
+			\dur, 0,
+			\outBus, outBus
+		)
+	}
+
+	*makeMonoOverlap { |bufnum,outBus|
+		^Pbind(
+			\instrument,\monoYawnPlayback,
+			\bufnum, Pseq([bufnum]),
+			\dur, 0,
+			\outBus, outBus
+		)
+	}
 }

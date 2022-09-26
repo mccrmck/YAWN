@@ -1,31 +1,4 @@
 
-(
-~riffs = PathName("/Users/mikemccormick/Dropbox/Mac/Downloads/bounceShort/").entries.collect({ |entry|
-	Buffer.read(s,entry.fullPath)
-})
-)
-
-(
-Routine({
-
-	inf.do{
-		var bufnum = ~riffs.choose;
-		var bufDur = bufnum.duration;
-		{
-			var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum));
-			sig = sig * Env([0,1,1,0],[0.02,bufDur-0.04,0.02]).kr(2);
-			sig
-		}.play;
-		bufDur.postln;
-		bufDur.wait;
-	}
-}).play
-)
-
-
-Click(120,repeats: inf).play
-
-
 // double helix clicks
 b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).out_(0).clickArray.collect(_.tempoArray / 2).flat
 c = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).out_(1).clickArray.collect(_.tempoArray / 2).flat
@@ -85,11 +58,23 @@ c = ['one','oneDan','two','twoDan','three','threeDan','four','fourDan'].collect(
 })
 
 
-// noiz
+OSCFunc.trace(fals)
+// use this to laod the GUI when
+
+OSCdef(\test,{|msg|
+
+
+	n = NetAddr("127.0.0.1",8080);
+	n.sendMsg("/clickUpdate","songs/cement/click.json")
+
+},'/loaded')
+
+
+// LACHRYMATOR impro -> Oskar's noiz
 
 (
 Ndef(\oskarNoise,{
-	var sig, freq = \freq.kr(40).linexp(0,1,40,8000);
+	var sig, freq = \freq.kr(0).linexp(0,1,40,8000);
 	var harms = (1..4);
 	var mid = VarSaw.ar(freq * harms,harms.reciprocal.reverse,\width.kr(0.5),harms.reciprocal).sum;
 	var side = PinkNoise.ar(1,\offset.kr(0).linlin(0,1,0,2)).clip2;
@@ -99,15 +84,15 @@ Ndef(\oskarNoise,{
 	side = ( side * \sideGain.kr(0).linlin(0,1,1,12) ).fold2;
 
 	sig = MSMatrix.ar([mid * \midAmp.kr(0),side * \sideAmp.kr(1)]);
-	sig = (sig * \gain.kr(0).linlin(0,1,1,8));
+	sig = (sig * \gain.kr(0).linlin(0,1,1,12));
 
-	sig = RHPF.ar(sig,\hpFreq.kr(0).linexp(0,1,40,10000),\hpQ.kr(0.9).linlin(0,1,1,0.01));
-	sig = RLPF.ar(sig,\lpFreq.kr(0.9).linexp(0,1,40,20000),\lpQ.kr(0).linlin(0,1,1,0.01));
+	sig = RHPF.ar(sig,\hpFreq.kr(0.0).linexp(0,1,20,8000),\hpQ.kr(0).linexp(0,1,1,0.01));
+	sig = RLPF.ar(sig,\lpFreq.kr(0.9).linlin(0,1,40,20000),\lpQ.kr(0).linexp(0,1,1,0.01));
 
 	sig = MidEQ.ar(sig,500,1,6);
 	sig = LeakDC.ar(sig,0.9);
 	sig = sig.tanh;
-	sig = Balance2.ar(sig[0],sig[1],0,\amp.kr(0.25) * -18.dbamp);
+	sig = Balance2.ar(sig[0],sig[1],0,\amp.kr(0.25) * -9.dbamp);
 });
 )
 OSCFunc.trace(false)
@@ -146,7 +131,7 @@ OSCFunc.trace(false)
 
 OSCdef(\oskarNoisePlay,{ |msg|
 
-	if(msg[1] == 1,{ Ndef(\oskarNoise).play },{ Ndef(\oskarNoise).stop });
+	if(msg[1] == 1,{ Ndef(\oskarNoise).play(out: YAWNShow.outDict['processOut']) },{ Ndef(\oskarNoise).stop });
 
 },'/oskarNoisePlay');
 
@@ -184,11 +169,11 @@ SynthDef(\repeater,{
 	var sig = SoundIn.ar(\inBus.kr(0!2)); // make this stereo?
 	sig = sig.sum * Env.sine(0.1).ar;
 	sig = sig + LocalIn.ar(2);
-	sig = DelayC.ar(sig,0.4,TRand.kr(0.01,0.4,1));
+	sig = DelayC.ar(sig,0.4,\delay.kr(0).linlin(0,1,0.01,0.4));
 	sig = sig.clip2;
 	LocalOut.ar(sig * \feedB.kr(0.1).linlin(0,1,0.9,1.4));
 	sig = sig.tanh;
-	sig = sig * Env.asr(0.01,1,0.01,0).ar(2,\gate.kr(1) + Impulse.kr(0));
+	sig = sig * Env.asr(0.01,1,0.1,0).ar(2,\gate.kr(1) + Impulse.kr(0));
 	sig = Balance2.ar(sig[0],sig[1],\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
 
 	Out.ar(\outBus.kr(0),sig)
@@ -199,9 +184,9 @@ SynthDef(\freeze,{
 	sig = FFT(LocalBuf(2048),sig.sum);
 	sig = PV_Freeze(sig,1);
 	sig = IFFT(sig);
-	sig = BPF.ar(sig,\freq.kr(0.5).linexp(0,1,250,8000,0.5));
+	sig = BPF.ar(sig,\freq.kr(0.5).linexp(0,1,250,8000,0.5),\rq.kr(0).linexp(0,1,0.05,1.0));
 	sig = sig.tanh;
-	sig = sig * Env.asr(0.01,1,0.01,0).ar(2,\gate.kr(1) + Impulse.kr(0));
+	sig = sig * Env.asr(0.01,1,0.1,0).ar(2,\gate.kr(1) + Impulse.kr(0));
 	sig = Pan2.ar(sig,\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
 	Out.ar(\outBus.kr(0),sig)
 
@@ -231,13 +216,14 @@ OSCdef(\chaosOnOff,{ |msg|
 
 	if(val == 'start',{
 		case
+		// {index < 3}{ synths[index] = Synth(\repeater,[\inBus,[0,1],\outBus,0] ) }
 		{index < 3}{ synths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
 		{index > 2}{ synths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
+		// {index > 2}{ synths[index] = Synth(\freeze,[\inBus,[0,1],\outBus,0] ) }
 	},{
 		case
-		{index < 3}{ synths[index].release }
-		{index > 2}{ synths[index].release }
-
+		{index < 3}{ synths[index].set(\gate,0) }
+		{index > 2}{ synths[index].set(\gate,0) }
 	})
 
 },'/chaos');
@@ -250,13 +236,14 @@ OSCdef(\chaosOnOff,{ |msg|
 		var yVal = msg[2];
 
 		case
-		{index < 3}{ synths[index].set(\pan,xVal,\feedB,yVal) }
-		{index > 2}{ synths[index].set(\pan,xVal,\freq,yVal) }
+		{index < 3}{ synths[index].set(\pan,xVal * yVal,\delay,xVal,\feedB,yVal) }
+		{index > 2}{ synths[index].set(\pan,xVal * yVal,\freq,xVal,\rq,yVal) };
 
 	},"/chaosXY/%".format(index).asSymbol);
 })
 
 )
 
+s.plotTree
 
 
