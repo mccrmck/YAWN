@@ -74,7 +74,7 @@ n.sendMsg("/text","songs/gui.json")
 
 OSCFunc.trace(false)
 
-SoundCheck(32).sweep(0.2)
+SoundCheck(32).sweep(0.2)f
 SoundCheck(32).clear
 SoundCheck(32).static(19)
 
