@@ -1,6 +1,7 @@
 YAWNShow {
 
 	classvar <set, <inDict, <outDict, <kemperMIDI;
+	classvar <sCheckBufs;
 
 	*new { |setKey, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
@@ -9,16 +10,25 @@ YAWNShow {
 
 	init { |setName, ins, outs, kemperMIDIDevice, dmxBool, controller|
 		var server = Server.default;
-		var cond = CondVar();
 
-		set = setName;
+		set = YAWNSet(setName);
 		inDict = ins;
 		outDict = outs;
 		kemperMIDI = kemperMIDIDevice.asArray;
+		sCheckBufs = IdentityDictionary();
 
 		server.waitForBoot({
+			var cond = CondVar();
+			var mainPath = Platform.userExtensionDir +/+ "YAWN/";
+			var sCheckSamples = mainPath +/+ "gui/sCheckSamples/";
 
 			// allocate buffers, busses...anything else?
+			PathName(sCheckSamples).entries.do({ |entry|
+				var key = entry.fileNameWithoutExtension.asSymbol;
+				var buf = Buffer.read(server,entry.fullPath,action: { cond.signalOne });
+				cond.wait { buf.numFrames.notNil };
+				sCheckBufs.put(key, buf)
+			});
 
 			if(dmxBool,{ DMXIS() });    // needs to be set to preset !
 
@@ -29,19 +39,17 @@ YAWNShow {
 			server.sync;
 
 			// launch gui
+			// this.launchOpenStageControl; // this sends an OSC message onCreate -> this should update a boolean; when it == true and YAWNSet is loaded, update the gui w/ clicks, etc.
 
-			// this.launchOpenStageControl;
+			server.sync;
+			set.loadSet;
 
-			// can the o-s-c app send a message via OSC when it's successfully open/loaded that runs the rest of the load/init stuff?
-
+			server.sync;
+			thisProcess.interpreter.executeFile(mainPath +/+ "gui/soundCheck.scd");
 
 			// load appropriate OSCdefs for interacting w/ OpenStageControl
 			// there should be a default set of OSCdefs for setup, soundcheck, live processing etc.
-			// then each YAWNSet loads the oscDefs of relevant YAWNSongs
 
-			// YAWNSet(setName)
-
-			"YAWNShow - INIT".postln;
 		});
 	}
 
@@ -64,7 +72,7 @@ YAWNShow {
 YAWNSet {
 
 	classvar <setFolderPath;
-	var <setKey,<setPath, <songList;
+	var <setKey, <setPath, <songs;
 
 	*initClass {
 		setFolderPath = Platform.userExtensionDir +/+ "YAWN/sets/";    // can this be more robust? check Daniel Mayer's PathName extension
@@ -76,18 +84,27 @@ YAWNSet {
 
 	init {
 		setPath = setFolderPath +/+ setKey;
-		songList = PathName(setPath).entries.collect({ |folder|
+		songs = PathName(setPath).entries.collect({ |folder|
 			var songkey = folder.folderName.asSymbol;
 			YAWNSong(songkey,setKey)
 		});
-		songList.collect({ |song| song.songName }).postln;
 		^this
 	}
 
+	songList {
+		^songs.collect({ |song| song.songName }).postln;
+	}
+
 	loadSet {
-		songList.do({ |song|
-			song.loadData;
-		})
+		var cond = CondVar();
+
+		fork{
+			songs.do({ |song|
+				song.loadData({ cond.signalOne });
+				cond.wait { song.data.notNil }
+			});
+			"\nset: % LOADED".format(setKey).postln;
+		}
 		^this
 	}
 
@@ -115,19 +132,18 @@ YAWNSong {
 		^this
 	}
 
-	loadOSCdefs {
+	loadOSCdefs { }
 
-	}
-
-	loadData {
+	loadData { |action|
 		var dataPath = path +/+ "data.scd";
 		var cond = CondVar();
 
 		fork{
 			this.loadPBtracks({ cond.signalOne });
 			cond.wait { pbTracksLoaded };
-			data = thisProcess.interpreter.executeFile(dataPath).value(this);            // reevaluate
+			data = thisProcess.interpreter.executeFile(dataPath).value(this);
 			"% LOADED".format(songName).postln;
+			action.value;
 		};
 
 		^this

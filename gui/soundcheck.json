@@ -132,7 +132,7 @@
         "traversing": false,
         "widgetType": "button",
         "quantity": 6,
-        "props": "JS{\n  let names = ['bassOut','synthsOut','gtrsOut','percOut','ambienceOut','processOut'];\n  return {\"label\": names[$]}\n}",
+        "props": "JS{\n  let props = {}\n  let names = ['bass Out','synths Out','gtrs Out','perc Out','ambience Out','process Out'];\n  props.label = names[$]\n  props.wrap = 'soft'\n  return props\n}",
         "value": "",
         "default": "",
         "linkId": "",

@@ -1,4 +1,4 @@
-///////////////////////////////////////////////// YAWN Data: chaos /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN Data: cafeSara  /////////////////////////////////////////////////
 { |songInstance|
 	// var cueKeys = [];
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
@@ -30,7 +30,10 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraAplusBreak',pathToKemperMIDI +/+ "AplusBreak.mid") ],
-			bTracks: [ ],
+			bTracks: [
+				YAWNPlayback.makeMonoPat(bass[0], outs['bassOut']),
+				Pseq([ ClickRest(60/0.56836521053797,4,8).pattern, YAWNPlayback.makeMonoPat(bass[1], outs['bassOut']) ])
+			],
 		),(
 			name:    'cafeSaraAagain',
 			countIn: [[ ]],                    // fix this
@@ -41,7 +44,7 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraAagain',pathToKemperMIDI +/+ "Aagain.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[2], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraCriff',
 			countIn: [[ ]],                    // fix this
@@ -52,7 +55,7 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraCriff', pathToKemperMIDI +/+ "Criff.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[3], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraAlast',
 			countIn: [[ ]],                    // fix this
@@ -63,14 +66,14 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraAlast', pathToKemperMIDI +/+ "Alast.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[4], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraBreak',
 			countIn: [[ ]],                    // fix this
 			click:   [[ Click(60/0.56836521053797,4,out: outs['clickAll']) ] ],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraBreak', pathToKemperMIDI +/+ "break.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[5], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraBsection',
 			countIn: [[ ]],                    // fix this
@@ -80,21 +83,21 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraBsection', pathToKemperMIDI +/+ "Bsection.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[6], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraHarmony',
 			countIn: [[ ClickConCat(1,Click(145,4),Click(145,1,2,4)).out_( outs['clickAll'] ) ]],                    // fix this
 			click:   [[ ClickConCat(6,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).out_( outs['clickAll'] ),ClickEnvCue([145,130],2,2,out: outs['clickAll']) ]],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraHarmony', pathToKemperMIDI +/+ "harmony.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[7], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraThrash',
 			countIn: [[ ClickConCat(1,Click(90,2,repeats: 2),Click(90,1,repeats: 4)).out_( outs['clickAll'] ) ]],                    // fix this
 			click:   [[ Click(90,4,repeats: 8,out: outs['clickAll'] ) ]],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraThrash',pathToKemperMIDI +/+ "thrash.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[8], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraRit',
 			countIn: [[ ClickConCat(1,Click(90,2,repeats: 2),Click(90,1,repeats: 4)).out_( outs['clickAll'] ) ]],                    // fix this
@@ -104,14 +107,14 @@
 			],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraRit', pathToKemperMIDI +/+ "rit.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[9], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraOutro',
 			countIn: [[ ClickConCat(1,Click(76,2,repeats: 2),Click(76,1,repeats: 4)).out_( outs['clickAll'] ) ]],                    // fix this
 			click:   [[ ClickConCat(1,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).out_( outs['clickAll'] ) ]],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraOutro',pathToKemperMIDI +/+ "outro.mid") ],
-			bTracks: [ ],
+			bTracks: [ YAWNPlayback.makeMonoPat(bass[10], outs['bassOut']) ],
 		)
 	]
 }

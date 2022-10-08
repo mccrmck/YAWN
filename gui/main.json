@@ -38,7 +38,7 @@
     "target": "",
     "ignoreDefaults": false,
     "bypass": false,
-    "onCreate": "send('/loaded',true)",
+    "onCreate": "send('/yawnLoaded',true)",
     "onValue": "",
     "widgets": [
       {

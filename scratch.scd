@@ -172,7 +172,7 @@ SynthDef(\repeater,{
 	sig = DelayC.ar(sig,0.4,\delay.kr(0).linlin(0,1,0.01,0.4));
 	sig = sig.clip2;
 	LocalOut.ar(sig * \feedB.kr(0.1).linlin(0,1,0.9,1.4));
-	sig = sig.tanh;
+	sig = sig.tanh * -18.dbamp;
 	sig = sig * Env.asr(0.01,1,0.1,0).ar(2,\gate.kr(1) + Impulse.kr(0));
 	sig = Balance2.ar(sig[0],sig[1],\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
 
@@ -181,11 +181,12 @@ SynthDef(\repeater,{
 
 SynthDef(\freeze,{
 	var sig = SoundIn.ar(\inBus.kr(0!2)); // make this stereo?
+	sig = (sig * 12.dbamp).tanh;
 	sig = FFT(LocalBuf(2048),sig.sum);
 	sig = PV_Freeze(sig,1);
+	sig = PV_BrickWall(sig,\wipe.kr(0).linlin(0,1,-1,-0.001));
 	sig = IFFT(sig);
-	sig = RLPF.ar(sig,\freq.kr(0.5).linexp(0,1,250,8000),\rq.kr(0).linexp(0,1,1.0,0.01));
-	sig = sig.tanh;
+	sig = sig.tanh * -12.dbamp;
 	sig = sig * Env.asr(0.01,1,0.1,0).ar(2,\gate.kr(1) + Impulse.kr(0));
 	sig = Pan2.ar(sig,\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
 	Out.ar(\outBus.kr(0),sig)
@@ -200,7 +201,7 @@ x.free
 OSCFunc.trace(false)
 
 (
-/*
+
 var ins = YAWNShow.inDict;
 var outs = YAWNShow.outDict;
 var busses = [
@@ -208,7 +209,7 @@ var busses = [
 	ins['overheads'],
 	ins['torfinnGtr'],
 ];
-*/
+
 var synths = 0!6;
 
 OSCdef(\chaosOnOff,{ |msg|
@@ -217,10 +218,10 @@ OSCdef(\chaosOnOff,{ |msg|
 
 	if(val == 'start',{
 		case
-		{index < 3}{ synths[index] = Synth(\repeater,[\inBus,[2,2],\outBus,0] ) }
-		// {index < 3}{ synths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
-		// {index > 2}{ synths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
-		{index > 2}{ synths[index] = Synth(\freeze,[\inBus,[2,2],\outBus,0] ) }
+		// {index < 3}{ synths[index] = Synth(\repeater,[\inBus,[2,2],\outBus,0] ) }
+		{index < 3}{ synths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
+		{index > 2}{ synths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
+		// {index > 2}{ synths[index] = Synth(\freeze,[\inBus,[2,2],\outBus,0] ) }
 	},{
 		case
 		{index < 3}{ synths[index].set(\gate,0) }
@@ -237,8 +238,8 @@ OSCdef(\chaosOnOff,{ |msg|
 		var yVal = msg[2];
 
 		case
-		{index < 3}{ synths[index].set(\pan,0,\delay,xVal,\feedB,yVal) }
-		{index > 2}{ synths[index].set(\pan,0,\freq,xVal,\rq,yVal) };
+		{index < 3}{ synths[index].set(\delay,xVal,\feedB,yVal) }
+		{index > 2}{ synths[index].set(\pan,xVal,\wipe,yVal) };
 
 	},"/chaosXY/%".format(index).asSymbol);
 })

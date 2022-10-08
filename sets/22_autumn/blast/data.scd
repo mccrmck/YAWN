@@ -1,4 +1,4 @@
-///////////////////////////////////////////////// YAWN Data: chaos /////////////////////////////////////////////////
+///////////////////////////////////////////////// YAWN Data: blast /////////////////////////////////////////////////
 { |songInstance|
 	// var cueKeys = [];
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
@@ -12,24 +12,37 @@
 
 	var outs = YAWNShow.outDict;
 
-	var count       = ClickRest(190,4).pattern;
+	var count       = ClickRest(180,4).pattern;
+
+	var one         = Pseq([ count, KemperMIDI.makePat('blastOne',pathToKemperMIDI +/+ "one.mid") ]);
+	var onePitch    = Pseq([ count, KemperMIDI.makePat('blastOnePitch',pathToKemperMIDI +/+ "onePitch.mid") ]);
+	var two         = Pseq([ count, KemperMIDI.makePat('blastTwo',pathToKemperMIDI +/+ "two.mid") ]);
+	var twoPitch    = Pseq([ count, KemperMIDI.makePat('blastTwoPitch',pathToKemperMIDI +/+ "twoPitch.mid") ]);
 	var three       = Pseq([ count, KemperMIDI.makePat('blastThree',pathToKemperMIDI +/+ "three.mid") ]);
-	var threePshift = Pseq([ count,KemperMIDI.makePat('blastThreePshift',pathToKemperMIDI +/+ "threePitchShift.mid") ]);
-	var four        = Pseq([ count,KemperMIDI.makePat('blastFour',pathToKemperMIDI +/+ "four.mid") ]);
-	var fourPitch   = Pseq([ count,KemperMIDI.makePat('blastFourPitch',pathToKemperMIDI +/+ "fourPitch.mid") ]);
-	var fourPshift  = Pseq([ count,KemperMIDI.makePat('blastFourPshift',pathToKemperMIDI +/+ "fourPitchShift.mid") ]);
-	var five        = Pseq([ count,KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "five.mid") ]);
-	var fivePitch   = Pseq([ count,KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "fivePitch.mid") ]);
+	var threePshift = Pseq([ count, KemperMIDI.makePat('blastThreePshift',pathToKemperMIDI +/+ "threePitchShift.mid") ]);
+	var four        = Pseq([ count, KemperMIDI.makePat('blastFour',pathToKemperMIDI +/+ "four.mid") ]);
+	var fourPitch   = Pseq([ count, KemperMIDI.makePat('blastFourPitch',pathToKemperMIDI +/+ "fourPitch.mid") ]);
+	var fourPshift  = Pseq([ count, KemperMIDI.makePat('blastFourPshift',pathToKemperMIDI +/+ "fourPitchShift.mid") ]);
+	var five        = Pseq([ count, KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "five.mid") ]);
+	var fivePitch   = Pseq([ count, KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "fivePitch.mid") ]);
 
 	[
 		(
-			name:    'blastAstart',
+			name:    'blastAcount',
+			countIn: [[ ]],
+			click:   [[
+				ClickRest(60,10,out: outs['clickAll'] )                    // can change this to add/remove start time
+			]],
+			lights:  [ ],
+			kemper:  [ four ],
+		),(
+			name:    'blastA00',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,1),ClickRest(190,4,3),
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(60,9)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -39,9 +52,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3),
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(60,9)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -51,9 +64,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3),ClickRest(190,4,2)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(60,0.25)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -63,21 +76,30 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,5)
+					ClickCue(180,4,cueKey: 'one'),
+					Click(180),Click(180),
+					ClickRest(60,10)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ four ],
-		),(
+			kemper:  [ one ],
+		),
+
+
+
+		///////
+
+
+
+
+		(
 			name:    'blastA04',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190, 0.5)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(60,10)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -87,9 +109,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3)
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(180,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -99,9 +121,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -111,9 +133,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -123,9 +145,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,3)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -135,9 +157,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,1),
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(180 * 2,1),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -147,9 +169,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,6)
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(180,6)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -159,9 +181,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,5)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180 * 2,5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -171,9 +193,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,3)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180 * 2,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -183,9 +205,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,7)
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(180 * 2,7)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -195,9 +217,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190 * 2,3)
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(180 * 2,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -207,9 +229,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,4)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180,4)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -234,8 +256,8 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
+					ClickCue(180,4,cueKey: 'five'),
+					Click(180,5),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -245,9 +267,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
-					ClickRest(190,4,2), ClickRest(190,2),
+					ClickCue(180,4,cueKey: 'five'),
+					Click(180,5),Click(180),
+					ClickRest(180,4,2), ClickRest(180,2),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -257,8 +279,8 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
+					ClickCue(180,4,cueKey: 'fiveDan'),
+					Click(180,5),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -268,8 +290,8 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
+					ClickCue(180,4,cueKey: 'fiveDan'),
+					Click(180,5),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -279,9 +301,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190 * 2,3),
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
+					ClickRest(180 * 2,3),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -291,9 +313,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
-					ClickRest(190 * 2,5),
+					ClickCue(180,4,cueKey: 'five'),
+					Click(180,5),Click(180),
+					ClickRest(180 * 2,5),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -303,9 +325,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190,3),
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
+					ClickRest(180,3),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -315,9 +337,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190,2),
+					ClickCue(180,4,cueKey: 'threeDan'),
+					Click(180,3),Click(180),
+					ClickRest(180,2),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -327,9 +349,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'five'),
-					Click(190,5),Click(190),
-					ClickRest(190 * 2,5)
+					ClickCue(180,4,cueKey: 'five'),
+					Click(180,5),Click(180),
+					ClickRest(180 * 2,5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -340,9 +362,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190 * 2,3)
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
+					ClickRest(180 * 2,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -352,9 +374,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190,6)
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
+					ClickRest(180,6)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -364,9 +386,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'three'),
-					Click(190,3),Click(190),
-					ClickRest(190,10)
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
+					ClickRest(180,10)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -376,9 +398,9 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
-					ClickRest(190,10)
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
+					ClickRest(180,10)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -388,8 +410,8 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(190,4,cueKey: 'four'),
-					Click(190,4),Click(190),
+					ClickCue(180,4,cueKey: 'four'),
+					Click(180,4),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
