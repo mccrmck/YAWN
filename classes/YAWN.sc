@@ -39,7 +39,7 @@ YAWNShow {
 			server.sync;
 
 			// launch gui
-			// this.launchOpenStageControl; // this sends an OSC message onCreate -> this should update a boolean; when it == true and YAWNSet is loaded, update the gui w/ clicks, etc.
+			thisProcess.interpreter.executeFile(mainPath +/+ "gui" +/+ setName +/+ "guiOSC.scd");
 
 			server.sync;
 			set.loadSet;
@@ -50,6 +50,9 @@ YAWNShow {
 			// load appropriate OSCdefs for interacting w/ OpenStageControl
 			// there should be a default set of OSCdefs for setup, soundcheck, live processing etc.
 
+			server.sync;
+			// this.launchOpenStageControl;
+
 		});
 	}
 
@@ -58,10 +61,10 @@ YAWNShow {
 		"--send 127.0.0.1:57120 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
+
 		unixString.unixCmd; // returns pid, can use that to evenutally stop process on GUI close?
 		^this
 	}
-
 
 	*cleanUp { } // what goes here?
 
@@ -120,7 +123,7 @@ YAWNSet {
 YAWNSong {
 
 	var <songName, <path, <pbTracks, <data;
-	var pbTracksLoaded = false;
+	var pbTracksLoaded = false, synthDefsLoaded = false, oscDefsLoaded = false;
 
 	*new { |name, setKey|
 		^super.newCopyArgs(name).init(setKey);
@@ -141,8 +144,12 @@ YAWNSong {
 		fork{
 			this.loadPBtracks({ cond.signalOne });
 			cond.wait { pbTracksLoaded };
+			this.loadSynthDefs({ cond.signalOne });
+			cond.wait { synthDefsLoaded };
+			// this.loadOSCDefs({ cond.signalOne });
+			// cond.wait { oscDefsLoaded };
 			data = thisProcess.interpreter.executeFile(dataPath).value(this);
-			"% LOADED".format(songName).postln;
+			"% LOADED\n".format(songName).postln;
 			action.value;
 		};
 
@@ -166,7 +173,49 @@ YAWNSong {
 			});
 			pbTracksLoaded = true;
 			action.value;
-		};
+		}
+
+		^this
+	}
+
+	loadSynthDefs { |action|
+		var filePath = path +/+ "synthDef.scd";
+		var cond = CondVar();
+		if(File.exists(filePath),{
+			fork {
+				thisProcess.interpreter.executeFile(filePath);
+				synthDefsLoaded = true;
+				"% synthDefs loaded".format(songName).postln;
+				action.value
+			}
+		},{
+			fork{
+				synthDefsLoaded = true;
+				"no % synthDefs to load".format(songName).postln;
+				action.value
+			}
+		})
+
+		^this
+	}
+
+	loadOSCDefs { |action|
+		var filePath = path +/+ "osc.scd";
+		var cond = CondVar();
+		if(File.exists(filePath),{
+			fork {
+				thisProcess.interpreter.executeFile(filePath);
+				oscDefsLoaded = true;
+				"% oscDefs loaded".format(songName).postln;
+				action.value
+			}
+		},{
+			fork{
+				oscDefsLoaded = true;
+				"no % oscDefs to load".format(songName).postln;
+				action.value
+			}
+		})
 
 		^this
 	}

@@ -1,20 +1,10 @@
-/*
-TO DO
--noisy instruments?
--test light loops!
--make a way to test the MIDI sent to the Kempers!!
-
--maybe .cueFrom shouldn't return Pdefs? If .isPlaying == true they will start playing when this method is called (remember what happened w/ OJKOS!!)
-
--the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use resources loading DMX patterns if we're not even connected
-*/
-
 (
+// START
 var server = Server.default;
 var set = '22_autumn';
 
 var ins = [
-	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 	'hiHat' -> 3,
+	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 'hiHat' -> 3,
 	'rackTomL' -> 4, 'rackTomR' -> 5, 'floorTom' -> 6,'overheads' -> [7,8],
 	'mikeGtr' -> [9,10], 'torfinnGtr' -> [11,12],
 ];
@@ -27,11 +17,12 @@ var outs = [
 	'ambienceOut' -> 26, 'processOut' -> 30
 ];
 
-// var kemper = ["UM-ONE", "UM-ONE"]; // concert
-// var kemper = ["Pro40", "MIDI"];    // faxe
-var kemper = nil;
+var kemper = ["UM-ONE", "UM-ONE"]; // concert
+// var kemper = ["Pro40", "MIDI"]; // faxe
+// var kemper = nil;
 
-var lights = false;
+// var lights = false;
+var lights = true;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
@@ -39,6 +30,7 @@ server.options.numOutputBusChannels = 32;
 server.options.device = "Dante Virtual Soundcard";
 
 YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
+
 );
 
 
@@ -58,17 +50,17 @@ play { var player = this.pattern.play; ^player } ?
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
 
-n = NetAddr("127.0.0.1",8080)
-n.sendMsg("/clickUpdate","songs/chaosClick.json")
-n.sendMsg("/text","songs/gui.json")
 
+/*
+TO DO
+-noisy instruments?
+-test light loops!
+-make a way to test the MIDI sent to the Kempers!!
 
-OSCFunc.trace(false)
+-maybe .cueFrom shouldn't return Pdefs? If .isPlaying == true they will start playing when this method is called (remember what happened w/ OJKOS!!)
 
-SoundCheck(32).sweep(0.2)
-SoundCheck(32).clear
-SoundCheck(32).static(19)
-
+-the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use resources loading DMX patterns if we're not even connected
+*/
 
 
 /*======*/
@@ -78,10 +70,15 @@ SoundCheck(32).static(19)
 //
 
 
+// this should eventually make it's own event type I think!
+DMXIS.ampReactLoop(loopKey,func) // creates listener Synth that writes to a bus
 
 
+Pbind(
+	\instrument,\ampListener,
+	\dur,
 
-
+)
 
 
 

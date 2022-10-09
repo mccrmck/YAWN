@@ -15,9 +15,9 @@
 	[
 		(
 			name:    'cementCount',
-			countIn: [[ ]],
-			click:   [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
-			lights:  [ DMXIS.makePat('cementCount',pathToDMXMIDI +/+ "count.mid") ],
+			countIn: [[ ClickCue(30,cueKey: 'cement',out: outs['clickAll'])]],
+			click:   [[ ClickConCat(1,Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
+			lights:  [ DMXIS.makePresetPat('cementCount',0,0) ],
 			kemper:  [ KemperMIDI.makePat('cementCount',pathToKemperMIDI +/+ "count.mid") ],
 		),(
 			name:    'cementIntro',
@@ -77,7 +77,7 @@
 			name:    'cementBsection',
 			countIn: [[ countIn ]],
 			click:   [[ ClickConCat(1,Click(170,4,repeats: 14), Click(170,3) ).out_( outs['clickAll'] ) ]],
-			lights:  [ DMXIS.makePat('cementBsection',pathToDMXMIDI +/+ "Bsection.mid") ],
+			lights:  [ Pseq([ DMXIS.makePat('cementBsection',pathToDMXMIDI +/+ "Bsection.mid"), DMXIS.makePresetPat('cementImpro',0,3) ]) ],
 			kemper:  [ KemperMIDI.makePat('cementBsection',pathToKemperMIDI +/+ "Bsection.mid") ],
 			bTracks: [
 				YAWNPlayback.makeMonoPat( bass[2], outs['bassOut'] ),
@@ -89,8 +89,8 @@
 			name:    'cementCountAgain',
 			countIn: [[ ]],
 			click:   [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
-			// lights:  [ DMXIS.makePat('cementIntro',pathToDMXMIDI +/+ "countAgain.mid") ],
-			kemper:  [ KemperMIDI.makePat('cementIntro',pathToKemperMIDI +/+ "countAgain.mid") ],
+			lights:  [ DMXIS.makePresetPat('cementCountAgain',0,0) ],
+			kemper:  [ KemperMIDI.makePat('cementCountAgain',pathToKemperMIDI +/+ "countAgain.mid") ],
 		),(
 			name:    'cementBsectionAgain',
 			countIn: [[ countIn ]],

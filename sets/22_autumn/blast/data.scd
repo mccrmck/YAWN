@@ -10,7 +10,7 @@
 	var perc     = songInstance.pbTracks['perc'];
 	var synths   = songInstance.pbTracks['synths'];
 
-	var outs = YAWNShow.outDict;
+	var outs        = YAWNShow.outDict;
 
 	var count       = ClickRest(180,4).pattern;
 
@@ -28,16 +28,8 @@
 
 	[
 		(
-			name:    'blastAcount',
-			countIn: [[ ]],
-			click:   [[
-				ClickRest(60,10,out: outs['clickAll'] )                    // can change this to add/remove start time
-			]],
-			lights:  [ ],
-			kemper:  [ four ],
-		),(
 			name:    'blastA00',
-			countIn: [[ ]],
+			countIn: [[ ClickCue(30,cueKey: 'blast',out: outs['clickAll']) ]],
 			click:   [[
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
@@ -78,28 +70,19 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'one'),
 					Click(180),Click(180),
-					ClickRest(60,10)
+					ClickRest(60,11)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
 			kemper:  [ one ],
-		),
-
-
-
-		///////
-
-
-
-
-		(
+		),(                                                    // here's a bit of a barline
 			name:    'blastA04',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(60,10)
+					ClickRest(60,7)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -109,13 +92,13 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'fourDan'),
+					ClickCue(180,4,cueKey: 'three'),
 					Click(180,4),Click(180),
-					ClickRest(180,3)
+					ClickRest(60,7)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ fourPitch ],
+			kemper:  [ three ],
 		),(
 			name:    'blastA06',
 			countIn: [[ ]],
@@ -123,7 +106,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(180,3)
+					ClickRest(60,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -133,18 +116,33 @@
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'four'),
-					Click(180,4),Click(180),
-					ClickRest(180,3)
+					ClickCue(180,4,cueKey: 'two'),
+					Click(180,2),Click(180),
+					ClickRest(60,2)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ four ],
+			kemper:  [ two ],
 		),(
 			name:    'blastA08',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
+					ClickCue(180,2,cueKey: 'four'),
+					ClickCue(180,2,cueKey: 'three'),
+					Click(180,4),Click(180),
+					ClickRest(180,1),
+					Click(180,3),Click(180),
+					ClickRest(60,5),
+				).out_( outs['clickAll'] )
+			]],
+			lights:  [ ],
+			kemper:  [ Pseq([ four,three ]) ],                                       // this needs to be fixed - all midi files should be the length of their phrases
+		),(                                                                        // here's a bit of a barline
+			name:    'blastA09',
+			countIn: [[ ]],
+			click:   [[
+				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
 					ClickRest(180,3)
@@ -153,53 +151,40 @@
 			lights:  [ ],
 			kemper:  [ four ],
 		),(
-			name:    'blastA09',
-			countIn: [[ ]],
-			click:   [[
-				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'fourDan'),
-					Click(180,4),Click(180),
-					ClickRest(180 * 2,1),
-				).out_( outs['clickAll'] )
-			]],
-			lights:  [ ],
-			kemper:  [ fourPitch ],
-		),(
 			name:    'blastA10',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'fourDan'),
+					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(180,6)
+					ClickRest(180,0.2)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ fourPitch ],
+			kemper:  [ four ],
 		),(
 			name:    'blastA11',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'four'),
-					Click(180,4),Click(180),
-					ClickRest(180 * 2,5)
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ four ],
+			kemper:  [ three ],
 		),(
 			name:    'blastA12',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'four'),
-					Click(180,4),Click(180),
-					ClickRest(180 * 2,3)
+					ClickCue(180,4,cueKey: 'two'),
+					Click(180,2),Click(180),
+					ClickRest(180,1)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ four ],
+			kemper:  [ two ],
 		),(
 			name:    'blastA13',
 			countIn: [[ ]],
@@ -207,7 +192,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'fourDan'),
 					Click(180,4),Click(180),
-					ClickRest(180 * 2,7)
+					ClickRest(60,0.5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
@@ -219,24 +204,71 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'fourDan'),
 					Click(180,4),Click(180),
-					ClickRest(180 * 2,3)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ fourPshift],
+			kemper:  [ fourPitch ],
 		),(
 			name:    'blastA15',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
+					ClickCue(180,4,cueKey: 'one'),
+					Click(180),Click(180),
+					ClickRest(60,1)
+				).out_( outs['clickAll'] )
+			]],
+			lights:  [ ],
+			kemper:  [ one ],
+		),(
+			name:    'blastA16',
+			countIn: [[ ]],
+			click:   [[
+				ClickConCat(1,
+					ClickCue(180,4,cueKey: 'twoDan'),
+					Click(180,2),Click(180),
+					ClickRest(60,1)
+				).out_( outs['clickAll'] )
+			]],
+			lights:  [ ],
+			kemper:  [ twoPitch ],
+		),(
+			name:    'blastA17',
+			countIn: [[ ]],
+			click:   [[
+				ClickConCat(1,
+					ClickCue(180,4,cueKey: 'twoDan'),
+					Click(180,2),Click(180),
+					ClickRest(60,1)
+				).out_( outs['clickAll'] )
+			]],
+			lights:  [ ],
+			kemper:  [ twoPitch ],
+		),(
+			name:    'blastA18',
+			countIn: [[ ]],
+			click:   [[
+				ClickConCat(1,
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
+					ClickRest(60,0.5)
+				).out_( outs['clickAll'] )
+			]],
+			lights:  [ ],
+			kemper:  [ fourPshift ],
+		),(
+			name:    'blastA19',
+			countIn: [[ ]],
+			click:   [[
+				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(180,4)
+					ClickRest(60,4)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
 			kemper:  [ four ],
-		),(
+		),(                                                    // here's a bit of a barline
 			name:    'blastB',
 			countIn: [[ ]],
 			click:   [[
@@ -251,40 +283,44 @@
 			]],
 			lights:  [ ],
 			kemper:  [ KemperMIDI.makePat('blastBsection',pathToKemperMIDI +/+ "Bsection.mid") ],
-		),(
+		),
+
+
+		//from here
+
+		(
 			name:    'blastCstart',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'five'),
-					Click(180,5),Click(180),
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ five ],
+			kemper:  [ three ],
 		),(
 			name:    'blastC01',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'five'),
-					Click(180,5),Click(180),
-					ClickRest(180,4,2), ClickRest(180,2),
+					ClickCue(180,4,cueKey: 'three'),
+					Click(180,3),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ five ],
+			kemper:  [ three ],
 		),(
 			name:    'blastC02',
 			countIn: [[ ]],
 			click:   [[
 				ClickConCat(1,
-					ClickCue(180,4,cueKey: 'fiveDan'),
-					Click(180,5),Click(180),
+					ClickCue(180,4,cueKey: 'fourDan'),
+					Click(180,4),Click(180),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ ],
-			kemper:  [ fivePitch ],
+			kemper:  [ fourPitch ],
 		),(
 			name:    'blastC03',
 			countIn: [[ ]],
