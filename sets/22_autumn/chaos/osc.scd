@@ -15,7 +15,7 @@ var synths = 0!6;
 var clickPats = [
 	Pdef(\chaosOpener,
 		Pseq([
-			YAWNShow.set.songs[0].cueFrom('blastA00','blastA03',true,true,true,false,true).stop,
+			YAWNShow.set.songs[0].cueFrom('blastA00','blastA03',true,true,true,true,true).stop,
 			YAWNShow.set.songs[3].cueFrom('chaosCount','chaosElevenLast',true,true,true,true,true).stop
 		])
 	).stop,
@@ -92,9 +92,3 @@ OSCdef(\chaosOnOff,{ |msg|
 
 	},"/chaosXY/%".format(index).asSymbol);
 });
-
-
-
-
-
-

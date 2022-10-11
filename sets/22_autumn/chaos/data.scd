@@ -18,7 +18,7 @@
 			countIn: [[ ClickCue(45,cueKey: 'chaos',out: outs['clickAll'] ) ]],
 			click:   [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePresetPat('chaosCount',0,0), DMXIS.makePat('chaosCount',pathToDMXMIDI +/+ "count.mid")],
-			kemper:  [ KemperMIDI.makePat('chaosIntro',pathToKemperMIDI +/+ "count.mid") ],
+			kemper:  [ KemperMIDI.makePat('chaosCount',pathToKemperMIDI +/+ "count.mid") ],
 		),(
 			name:    'chaosGitDrums',
 			countIn: [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
@@ -80,7 +80,7 @@
 					Click(120,3)
 				).out_( outs['clickAll'] )
 			]],
-			lights:  [ ],
+			lights:  [ DMXIS.makePat('chaosElevenLast',pathToDMXMIDI +/+ "elevenLast.mid") ],
 			kemper:  [ KemperMIDI.makePat('chaosElevenLast',pathToKemperMIDI +/+ "elevenLast.mid") ],
 			bTracks: [
 				YAWNPlayback.makeStereoOverlap( ambience[1], outs['ambienceOut']),

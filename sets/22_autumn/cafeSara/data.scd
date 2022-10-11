@@ -16,14 +16,14 @@
 		(
 			name:    'cafeSaraIntroLoop',
 			countIn: [[ ClickCue(60,cueKey: 'cafeSara',out: outs['clickAll']) ]],
-			click:   [[ ClickLoop(60/0.56836521053797,4,2,4,cueKeys[0],out: outs['clickMike']) ]],
+			click:   [[ ClickConCat(1,Click(60/0.56836521053797,2,repeats: 2),Click(60/0.56836521053797,1,2,4), ClickLoop(60/0.56836521053797,4,2,4,cueKeys[0])).out_( outs['clickMike'] ) ]],
 			lights:  [ DMXIS.makePresetPat('cafeSaraIntroLoop',0,5) ],
-			kemper:  [ ],
+			kemper:  [ KemperMIDI.makePat('cafeSaraIntroLoop', pathToKemperMIDI +/+ "introLoop.mid") ],
 			bTracks: [ ],
 		),(
 			name:    'cafeSaraIntro',
 			countIn: [[ ClickConCat(1,Click(60/0.56836521053797,4),Click(60/0.56836521053797,4,2)).out_( outs['clickAll'] ) ]],
-			click:   [[ ClickConCat(1,Click(60/0.56836521053797,4,2,2),ClickCue(60/0.56836521053797,2,2,2),ClickCue(60/0.56836521053797,1,2,4),Click(60/0.56836521053797,4,2,4) ).out_( outs['clickAll'] ) ]],
+			click:   [[ Click(60/0.56836521053797,4,2,2,out: outs['clickMike']),ClickConCat(1,ClickCue(60/0.56836521053797,2,2,2),ClickCue(60/0.56836521053797,1,2,4),Click(60/0.56836521053797,4,2,4) ).out_( outs['clickAll'] ) ]],
 			lights:  [
 				DMXIS.makePat('cafeSaraIntro',pathToDMXMIDI +/+ "intro.mid"),
 				Pseq([ DMXIS.makePresetPat('cafeSaraIntroLoop',0.56836521053797 * 4 * 7.75,5),	DMXIS.makePresetPat('cafeSaraIntro',0.56836521053797 * 0.25,0) ]),

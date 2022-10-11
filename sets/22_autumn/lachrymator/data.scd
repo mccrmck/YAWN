@@ -125,6 +125,7 @@
 			kemper:  [ KemperMIDI.makePat('lachJazzBsectionAgain',pathToKemperMIDI +/+ "jazzBsectionAgain.mid") ],
 			bTracks: [
 				// YAWNPlayback.makeMonoPat( bass[5], outs['bassOut']),
+				Pseq([ ClickRest(120,45.5).pattern, YAWNPlayback.makeMonoOverlap( bass[6], outs['bassOut']) ]),
 			]
 		),(
 			name:    'lachCountPart3',
@@ -157,7 +158,7 @@
 			bTracks: [
 				Pseq([ ClickRest(340,35).pattern,YAWNPlayback.makeStereoOverlap( ambience[4], outs['ambienceOut']) ]),
 				Pseq([ ClickRest(340,416).pattern,YAWNPlayback.makeStereoPat( ambience[5], outs['ambienceOut']) ]),
-				Pseq([ ClickRest(340,142.5).pattern,YAWNPlayback.makeMonoPat( bass[6], outs['bassOut']) ]),
+				Pseq([ ClickRest(340,142.5).pattern,YAWNPlayback.makeMonoPat( bass[7], outs['bassOut']) ]),
 				Pseq([ ClickRest(340,35).pattern,YAWNPlayback.makeStereoOverlap( synths[5], outs['synthsOut']) ]),
 				Pseq([ ClickRest(340,243).pattern,YAWNPlayback.makeStereoPat( synths[6], outs['synthsOut']) ]),
 				YAWNPlayback.makeStereoOverlap(perc[2], outs['percOut']),
@@ -181,7 +182,7 @@
 			lights:  [ Pseq([ DMXIS.makePat('lachOutro',pathToDMXMIDI ++ "outro.mid"), DMXIS.makePresetPat('lachOutro',1,4) ]) ],
 			bTracks: [
 				YAWNPlayback.makeStereoPat( ambience[6], outs['ambienceOut']),
-				YAWNPlayback.makeMonoPat( bass[7], outs['bassOut']),
+				YAWNPlayback.makeMonoPat( bass[8], outs['bassOut']),
 				YAWNPlayback.makeStereoPat( gtrs[1], outs['gtrsOut']),
 			]
 		)

@@ -5,7 +5,7 @@ var clickPats = [
 	// Mike Støy Solo
 	Pdef(\blastPlusCement,
 		Pseq([
-			YAWNShow.set.songs[0].cueFrom('blastA00','blastC12',true,true,true,false,true).stop,
+			YAWNShow.set.songs[0].cueFrom('blastA00','blastC12',true,true,true,true,true).stop,
 			YAWNShow.set.songs[2].cueFrom('cementCountAgain','cementAsectionLast',true,true,true,true,false).stop
 		])
 	).stop

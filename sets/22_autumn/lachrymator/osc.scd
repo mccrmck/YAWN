@@ -3,7 +3,7 @@
 var clickPats = [
 	Pdef(\blastPlusLachrymator,
 		Pseq([
-			YAWNShow.set.songs[0].cueFrom('blastA05','blastA08',true,true,true,false,true).stop,
+			YAWNShow.set.songs[0].cueFrom('blastA05','blastA08',true,true,true,true,true).stop,
 			YAWNShow.set.songs[4].cueFrom('lachCountPart1','lachAsection',true,true,true,true,true).stop
 		])
 	).stop,

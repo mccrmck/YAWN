@@ -55,7 +55,7 @@ YAWNShow {
 
 	launchOpenStageControl {
 		var unixString = "open /Applications/open-stage-control.app --args " ++
-		"--send 127.0.0.1:57121 " ++
+		"--send 127.0.0.1:57120 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
 

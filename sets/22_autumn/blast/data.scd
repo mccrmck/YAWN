@@ -12,19 +12,22 @@
 
 	var outs        = YAWNShow.outDict;
 
-	var count       = ClickRest(180,4).pattern;
+	var kemperCount = Ppar([
+		ClickRest(180,4).pattern;
+		KemperMIDI.makePat('blastCount',pathToKemperMIDI +/+ "count.mid")
+	]);
 
-	var one         = Pseq([ count, KemperMIDI.makePat('blastOne',pathToKemperMIDI +/+ "one.mid") ]);
-	var onePitch    = Pseq([ count, KemperMIDI.makePat('blastOnePitch',pathToKemperMIDI +/+ "onePitch.mid") ]);
-	var two         = Pseq([ count, KemperMIDI.makePat('blastTwo',pathToKemperMIDI +/+ "two.mid") ]);
-	var twoPitch    = Pseq([ count, KemperMIDI.makePat('blastTwoPitch',pathToKemperMIDI +/+ "twoPitch.mid") ]);
-	var three       = Pseq([ count, KemperMIDI.makePat('blastThree',pathToKemperMIDI +/+ "three.mid") ]);
-	var threePshift = Pseq([ count, KemperMIDI.makePat('blastThreePshift',pathToKemperMIDI +/+ "threePitchShift.mid") ]);
-	var four        = Pseq([ count, KemperMIDI.makePat('blastFour',pathToKemperMIDI +/+ "four.mid") ]);
-	var fourPitch   = Pseq([ count, KemperMIDI.makePat('blastFourPitch',pathToKemperMIDI +/+ "fourPitch.mid") ]);
-	var fourPshift  = Pseq([ count, KemperMIDI.makePat('blastFourPshift',pathToKemperMIDI +/+ "fourPitchShift.mid") ]);
-	var five        = Pseq([ count, KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "five.mid") ]);
-	var fivePitch   = Pseq([ count, KemperMIDI.makePat('blastFivePitch',pathToKemperMIDI +/+ "fivePitch.mid") ]);
+	var one         = Pseq([ kemperCount, KemperMIDI.makePat('blastOne',pathToKemperMIDI +/+ "one.mid") ]);
+	var onePitch    = Pseq([ kemperCount, KemperMIDI.makePat('blastOnePitch',pathToKemperMIDI +/+ "onePitch.mid") ]);
+	var two         = Pseq([ kemperCount, KemperMIDI.makePat('blastTwo',pathToKemperMIDI +/+ "two.mid") ]);
+	var twoPitch    = Pseq([ kemperCount, KemperMIDI.makePat('blastTwoPitch',pathToKemperMIDI +/+ "twoPitch.mid") ]);
+	var three       = Pseq([ kemperCount, KemperMIDI.makePat('blastThree',pathToKemperMIDI +/+ "three.mid") ]);
+	var threePshift = Pseq([ kemperCount, KemperMIDI.makePat('blastThreePshift',pathToKemperMIDI +/+ "threePitchShift.mid") ]);
+	var four        = Pseq([ kemperCount, KemperMIDI.makePat('blastFour',pathToKemperMIDI +/+ "four.mid") ]);
+	var fourPitch   = Pseq([ kemperCount, KemperMIDI.makePat('blastFourPitch',pathToKemperMIDI +/+ "fourPitch.mid") ]);
+	var fourPshift  = Pseq([ kemperCount, KemperMIDI.makePat('blastFourPshift',pathToKemperMIDI +/+ "fourPitchShift.mid") ]);
+	var five        = Pseq([ kemperCount, KemperMIDI.makePat('blastFive',pathToKemperMIDI +/+ "five.mid") ]);
+	var fivePitch   = Pseq([ kemperCount, KemperMIDI.makePat('blastFivePitch',pathToKemperMIDI +/+ "fivePitch.mid") ]);
 
 	var dmxCount       = DMXIS.makePresetPat('breakCount',60/180 * 4,0);
 
@@ -35,6 +38,25 @@
 	var fourPitchDMX   = Pseq([ dmxCount, DMXIS.makePat('blastFourPitch',pathToDMXMIDI +/+ "fourPitch.mid") ]);
 	var fourPshiftDMX  = Pseq([ dmxCount, DMXIS.makePat('blastFourPshift',pathToDMXMIDI +/+ "fourPitchShift.mid") ]);
 	var fiveDMX        = Pseq([ dmxCount, DMXIS.makePat('blastFive',pathToDMXMIDI +/+ "five.mid") ]);
+
+	var tracksCount          = ClickRest(180,4).pattern;
+
+	var bSectionBass         = YAWNPlayback.makeMonoPat(bass[0], outs['bassOut'] );
+	var oneBass              = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[1], outs['bassOut'] ) ]);
+	var twoBass              = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[2], outs['bassOut'] ) ]);
+	var threeBass            = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[3], outs['bassOut'] ) ]);
+	var fourBass             = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[4], outs['bassOut'] ) ]);
+	var fiveBass             = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[5], outs['bassOut'] ) ]);
+	var oneBassPitchA        = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[6], outs['bassOut'] ) ]);
+	var twoBassPitchA        = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[7], outs['bassOut'] ) ]);
+	var threeBassPitchA      = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[8], outs['bassOut'] ) ]);
+	var fourBassPitchA       = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[9], outs['bassOut'] ) ]);
+	var fourBassPitchShiftA  = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[10], outs['bassOut'] ) ]);
+	var oneBassPitchB        = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[11], outs['bassOut'] ) ]);
+	var twoBassPitchB        = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[12], outs['bassOut'] ) ]);
+	var threeBassPitchB      = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[13], outs['bassOut'] ) ]);
+	var fourBassPitchB       = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[14], outs['bassOut'] ) ]);
+	var fourBassPitchShiftB  = Pseq([ tracksCount, YAWNPlayback.makeMonoPat(bass[15], outs['bassOut'] ) ]);
 
 	var data = [
 		(
@@ -49,6 +71,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA01',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -61,6 +84,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA02',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -73,6 +97,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA03',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -85,6 +110,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ one ],
+			bTracks: [ oneBass ]
 		),(                                                    // here's a bit of a barline
 			name:    'blastA04',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -97,6 +123,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA05',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -109,6 +136,7 @@
 			]],
 			lights:  [ threeDMX ],
 			kemper:  [ three ],
+			bTracks: [ threeBass ]
 		),(
 			name:    'blastA06',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -121,6 +149,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA07',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -133,6 +162,7 @@
 			]],
 			lights:  [ twoDMX ],
 			kemper:  [ two ],
+			bTracks: [ twoBass ]
 		),(
 			name:    'blastA08',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -155,6 +185,10 @@
 				four,
 				Pseq([ ClickRest(180,6).pattern, three ])
 			],
+			bTracks: [
+				fourBass,
+				Pseq([ ClickRest(180,6).pattern, threeBass ])
+			],
 		),(                                                                        // here's a bit of a barline
 			name:    'blastA09',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -167,6 +201,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ],
 		),(
 			name:    'blastA10',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -179,6 +214,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ]
 		),(
 			name:    'blastA11',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -190,6 +226,7 @@
 			]],
 			lights:  [ threeDMX ],
 			kemper:  [ three ],
+			bTracks: [ threeBass ],
 		),(
 			name:    'blastA12',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -202,6 +239,7 @@
 			]],
 			lights:  [ twoDMX ],
 			kemper:  [ two ],
+			bTracks: [ twoBass ]
 		),(
 			name:    'blastA13',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -214,6 +252,7 @@
 			]],
 			lights:  [ fourPitchDMX ],
 			kemper:  [ fourPitch ],
+			bTracks: [ fourBassPitchA ],
 		),(
 			name:    'blastA14',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -225,6 +264,7 @@
 			]],
 			lights:  [ fourPitchDMX ],
 			kemper:  [ fourPitch ],
+			bTracks: [ fourBassPitchA ],
 		),(
 			name:    'blastA15',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -237,6 +277,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ one ],
+			bTracks: [ oneBass ],
 		),(
 			name:    'blastA16',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -249,6 +290,7 @@
 			]],
 			lights:  [ twoDMX ],
 			kemper:  [ twoPitch ],
+			bTracks: [ twoBassPitchA ],
 		),(
 			name:    'blastA17',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -260,6 +302,7 @@
 			]],
 			lights:  [ twoDMX ],
 			kemper:  [ twoPitch ],
+			bTracks: [ twoBassPitchA ],
 		),(
 			name:    'blastA18',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -272,6 +315,7 @@
 			]],
 			lights:  [ fourPshiftDMX ],
 			kemper:  [ fourPshift ],
+			bTracks: [ fourBassPitchShiftA ],
 		),(
 			name:    'blastA19',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -284,6 +328,7 @@
 			]],
 			lights:  [ fourDMX ],
 			kemper:  [ four ],
+			bTracks: [ fourBass ],
 		),(                                                                   // here's a bit of a barline
 			name:    'blastBsection',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -301,6 +346,11 @@
 			]],
 			lights:  [ Pseq([ DMXIS.makePresetPat('blastB',60/190 * 4,0), DMXIS.makePat('blastBsection',pathToDMXMIDI +/+ "Bsection.mid") ]) ],
 			kemper:  [ KemperMIDI.makePat('blastBsection',pathToKemperMIDI +/+ "Bsection.mid") ],
+			bTracks: [
+				Pseq([ ClickRest(190,4,1).pattern, bSectionBass ]),
+				Pseq([ ClickRest(190,4,9).pattern, bSectionBass ]),
+				Pseq([ ClickRest(190,4,12).pattern, bSectionBass ]),
+			]
 		),(
 			name:    'blastC00',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -315,9 +365,13 @@
 				DMXIS.makePat('blastThree',pathToDMXMIDI +/+ "three.mid"),
 				Pseq([ ClickRest(180,1).pattern, fiveDMX ])
 			],
-			kemper: [
+			kemper:  [
 				KemperMIDI.makePat('blastThree',pathToKemperMIDI +/+ "three.mid"),
 				Pseq([ ClickRest(180,1).pattern, five ])
+			],
+			bTracks: [
+				YAWNPlayback.makeMonoPat(bass[3], outs['bassOut'] ),
+				Pseq([ ClickRest(180,1).pattern, fiveBass ])
 			]
 		),(
 			name:    'blastC01',
@@ -338,7 +392,11 @@
 			kemper:  [
 				one,
 				Pseq([ ClickRest(180,3).pattern, three ])
-			]
+			],
+			bTracks: [
+				oneBass,
+				Pseq([ ClickRest(180,3).pattern, threeBass ])
+			],
 		),(
 			name:    'blastC02',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -359,6 +417,10 @@
 				two,
 				Pseq([ ClickRest(180,4).pattern, four ])
 			],
+			bTracks: [
+				twoBass,
+				Pseq([ ClickRest(180,4).pattern, fourBass ])
+			],
 		),(                                                                             // here's a bit of a barline - these could be longer
 			name:    'blastC03',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -371,6 +433,7 @@
 			]],
 			lights:  [ fiveDMX ],
 			kemper:  [ five ],
+			bTracks: [ fiveBass ]
 		),(
 			name:    'blastC04',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -383,6 +446,7 @@
 			]],
 			lights:  [ fiveDMX ],
 			kemper:  [ five ],
+			bTracks: [ fiveBass ]
 		),(
 			name:    'blastC05',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -394,6 +458,7 @@
 			]],
 			lights:  [ fiveDMX ],
 			kemper:  [ five ],
+			bTracks: [ fiveBass ],
 		),(
 			name:    'blastC06',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -406,6 +471,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ onePitch ],
+			bTracks: [ oneBassPitchB ]
 		),(
 			name:    'blastC07',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -417,6 +483,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ onePitch ],
+			bTracks: [ oneBassPitchB ]
 		),(
 			name:    'blastC08',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -429,6 +496,7 @@
 			]],
 			lights:  [ twoDMX ],
 			kemper:  [ twoPitch ],
+			bTracks: [ twoBassPitchB ]
 		),
 		(
 			name:    'blastC09',
@@ -441,6 +509,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ one ],
+			bTracks: [ oneBass ]
 		),(
 			name:    'blastC10',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -462,6 +531,10 @@
 				fourPitch,
 				Pseq([ ClickRest(180,6).pattern, fourPshift ])
 			],
+			bTracks:  [
+				fourBassPitchB,
+				Pseq([ ClickRest(180,6).pattern, fourBassPitchShiftB ])
+			],
 		),(
 			name:    'blastC11',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -474,6 +547,7 @@
 			]],
 			lights:  [ threeDMX ],
 			kemper:  [ three ],
+			bTracks: [ threeBass ]
 		),(
 			name:    'blastC12',
 			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
@@ -486,6 +560,7 @@
 			]],
 			lights:  [ oneDMX ],
 			kemper:  [ one ],
+			bTracks: [ oneBass ]
 		)
 	];
 	action.value;
