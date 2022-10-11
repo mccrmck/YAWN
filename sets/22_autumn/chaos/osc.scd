@@ -8,7 +8,8 @@ var busses = [
 	ins['torfinnGtr'],
 ];
 
-var synths = 0!6;
+var processSynths = 0!6;
+var noiseSynths = 0!2;
 
 // click
 
@@ -68,17 +69,15 @@ OSCdef(\chaosOnOff,{ |msg|
 
 	if(val == 'start',{
 		case
-		// {index < 3}{ synths[index] = Synth(\repeater,[\inBus,[2,2],\outBus,0] ) }
-		{index < 3}{ synths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
-		{index > 2}{ synths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
-		// {index > 2}{ synths[index] = Synth(\freeze,[\inBus,[2,2],\outBus,0] ) }
+		{index < 3}{ processSynths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
+		{index > 2}{ processSynths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
 	},{
 		case
-		{index < 3}{ synths[index].set(\gate,0) }
-		{index > 2}{ synths[index].set(\gate,0) }
+		{index < 3}{ processSynths[index].set(\gate,0) }
+		{index > 2}{ processSynths[index].set(\gate,0) }
 	})
 
-},'/chaos');
+},'/chaosRepsFreezeTouch');
 
 6.do({ |index|
 
@@ -87,8 +86,40 @@ OSCdef(\chaosOnOff,{ |msg|
 		var yVal = msg[2];
 
 		case
-		{index < 3}{ synths[index].set(\delay,xVal,\feedB,yVal) }
-		{index > 2}{ synths[index].set(\pan,xVal,\wipe,yVal) };
+		{index < 3}{ processSynths[index].set(\delay,xVal,\feedB,yVal) }
+		{index > 2}{ processSynths[index].set(\pan,xVal,\wipe,yVal) };
 
-	},"/chaosXY/%".format(index).asSymbol);
+	},"/chaosRepsFreeze/%".format(index).asSymbol);
+});
+
+
+
+// noisyness
+OSCdef(\chaosOnOff,{ |msg|
+	var index = msg[1];
+	var val = msg[2];
+
+	if(val == 'start',{
+		case
+		{ index == 0 }{ noiseSynths[index] =  }
+		{ index == 1 }{ noiseSynths[index] = }
+	},{
+		case
+		{ index == 0 }{ noiseSynths[index].set(\gate,0) }
+		{ index == 1 }{ noiseSynths[index].set(\gate,0) }
+	})
+
+},'/chaosNoiseTouch');
+
+2.do({ |index|
+
+	OSCdef("chaosCtrl%".format(index).asSymbol,{ |msg|
+		var xVal = msg[1];
+		var yVal = msg[2];
+
+		case
+		{ index == 0 }{ noiseSynths[index].set() }
+		{ index == 1 }{ noiseSynths[index].set() };
+
+	},"/chaosNoise/%".format(index).asSymbol);
 });

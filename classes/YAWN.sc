@@ -58,7 +58,6 @@ YAWNShow {
 		"--send 127.0.0.1:57120 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
-
 		unixString.unixCmd; // returns pid, can use that to evenutally stop process on GUI close?
 		^this
 	}

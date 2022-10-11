@@ -55,7 +55,7 @@ clickPats.do({ |pattern, index|
 	},"/oskarNoiseSides/%".format(index).asSymbol)
 });
 
-['gain','amp'].do({ |key,index|
+[ 'verbAmp','gain','amp'].do({ |key,index|
 
 	OSCdef("oskarMain%".format(index).asSymbol,{ |msg|
 

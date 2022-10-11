@@ -1,5 +1,7 @@
 var outs = YAWNShow.outDict;
 var testBufs = YAWNShow.sCheckBufs;
+var dmxTestMIDI = Platform.userExtensionDir +/+ "YAWN/gui/lightCheckMIDI/";
+var dmxTestPats = 0!10;
 
 ['Torfinn','Oskar','Mike'].do({ |key,index|
 	var clicks = 0!3;
@@ -59,4 +61,23 @@ var testBufs = YAWNShow.sCheckBufs;
 // something for kempers here evenutally?
 
 
-// something for lights here evenutally? 
+// something for lights here evenutally?
+
+10.do({ |index|
+	var key = ['blinder','strobe','drop','spot','stage'];
+	var leftRight = if(index < 5,{ "R" },{ "L" });
+	var fileName = key[index % 5] ++ leftRight;
+
+	OSCFunc({ |msg|
+		var val = msg[1];
+
+		case
+		{ val == 1 }{
+			dmxTestPats[index] = DMXIS.makePat((fileName ++ "Test")asSymbol,dmxTestMIDI +/+ "%.mid".format(fileName)).play
+		}
+		{ val == 0 }{
+			dmxTestPats[index].stop
+		}
+
+	},"/dmxTest/%".format(index).asSymbol)
+});

@@ -344,7 +344,7 @@
         "alphaFillOn": "auto",
         "lineWidth": "auto",
         "padding": "auto",
-        "html": "GAIN | AMP",
+        "html": "VERB | GAIN | AMP",
         "css": "",
         "colorBg": "auto",
         "layout": "horizontal",
@@ -356,7 +356,7 @@
         "variables": "@{parent.variables}",
         "traversing": false,
         "widgetType": "fader",
-        "quantity": 2,
+        "quantity": 3,
         "props": {
           "design": "compact",
           "logScale": true

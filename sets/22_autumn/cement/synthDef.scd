@@ -14,7 +14,7 @@ SynthDef(\cementGrainer,{
 
 	var sig = LPF.ar(
 		HPF.ar(
-			GrainBufJ.ar(2,trig,\grainDur.kr(1).linlin(0,1,0.01,2),bufnum,bufRate,pos + TRand.kr(jitter.neg,jitter,trig),1,4,1,pan,\window.kr(-1)),
+			GrainBufJ.ar(2,trig,\grainDur.kr(0).linlin(0,1,0.01,2),bufnum,bufRate,pos + TRand.kr(jitter.neg,jitter,trig),1,4,1,pan,\window.kr(-1)),
 			20
 		),
 		16000
@@ -30,6 +30,6 @@ SynthDef(\cementGrainer,{
 
 	sig = sig * (1 - \mute.kr(0));
 
-	// Out.ar(\verbSend.kr(), sig * \verbMix.kr(0));
-	Out.ar(\outBus.kr(), sig  * \amp.kr(0));
+	// Out.ar(\\verbBus.kr(), sig * \verbAmp.kr(0));
+	Out.ar(\out.kr(), sig  * \amp.kr(0));
 }).add;

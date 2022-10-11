@@ -1,5 +1,16 @@
 ///////////////////////////////////////////////// YAWN SynthDefs: lachrymator /////////////////////////////////////////////////
 
+SynthDef(\mikeSampleGrains,{
+	var bufnum = \bufnum.kr();
+	var sig =
+
+	// Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0) * -9.dbamp);
+	Out.ar(\out.kr(0),sig * \amp.kr(0) * -9.dbamp)
+}).add;
+
+
+
+
 SynthDef(\oskarNoise,{
 	var sig, freq = \freq.kr(0).linexp(0,1,40,400);
 	var harms = (1..4);
@@ -19,6 +30,7 @@ SynthDef(\oskarNoise,{
 	sig = MidEQ.ar(sig,500,1,6);
 	sig = LeakDC.ar(sig,0.9);
 	sig = sig.tanh;
-	sig = Balance2.ar(sig[0],sig[1],0,\amp.kr(0) * -9.dbamp);
-	Out.ar(\out.kr(0),sig)
+	sig = Balance2.ar(sig[0],sig[1]);
+	// Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0) * -9.dbamp);
+	Out.ar(\out.kr(0),sig * \amp.kr(0) * -9.dbamp)
 }).add;
