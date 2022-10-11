@@ -1,5 +1,4 @@
 (
-// START
 var server = Server.default;
 var set = '22_autumn';
 
@@ -44,6 +43,7 @@ play { var player = this.pattern.play; ^player } ?
 // and then each Kemper pattern is an instance of a different class - no need for events with loads of entries, just use instance <> methods?
 // can/should something similar be done with DMXIS also?
 // if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake
+// make the Click Cue sound library accessible - and then store the YAWN cues in the YAWN repo and load them into the ClickCue library at init
 
 
 // use this to get the IPs that other devices should find on the network!
@@ -56,9 +56,6 @@ TO DO
 -noisy instruments?
 -test light loops!
 -make a way to test the MIDI sent to the Kempers!!
-
--maybe .cueFrom shouldn't return Pdefs? If .isPlaying == true they will start playing when this method is called (remember what happened w/ OJKOS!!)
-
 -the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use resources loading DMX patterns if we're not even connected
 */
 
@@ -67,18 +64,6 @@ TO DO
 
 // amp reactive -> sends MIDI notes
 // amp reactive -> gate sends boolean to LFO: close gate means no movement, open gate means movement
-//
-
-
-// this should eventually make it's own event type I think!
-DMXIS.ampReactLoop(loopKey,func) // creates listener Synth that writes to a bus
-
-
-Pbind(
-	\instrument,\ampListener,
-	\dur,
-
-)
 
 
 

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: cement /////////////////////////////////////////////////
-{ |songInstance|
+{ |songInstance, action|
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = songInstance.path +/+ "kemperMIDI/";
 
@@ -12,7 +12,7 @@
 	var outs     = YAWNShow.outDict;
 	var countIn  = ClickConCat(1, Click(170,2,repeats: 2), Click(170,1,repeats: 4) ).out_( outs['clickAll'] );
 
-	[
+	var data =	[
 		(
 			name:    'cementCount',
 			countIn: [[ ClickCue(30,cueKey: 'cement',out: outs['clickAll'])]],
@@ -88,7 +88,7 @@
 		),(
 			name:    'cementCountAgain',
 			countIn: [[ ]],
-			click:   [[ ClickConCat(1, Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
+			click:   [[ ClickConCat(1, ClickCue(160,2,cueKey: 'cement'),Click(160,2), Click(160,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePresetPat('cementCountAgain',0,0) ],
 			kemper:  [ KemperMIDI.makePat('cementCountAgain',pathToKemperMIDI +/+ "countAgain.mid") ],
 		),(
@@ -136,7 +136,7 @@
 				[ ClickConCat(3, Click(200,5,repeats: 3), Click(160,4)).out_( outs['clickAll'] ) ]
 			],
 			lights:  [ DMXIS.makePat('cementQuint',pathToDMXMIDI +/+ "quint.mid") ],
-			kemper:  [ KemperMIDI.makePat('cementQuint',pathToKemperMIDI +/+ "quint.mid") ],                                        // this is fucked also
+			kemper:  [ KemperMIDI.makePat('cementQuint',pathToKemperMIDI +/+ "quint.mid") ],
 			bTracks: [
 				YAWNPlayback.makeMonoPat( bass[6], outs['bassOut'] ),
 				YAWNPlayback.makeStereoPat( perc[6], outs['percOut']),
@@ -175,5 +175,7 @@
 				YAWNPlayback.makeStereoPat( synths[9], outs['synthsOut']),
 			]
 		),
-	]
+	];
+	action.value;
+	data
 }

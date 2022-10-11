@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: chaos /////////////////////////////////////////////////
-{ |songInstance|
+{ |songInstance, action|
 	var cueKeys = ['chaosElevenLoopOne','chaosElevenLoopTwo'];
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = songInstance.path +/+ "kemperMIDI/";
@@ -12,7 +12,7 @@
 
 	var outs = YAWNShow.outDict;
 
-	[
+	var data = [
 		(
 			name:    'chaosCount',
 			countIn: [[ ClickCue(45,cueKey: 'chaos',out: outs['clickAll'] ) ]],
@@ -143,5 +143,7 @@
 				Pseq([ClickRest(120,40).pattern,YAWNPlayback.makeStereoPat( perc[7], outs['percOut']) ]),
 			]
 		)
-	]
+	];
+	action.value;
+	data
 }

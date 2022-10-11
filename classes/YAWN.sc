@@ -39,7 +39,7 @@ YAWNShow {
 			server.sync;
 
 			// launch gui
-			thisProcess.interpreter.executeFile(mainPath +/+ "gui" +/+ setName +/+ "guiOSC.scd");
+			thisProcess.interpreter.executeFile(mainPath +/+ "gui" +/+ setName +/+ "loadSetOSC.scd");
 
 			server.sync;
 			set.loadSet;
@@ -47,18 +47,15 @@ YAWNShow {
 			server.sync;
 			thisProcess.interpreter.executeFile(mainPath +/+ "gui/soundCheck.scd");
 
-			// load appropriate OSCdefs for interacting w/ OpenStageControl
-			// there should be a default set of OSCdefs for setup, soundcheck, live processing etc.
-
 			server.sync;
-			// this.launchOpenStageControl;
+			this.launchOpenStageControl;
 
 		});
 	}
 
 	launchOpenStageControl {
 		var unixString = "open /Applications/open-stage-control.app --args " ++
-		"--send 127.0.0.1:57120 " ++
+		"--send 127.0.0.1:57121 " ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
 
@@ -135,8 +132,6 @@ YAWNSong {
 		^this
 	}
 
-	loadOSCdefs { }
-
 	loadData { |action|
 		var dataPath = path +/+ "data.scd";
 		var cond = CondVar();
@@ -146,9 +141,10 @@ YAWNSong {
 			cond.wait { pbTracksLoaded };
 			this.loadSynthDefs({ cond.signalOne });
 			cond.wait { synthDefsLoaded };
-			// this.loadOSCDefs({ cond.signalOne });
-			// cond.wait { oscDefsLoaded };
-			data = thisProcess.interpreter.executeFile(dataPath).value(this);
+			data = thisProcess.interpreter.executeFile(dataPath).value(this,{ cond.signalOne });
+			cond.wait{ data.notNil };
+			this.loadOSCDefs({ cond.signalOne });
+			cond.wait { oscDefsLoaded };
 			"% LOADED\n".format(songName).postln;
 			action.value;
 		};
@@ -210,7 +206,7 @@ YAWNSong {
 				action.value
 			}
 		},{
-			fork{
+			fork {
 				oscDefsLoaded = true;
 				"no % oscDefs to load".format(songName).postln;
 				action.value

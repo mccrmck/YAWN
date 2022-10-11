@@ -33,4 +33,3 @@ SynthDef(\cementGrainer,{
 	// Out.ar(\verbSend.kr(), sig * \verbMix.kr(0));
 	Out.ar(\outBus.kr(), sig  * \amp.kr(0));
 }).add;
-

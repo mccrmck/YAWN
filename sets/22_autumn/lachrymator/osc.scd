@@ -1,10 +1,12 @@
 ///////////////////////////////////////////////// YAWN OSC: lachrymator /////////////////////////////////////////////////
 
 var clickPats = [
-	Pseq([
-		YAWNShow.set.songs[0].cueFrom('blastA05','blastA10',true,true,true,false,false).stop,                      // fix start/stop points
-		YAWNShow.set.songs[4].cueFrom('lachCountPart1','lachAsection',true,true,true,true,true).stop
-	]),
+	Pdef(\blastPlusLachrymator,
+		Pseq([
+			YAWNShow.set.songs[0].cueFrom('blastA05','blastA08',true,true,true,false,true).stop,
+			YAWNShow.set.songs[4].cueFrom('lachCountPart1','lachAsection',true,true,true,true,true).stop
+		])
+	).stop,
 	YAWNShow.set.songs[4].cueFrom('lachTapping','lachJazzBsectionAgain',true,true,true,true,false).stop,
 	YAWNShow.set.songs[4].cueFrom('lachCountPart3','lachOutro',true,true,true,true,false).stop,
 ];
@@ -24,8 +26,7 @@ clickPats.do({ |pattern, index|
 
 // mike's instrument
 
-
-
+//granular sample playback, or something else?
 
 
 
@@ -84,5 +85,3 @@ OSCdef(\oskarXY,{ |msg|
 	Ndef(\oskarSynth).set(\hpFreq,msg[1],\hpQ,msg[2],\lpFreq,msg[3],\lpQ,msg[4])
 
 },'/oskarNoiseFreqQ');
-
-

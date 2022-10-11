@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////// YAWN OSC: tokamak /////////////////////////////////////////////////
 
 var clickPats = [
-	YAWNShow.set.songs[5].cueFrom('tokamakPB','tokamakOutro',true,true,true,true,true).stop,
+	YAWNShow.set.songs[5].cueFrom('tokamakPB','tokamakBow',true,true,true,true,true).stop,
 	'tokamakLoop'
 ];
 

@@ -9,14 +9,14 @@ YAWNPlayback {
 			SynthDef(\stereoYawnPlayback,{
 				var bufnum = \bufnum.kr();
 				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),loop: \loop.kr(0),doneAction: 2);
-				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(1));
+				sig = Balance2.ar(sig[0],sig[1],\pan.kr(0),\amp.kr(0.1));
 				OffsetOut.ar(\outBus.kr(0),sig);
 			}).add;
 
 			SynthDef(\monoYawnPlayback,{
 				var bufnum = \bufnum.kr();
 				var sig = PlayBuf.ar(1,bufnum,BufRateScale.kr(bufnum),loop: \loop.kr(0),doneAction: 2);
-				OffsetOut.ar(\outBus.kr(0),sig * \amp.kr(1));
+				OffsetOut.ar(\outBus.kr(0),sig * \amp.kr(0.1));
 			}).add;
 		}
 	}

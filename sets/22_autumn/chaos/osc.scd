@@ -10,19 +10,19 @@ var busses = [
 
 var synths = 0!6;
 
-
 // click
 
 var clickPats = [
-	Pseq([
-		YAWNShow.set.songs[0].cueFrom('blastAcount','blastC13',true,true,true,false,true).stop,             // fix start/stop points add blast cue
-		YAWNShow.set.songs[3].cueFrom('chaosCount','chaosElevenLast',true,true,true,true,true).stop
-	]),
+	Pdef(\chaosOpener,
+		Pseq([
+			YAWNShow.set.songs[0].cueFrom('blastA00','blastA03',true,true,true,false,true).stop,
+			YAWNShow.set.songs[3].cueFrom('chaosCount','chaosElevenLast',true,true,true,true,true).stop
+		])
+	).stop,
 	'chaosElevenLoopOne',
 	'chaosElevenLoopTwo',
 	YAWNShow.set.songs[3].cueFrom('chaosBomb','chaosBomb',true,true,true,true,false).stop,
 	YAWNShow.set.songs[3].cueFrom('chaosCountAgain','chaosOutro',true,true,true,true,false).stop
-
 ];
 
 clickPats.do({ |pattern, index|
@@ -57,8 +57,8 @@ clickPats.do({ |pattern, index|
 
 			},"/chaosClick/%".format(index).asSymbol)
 		}
+	)
 });
-
 
 // eleven impro instrument
 
@@ -91,4 +91,10 @@ OSCdef(\chaosOnOff,{ |msg|
 		{index > 2}{ synths[index].set(\pan,xVal,\wipe,yVal) };
 
 	},"/chaosXY/%".format(index).asSymbol);
-})
+});
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: cafeSara  /////////////////////////////////////////////////
-{ |songInstance|
+{ |songInstance, action|
 	var cueKeys = ['cafeSaraIntro'];
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = songInstance.path +/+ "kemperMIDI/";
@@ -12,11 +12,11 @@
 
 	var outs     = YAWNShow.outDict;
 
-	[
+	var data = [
 		(
 			name:    'cafeSaraIntroLoop',
-			countIn: [[ ]],
-			click:   [[ ClickConCat(1,ClickCue(30,1,cueKey: 'cafeSara',out: outs['clickAll'] ),ClickLoop(60/0.56836521053797,4,2,4,cueKeys[0],out: outs['clickMike']) ) ]],
+			countIn: [[ ClickCue(60,cueKey: 'cafeSara',out: outs['clickAll']) ]],
+			click:   [[ ClickLoop(60/0.56836521053797,4,2,4,cueKeys[0],out: outs['clickMike']) ]],
 			lights:  [ DMXIS.makePresetPat('cafeSaraIntroLoop',0,5) ],
 			kemper:  [ ],
 			bTracks: [ ],
@@ -125,7 +125,7 @@
 			countIn: [[ ]],
 			click:   [[ ClickConCat(6,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).out_( outs['clickAll'] ),ClickEnvCue([145,130],2,2,out: outs['clickAll']) ]],
 			lights:  [ DMXIS.makePat('cafeSaraHarmony',pathToDMXMIDI +/+ "harmony.mid") ],
-			kemper:  [ KemperMIDI.makePat('cafeSaraHarmony', pathToKemperMIDI +/+ "harmony.mid") ],
+			kemper:  [ KemperMIDI.makePat('cafeSaraHarmony',pathToKemperMIDI +/+ "harmony.mid") ],
 			bTracks: [ YAWNPlayback.makeMonoPat(bass[7], outs['bassOut']) ],
 		),(
 			name:    'cafeSaraThrash',
@@ -152,5 +152,7 @@
 			kemper:  [ KemperMIDI.makePat('cafeSaraOutro',pathToKemperMIDI +/+ "outro.mid") ],
 			bTracks: [ YAWNPlayback.makeMonoPat(bass[10], outs['bassOut']) ],
 		)
-	]
+	];
+	action.value;
+	data
 }

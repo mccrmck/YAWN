@@ -25,3 +25,4 @@ SynthDef(\freeze,{
 	sig = Pan2.ar(sig,\pan.kr(0).linlin(0,1,-0.3,0.3),\amp.kr(0.5));
 	Out.ar(\outBus.kr(0),sig)
 }).add;
+

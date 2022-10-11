@@ -8,7 +8,7 @@ OSCdef(\loadGUI,{ |msg|
 		local.sendMsg("/setList","22_autumn/setList.json");
 		local.sendMsg("/clickUpdate","22_autumn/chaos/click.json");
 		local.sendMsg("/mikeUpdate","22_autumn/chaos/impro.json");
-		local.sendMsg("/oskarUpdate","22_autumn/lachrymator/oskarNoise.json");
+		local.sendMsg("/oskarUpdate","22_autumn/lachrymator/oskarNoise.json")
 
 	},{
 		"GUI failed to load".postln

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////// YAWN Data: lachrymator /////////////////////////////////////////////////
-{ |songInstance|
+{ |songInstance, action|
 	var pathToDMXMIDI = songInstance.path +/+ "dmxMIDI/";
 	var pathToKemperMIDI = songInstance.path +/+ "kemperMIDI/";
 
@@ -11,10 +11,10 @@
 
 	var outs = YAWNShow.outDict;
 
-	[
+	var data = [
 		(
 			name:    'lachCountPart1',
-			countIn: [[ ClickCue(30,cueKey: 'lachrymator',out: outs['clickAll']) ]],
+			countIn: [[ ClickCue(70,cueKey: 'lachrymator',out: outs['clickAll']) ]],
 			click:   [[ ClickConCat(1, Click(240,2,repeats: 2), Click(240,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePresetPat('lachCountPart1',0,0),DMXIS.makePat('lachCountPart1',pathToDMXMIDI ++ "countPart1.mid")  ],
 			kemper:  [ KemperMIDI.makePat('lachCountPart1',pathToKemperMIDI +/+ "countPart1.mid") ],
@@ -185,5 +185,7 @@
 				YAWNPlayback.makeStereoPat( gtrs[1], outs['gtrsOut']),
 			]
 		)
-	]
+	];
+	action.value;
+	data
 }
