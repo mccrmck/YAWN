@@ -33,8 +33,6 @@ clickPats.do({ |pattern, index|
 
 
 
-
-
 // oskar's instrument
 
 ['width','midGain','midAmp'].do({ |key,index|
@@ -55,7 +53,7 @@ clickPats.do({ |pattern, index|
 	},"/oskarNoiseSides/%".format(index).asSymbol)
 });
 
-[ 'verbAmp','gain','amp'].do({ |key,index|
+[ 'gain','verbAmp','amp'].do({ |key,index|
 
 	OSCdef("oskarMain%".format(index).asSymbol,{ |msg|
 
@@ -67,9 +65,15 @@ clickPats.do({ |pattern, index|
 OSCdef(\oskarNoisePlay,{ |msg|
 
 	if(msg[1] == 1,{
-		Ndef(\oskarSynth,\oskarNoise).play(out:YAWNShow.outDict['processOut'])
+		fork{
+			Ndef(\oskarSynth,\oskarNoise)
+			.set(\verbBus,YAWNShow.verbBus)
+			.play(out:YAWNShow.outDict['processOut']);
+			0.1.wait;
+			Ndef(\oskarSynth).group.moveToHead(YAWNShow.headGroup)
+		}
 	},{
-		Ndef(\oskarSynth).stop
+		Ndef(\oskarSynth).end
 	});
 
 },'/oskarNoisePlay');

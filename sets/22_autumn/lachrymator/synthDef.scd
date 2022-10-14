@@ -1,15 +1,30 @@
 ///////////////////////////////////////////////// YAWN SynthDefs: lachrymator /////////////////////////////////////////////////
 
-SynthDef(\mikeSampleGrains,{
+/*SynthDef(\mikeSampleGrains,{
 	var bufnum = \bufnum.kr();
-	var sig =
+	var noise = LFNoise2.ar(\noiseRate.kr(0).linexp(0,1,0,1)).range(0.85,1.2);
+	var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * \rate.kr(0.5).linexp(0,1,0.5,2) * noise,loop: 1);
 
-	// Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0) * -9.dbamp);
-	Out.ar(\out.kr(0),sig * \amp.kr(0) * -9.dbamp)
+
+	sig = sig * -9.dbamp;
+	sig = sig * Env.asr(\atk.kr(0.01),1,\rls.kr(0.01),\curve.kr(4)).ar(2,\gate.kr(1));
+	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0));
+	Out.ar(\out.kr(0),sig * \amp.kr(0) )
 }).add;
 
+Synth(\mikeSampleGrains,[\noiseRate,1,\amp,0.2]);
 
 
+SynthDef(\percSines, {
+	var rq = \rq.kr(0.5).linexp(0,1,0.005,1.0);
+	var freq = \freq.kr(0.5).linexp(0,1,300,4800);
+	var sig = SinOsc.ar(freq) * BrownNoise.ar(1!2).range(0,1);
+	sig = RLPF.ar(sig,freq * 1.5, rq);
+	sig = sig * Env.perc(\atk.kr(0.01),\rls.kr(6),1,\curve.kr(-4)).kr(2);
+	sig = sig * -3.dbamp;
+	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0));
+	Out.ar(\out.kr(0),sig * \amp.kr(0) )
+}).add;*/
 
 SynthDef(\oskarNoise,{
 	var sig, freq = \freq.kr(0).linexp(0,1,40,400);
@@ -30,7 +45,7 @@ SynthDef(\oskarNoise,{
 	sig = MidEQ.ar(sig,500,1,6);
 	sig = LeakDC.ar(sig,0.9);
 	sig = sig.tanh;
-	sig = Balance2.ar(sig[0],sig[1]);
-	// Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0) * -9.dbamp);
-	Out.ar(\out.kr(0),sig * \amp.kr(0) * -9.dbamp)
+	sig = Balance2.ar(sig[0],sig[1],-9.dbamp);
+	Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));
+	Out.ar(\out.kr(0),sig * \amp.kr(0))
 }).add;

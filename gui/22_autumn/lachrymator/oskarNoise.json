@@ -344,7 +344,7 @@
         "alphaFillOn": "auto",
         "lineWidth": "auto",
         "padding": "auto",
-        "html": "VERB | GAIN | AMP",
+        "html": "GAIN | VERB | AMP",
         "css": "",
         "colorBg": "auto",
         "layout": "horizontal",

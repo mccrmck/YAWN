@@ -61,7 +61,7 @@
 	var data = [
 		(
 			name:    'blastA00',
-			countIn: [[ ClickCue(60,cueKey: 'blast',out: outs['clickAll']) ]],
+			countIn: [[ ClickCue(45,cueKey: 'blast',out: outs['clickAll']) ]],
 			click:   [[
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),

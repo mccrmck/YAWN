@@ -2,6 +2,22 @@ YAWNShow {
 
 	classvar <set, <inDict, <outDict, <kemperMIDI;
 	classvar <sCheckBufs;
+	classvar <headGroup, <tailGroup;
+	classvar <verbBus, <verbSynth;
+
+	*initClass {
+		StartUp.add{
+
+			SynthDef(\yawnReverb,{
+				var sig = In.ar(\verbBus.kr(),2);
+				sig = HPFSides.ar(sig,120);
+				sig = FreeVerb.ar(sig,1,\room.kr(0.9),\damp.kr(0.99));
+				sig = BHiShelf.ar(sig,2400,1,-9);
+				sig = LPF.ar(sig,2500);
+				Out.ar(\outBus.kr(),sig)
+			}).add;
+		}
+	}
 
 	*new { |setKey, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
 
@@ -30,6 +46,11 @@ YAWNShow {
 				sCheckBufs.put(key, buf)
 			});
 
+			headGroup = Group(server);
+			tailGroup = Group(server,'addToTail');
+
+			verbBus = Bus.audio(server,2);
+
 			if(dmxBool,{ DMXIS() });    // needs to be set to preset !
 
 			server.sync;
@@ -49,6 +70,9 @@ YAWNShow {
 
 			server.sync;
 			this.launchOpenStageControl;
+
+			server.sync;
+			verbSynth = Synth(\yawnReverb,[\verbBus, verbBus,\outBus, outDict['processOut']], tailGroup);
 
 		});
 	}

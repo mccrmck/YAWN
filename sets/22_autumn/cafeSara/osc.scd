@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////// YAWN OSC: cafe Sara /////////////////////////////////////////////////
 
 var synths = 0!3;
+var synthBus = Bus.control(Server.default,2);
 
 var clickPats = [
 	YAWNShow.set.songs[1].cueFrom('cafeSaraIntroLoop','cafeSaraBsection',true,true,true,true,true).stop,
@@ -55,8 +56,12 @@ clickPats.do({ |pattern, index|
 				\harms,pitchArray[index].midicps * randArray,
 				\sigGain,0,
 				\atk,4.rrand(6.0),
+				\verbBus,YAWNShow.verbBus,
 				\outBus,YAWNShow.outDict['processOut']
-			])
+			]).map(
+				\verbAmp,synthBus.subBus(0),
+				\amp,synthBus.subBus(1)
+			)
 		}
 		{ val == 0 }{
 			synths[index].set(
@@ -69,3 +74,11 @@ clickPats.do({ |pattern, index|
 	},"/cafeSaraPads/%".format(index).asSymbol)
 });
 
+[ 'verbAmp','amp'].do({ |key,index|
+
+	OSCdef("oskarMain%".format(key).asSymbol,{ |msg|
+
+		synthBus.subBus(index).set(msg[1])
+
+	},"/cafeSaraPadsVerbAmp/%".format(index).asSymbol);
+});

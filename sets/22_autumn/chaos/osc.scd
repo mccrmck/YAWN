@@ -63,7 +63,7 @@ clickPats.do({ |pattern, index|
 
 // eleven impro instrument
 
-OSCdef(\chaosOnOff,{ |msg|
+OSCdef(\chaosRepsFreezeTouchOnOff,{ |msg|
 	var index = msg[1];
 	var val = msg[2];
 
@@ -81,7 +81,7 @@ OSCdef(\chaosOnOff,{ |msg|
 
 6.do({ |index|
 
-	OSCdef("chaosCtrl%".format(index).asSymbol,{ |msg|
+	OSCdef("chaosRepsFreezeXY%".format(index).asSymbol,{ |msg|
 		var xVal = msg[1];
 		var yVal = msg[2];
 
@@ -93,16 +93,15 @@ OSCdef(\chaosOnOff,{ |msg|
 });
 
 
-
 // noisyness
-OSCdef(\chaosOnOff,{ |msg|
+OSCdef(\chaosNoiseOnOff,{ |msg|
 	var index = msg[1];
 	var val = msg[2];
 
 	if(val == 'start',{
 		case
-		{ index == 0 }{ noiseSynths[index] =  }
-		{ index == 1 }{ noiseSynths[index] = }
+		{ index == 0 }{ noiseSynths[index] = Synth(\noiseFilt,[\outBus,outs['processOut']]) }
+		{ index == 1 }{ noiseSynths[index] = Synth(\lfNoise,[\outBus,outs['processOut']]) }
 	},{
 		case
 		{ index == 0 }{ noiseSynths[index].set(\gate,0) }
@@ -113,13 +112,13 @@ OSCdef(\chaosOnOff,{ |msg|
 
 2.do({ |index|
 
-	OSCdef("chaosCtrl%".format(index).asSymbol,{ |msg|
+	OSCdef("chaosNoiseXY%".format(index).asSymbol,{ |msg|
 		var xVal = msg[1];
 		var yVal = msg[2];
 
 		case
-		{ index == 0 }{ noiseSynths[index].set() }
-		{ index == 1 }{ noiseSynths[index].set() };
+		{ index == 0 }{ noiseSynths[index].set(\lpFreq,xVal,\lpQ,yVal) }
+		{ index == 1 }{ noiseSynths[index].set(\freq,xVal,\combFreq,yVal) };
 
 	},"/chaosNoise/%".format(index).asSymbol);
 });

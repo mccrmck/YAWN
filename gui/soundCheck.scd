@@ -68,12 +68,12 @@ var dmxTestPats = 0!10;
 	var leftRight = if(index < 5,{ "R" },{ "L" });
 	var fileName = key[index % 5] ++ leftRight;
 
-	OSCFunc({ |msg|
+	OSCdef("dmxTest/%".format(index).asSymbol,{ |msg|
 		var val = msg[1];
 
 		case
 		{ val == 1 }{
-			dmxTestPats[index] = DMXIS.makePat((fileName ++ "Test")asSymbol,dmxTestMIDI +/+ "%.mid".format(fileName)).play
+			dmxTestPats[index] = DMXIS.makePat((fileName ++ "Test").asSymbol,dmxTestMIDI +/+ "%.mid".format(fileName)).play
 		}
 		{ val == 0 }{
 			dmxTestPats[index].stop
@@ -81,3 +81,4 @@ var dmxTestPats = 0!10;
 
 	},"/dmxTest/%".format(index).asSymbol)
 });
+

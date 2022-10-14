@@ -188,7 +188,7 @@
         "top": "60%",
         "left": "0%",
         "lock": false,
-        "id": "dmxText",
+        "id": "dmxTest",
         "visible": true,
         "interaction": true,
         "comments": "",

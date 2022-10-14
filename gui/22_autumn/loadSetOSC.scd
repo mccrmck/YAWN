@@ -27,7 +27,7 @@ OSCdef(\setList,{ |msg|
 	}
 	{ index == 1 }{
 		local.sendMsg("/clickUpdate","22_autumn/lachrymator/click.json");
-		local.sendMsg("/mikeUpdate","22_autumn/lachrymator/main.json");
+		local.sendMsg("/mikeUpdate","22_autumn/lachrymator/sampler.json");
 		local.sendMsg("/oskarUpdate","22_autumn/lachrymator/oskarNoise.json");
 	}
 	{ index == 2 }{
