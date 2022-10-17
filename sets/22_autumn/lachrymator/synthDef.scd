@@ -1,20 +1,22 @@
 ///////////////////////////////////////////////// YAWN SynthDefs: lachrymator /////////////////////////////////////////////////
 
-/*SynthDef(\mikeSampleGrains,{
+SynthDef(\mikeSampleGrains,{
+	var cDur = ControlDur.ir;
 	var bufnum = \bufnum.kr();
-	var noise = LFNoise2.ar(\noiseRate.kr(0).linexp(0,1,0,1)).range(0.85,1.2);
-	var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum) * \rate.kr(0.5).linexp(0,1,0.5,2) * noise,loop: 1);
+	var frames = BufFrames.kr(bufnum);
+	var phase = Phasor.ar(0,BufRateScale.kr(bufnum) * \rate.kr(0.5).linexp(0,1,0.5,1.0).neg,\start.kr(0) * frames,\end.kr(1) * frames);
+	var sig = BufRd.ar(2,bufnum,phase,1,4);
+	var trig = HPZ1.ar(HPZ1.ar(phase).sign);
 
-
-	sig = sig * -9.dbamp;
-	sig = sig * Env.asr(\atk.kr(0.01),1,\rls.kr(0.01),\curve.kr(4)).ar(2,\gate.kr(1));
-	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0));
-	Out.ar(\out.kr(0),sig * \amp.kr(0) )
+	sig = sig * Env([1,0,1],[cDur,cDur]).ar(gate:trig);
+	sig = (sig * \gain.kr(0).linlin(0,1,4,20)).tanh * -12.dbamp;
+	sig = sig * Env.asr(\atk.kr(0.01),1,\rls.kr(0.01),\curve.kr(4)).ar(2,\gate.kr(1) + Impulse.kr(0));
+	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));
+	Out.ar(\outBus.kr(),sig * \amp.kr(0).linexp(0,1,0.001,1) )
 }).add;
 
-Synth(\mikeSampleGrains,[\noiseRate,1,\amp,0.2]);
 
-
+/*
 SynthDef(\percSines, {
 	var rq = \rq.kr(0.5).linexp(0,1,0.005,1.0);
 	var freq = \freq.kr(0.5).linexp(0,1,300,4800);
@@ -25,6 +27,8 @@ SynthDef(\percSines, {
 	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0));
 	Out.ar(\out.kr(0),sig * \amp.kr(0) )
 }).add;*/
+
+
 
 SynthDef(\oskarNoise,{
 	var sig, freq = \freq.kr(0).linexp(0,1,40,400);
@@ -47,5 +51,5 @@ SynthDef(\oskarNoise,{
 	sig = sig.tanh;
 	sig = Balance2.ar(sig[0],sig[1],-9.dbamp);
 	Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));
-	Out.ar(\out.kr(0),sig * \amp.kr(0))
+	Out.ar(\out.kr(0),sig * \amp.kr(0).linexp(0,1,0.001,1))
 }).add;

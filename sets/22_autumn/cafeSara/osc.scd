@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////// YAWN OSC: cafe Sara /////////////////////////////////////////////////
 
 var synths = 0!3;
-var synthBus = Bus.control(Server.default,2);
+var synthBus = Bus.control(Server.default,2).set([0.3,0.4]);
 
 var clickPats = [
 	YAWNShow.set.songs[1].cueFrom('cafeSaraIntroLoop','cafeSaraBsection',true,true,true,true,true).stop,

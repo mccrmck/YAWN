@@ -178,12 +178,12 @@
             "gridTemplate": "",
             "contain": true,
             "scroll": true,
-            "innerPadding": true,
+            "innerPadding": false,
             "variables": "@{parent.variables}",
             "traversing": false,
             "widgetType": "fader",
             "quantity": 2,
-            "props": "JS{\n  let props = {}\n  let label = ['VERB AMP','AMP'][$]\n  props.design = \"compact\"\n  props.html = label\n  return props\n}",
+            "props": "JS{\n  let props = {}\n  let label = ['VERB AMP','AMP'][$]\n  props.design = \"compact\"\n  props.html = label\n  props.default = [\n  0.3,\n  0.4\n][$]\n  return props\n}",
             "widgets": [],
             "tabs": []
           }

@@ -15,6 +15,6 @@ SynthDef(\cafeSaraPads,{
 	sig = HPFSides.ar(sig,180);
 	sig = sig * -9.dbamp;
 	sig = sig * Env.asr(\atk.kr(4),1,\rls.kr(4),\curve.kr(2)).ar(2,\gate.kr(1) + Impulse.kr(0));
-	Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0));
-	Out.ar(\outBus.kr(0),sig * \amp.kr(0))
+	Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));
+	Out.ar(\outBus.kr(0),sig * \amp.kr(0).linexp(0,1,0.001,1))
 }).add;

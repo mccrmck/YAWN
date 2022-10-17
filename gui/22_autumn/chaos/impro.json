@@ -82,7 +82,7 @@
         "traversing": false,
         "widgetType": "xy",
         "quantity": 6,
-        "props": "JS{\n  let labels = ['snareReps','overheadReps','gtrReps','snareFreeze','overheadFreeze','gtrFreeze']\n  let props = {}\n  props.pips = false;\n  props.snap = true;\n  props.onTouch = `send('/chaosRepsFreezeTouch',${$},event.type)`\n  props.html = labels[$]\n  return props\n}",
+        "props": "JS{\n  let labels = ['snareReps','overheadReps','gtrReps','snareFreeze','overheadFreeze','gtrFreeze']\n  let props = {}\n  props.pips = false;\n  props.snap = true;\n  props.onTouch = `send('/chaosRepsFreezeTouch',${$},event.type,value)`\n  props.html = labels[$]\n  return props\n}",
         "value": "",
         "default": "",
         "linkId": "",

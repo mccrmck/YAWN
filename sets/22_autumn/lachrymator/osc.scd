@@ -1,5 +1,9 @@
 ///////////////////////////////////////////////// YAWN OSC: lachrymator /////////////////////////////////////////////////
 
+var samples = YAWNShow.set.songs[4].pbTracks['impro'];
+var bufSynths = 0!6;
+var synthBus = Bus.control(Server.default,2);
+
 var clickPats = [
 	Pdef(\blastPlusLachrymator,
 		Pseq([
@@ -26,12 +30,50 @@ clickPats.do({ |pattern, index|
 
 // mike's instrument
 
-//granular sample playback, or something else?
+OSCdef(\lachrymatorSampleTouch,{ |msg|
+	var index = msg[1];
+	var type = msg[2];
+	var value = msg[3].asString.interpret;
+	var xVal = value[0];
+	var yVal = value[1];
+
+
+	if(type == 'start',{
+		bufSynths[index] = Synth(\mikeSampleGrains,[
+			\bufnum,samples[index],
+			\start,xVal,
+			\end,yVal,
+			\verbBus,YAWNShow.verbBus,
+			\outBus,YAWNShow.outDict['processOut']
+		])
+		.map(\verbAmp,synthBus.subBus(0),\amp,synthBus.subBus(1))
+	},{
+		bufSynths[index].set(\gate,0)
+	})
+
+},'/lachrymatorSampleTouch');
 
 
 
+6.do({ |index|
 
+	OSCdef("lachrymatorSamplerXY%".format(index).asSymbol,{ |msg|
+		var xVal = msg[1];
+		var yVal = msg[2];
 
+		bufSynths[index].set(\rate,xVal,\gain,yVal)
+
+	},"/lachrymatorSampler/%".format(index).asSymbol);
+});
+
+[ 'verbAmp','amp'].do({ |key,index|
+
+	OSCdef("lachrymatorSamplerVerbAmp%".format(key).asSymbol,{ |msg|
+
+		synthBus.subBus(index).set(msg[1])
+
+	},"/lachrymatorSamplerVerbAmp/%".format(index).asSymbol);
+});
 
 // oskar's instrument
 

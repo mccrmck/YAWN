@@ -65,12 +65,15 @@ clickPats.do({ |pattern, index|
 
 OSCdef(\chaosRepsFreezeTouchOnOff,{ |msg|
 	var index = msg[1];
-	var val = msg[2];
+	var type = msg[2];
+	var value = msg[3].asString.interpret;
+	var xVal = value[0];
+	var yVal = value[1];
 
-	if(val == 'start',{
+	if(type == 'start',{
 		case
-		{index < 3}{ processSynths[index] = Synth(\repeater,[\inBus,busses[index % 3],\outBus,outs['processOut']] ) }
-		{index > 2}{ processSynths[index] = Synth(\freeze,[\inBus, busses[index % 3],\outBus,outs['processOut']] ) }
+		{index < 3}{ processSynths[index] = Synth(\repeater,[\inBus,busses[index % 3],\pan,xVal,\outBus,outs['processOut']] ) }
+		{index > 2}{ processSynths[index] = Synth(\freeze,[\inBus, busses[index % 3],\pan,xVal,\outBus,outs['processOut']] ) }
 	},{
 		case
 		{index < 3}{ processSynths[index].set(\gate,0) }
@@ -87,7 +90,7 @@ OSCdef(\chaosRepsFreezeTouchOnOff,{ |msg|
 
 		case
 		{index < 3}{ processSynths[index].set(\delay,xVal,\feedB,yVal) }
-		{index > 2}{ processSynths[index].set(\pan,xVal,\wipe,yVal) };
+		{index > 2}{ processSynths[index].set(\freq,xVal,\rq,yVal) };
 
 	},"/chaosRepsFreeze/%".format(index).asSymbol);
 });
