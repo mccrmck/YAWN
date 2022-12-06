@@ -66,7 +66,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(60,8)
+					ClickRest(60,6)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ fourDMX ],
@@ -79,7 +79,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(60,8)
+					ClickRest(60,6)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ fourDMX ],
@@ -105,7 +105,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'one'),
 					Click(180),Click(180),
-					ClickRest(60,9)
+					ClickRest(60,5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ oneDMX ],
@@ -144,7 +144,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'four'),
 					Click(180,4),Click(180),
-					ClickRest(60,3.5)
+					ClickRest(60,2)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ fourDMX ],
@@ -174,7 +174,7 @@
 					Click(180,4),Click(180),
 					ClickRest(180,1),
 					Click(180,3),Click(180),
-					ClickRest(60,5),
+					ClickRest(60,3),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [
@@ -272,7 +272,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'one'),
 					Click(180),Click(180),
-					ClickRest(60,1)
+					ClickRest(60,0.5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ oneDMX ],
@@ -285,7 +285,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'twoDan'),
 					Click(180,2),Click(180),
-					ClickRest(60)
+					ClickRest(60,0.5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ twoDMX ],
@@ -428,7 +428,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'five'),
 					ClickCue(180,1,repeats: 5,amp: [0.7,0.5,0.5]),ClickCue(180,amp: [0.7,0.5,0.5]),
-					ClickRest(60,4.5)
+					ClickRest(60,1.5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ fiveDMX ],
@@ -441,7 +441,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'five'),
 					Click(180,5),Click(180),
-					ClickRest(60,3)
+					ClickRest(60,1.5)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ fiveDMX ],
@@ -466,7 +466,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'oneDan'),
 					Click(180),Click(180),
-					ClickRest(60,3),
+					ClickRest(60,1.5),
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ oneDMX ],
@@ -542,7 +542,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'three'),
 					Click(180,3),Click(180),
-					ClickRest(60,2.5)
+					ClickRest(60,1)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ threeDMX ],
@@ -555,7 +555,7 @@
 				ClickConCat(1,
 					ClickCue(180,4,cueKey: 'one'),
 					Click(180,1),Click(180),
-					ClickRest(60,2)
+					ClickRest(60,1)
 				).out_( outs['clickAll'] )
 			]],
 			lights:  [ oneDMX ],

@@ -2,9 +2,18 @@
 
 var grainBuf = YAWNShow.set.songs[2].pbTracks['impro'][0];
 var grainWin = Buffer.sendCollection(Server.default, Env.perc(0.01,0.99,1,-4).discretize);
+var middleBuf = YAWNShow.set.songs[2].pbTracks['voice'][0];
 
 var clickPats = [
-	YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop,
+	Pdef(\cementOpener,
+		Ppar([
+			YAWNPlayback.makeStereoPat(middleBuf, YAWNShow.outDict['processOut']),
+			Pseq([
+				ClickRest(60,(middleBuf.duration - 3.8) ).pattern, // this is the duration of the cement count in
+				YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop,
+			])
+		]),
+	).stop,
 	// Mike Støy Solo
 	Pdef(\blastPlusCement,
 		Pseq([
@@ -96,7 +105,7 @@ OSCdef(\mikeNoisePlay,{ |msg|
 	},"/mikeNoiseVertFaders/%".format(index).asSymbol)
 });
 
-['trigRateOsc','\trigFreqDev','rateOsc','rateDev'].do({ |key,index|
+['trigRateOsc','trigFreqDev','rateOsc','rateDev'].do({ |key,index|
 
 	OSCdef("mikeNoiseHoriFaders%".format(index).asSymbol,{ |msg|
 
@@ -104,3 +113,6 @@ OSCdef(\mikeNoisePlay,{ |msg|
 
 	},"/mikeNoiseHoriFaders/%".format(index).asSymbol)
 });
+
+
+

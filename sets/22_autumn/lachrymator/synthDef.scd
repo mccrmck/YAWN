@@ -8,7 +8,7 @@ SynthDef(\mikeSampleGrains,{
 	var sig = BufRd.ar(2,bufnum,phase,1,4);
 	var trig = HPZ1.ar(HPZ1.ar(phase).sign);
 
-	sig = sig * Env([1,0,1],[cDur,cDur]).ar(gate:trig);
+	sig = sig * Env([1,0,1],[cDur,cDur]).ar(gate:trig);           // consider delaying the sig by cDur so the Env happems at the right time?
 	sig = (sig * \gain.kr(0).linlin(0,1,4,20)).tanh * -12.dbamp;
 	sig = sig * Env.asr(\atk.kr(0.01),1,\rls.kr(0.01),\curve.kr(4)).ar(2,\gate.kr(1) + Impulse.kr(0));
 	Out.ar(\verbBus.kr(),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));

@@ -15,7 +15,7 @@
 	var data = [
 		(
 			name:    'cafeSaraIntroLoop',
-			countIn: [[ ClickCue(60,cueKey: 'cafeSara',out: outs['clickAll']) ]],
+			countIn: [[ ClickCue(75,cueKey: 'cafeSara',out: outs['clickAll']) ]],
 			click:   [[ ClickConCat(1,Click(60/0.56836521053797,2,repeats: 2),Click(60/0.56836521053797,1,2,4), ClickLoop(60/0.56836521053797,4,2,4,cueKeys[0])).out_( outs['clickMike'] ) ]],
 			lights:  [ DMXIS.makePresetPat('cafeSaraIntroLoop',0,5) ],
 			kemper:  [ KemperMIDI.makePat('cafeSaraIntroLoop', pathToKemperMIDI +/+ "introLoop.mid") ],

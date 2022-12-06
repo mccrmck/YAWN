@@ -8,6 +8,7 @@ var busses = [
 	ins['torfinnGtr'],
 ];
 
+var introBuf = YAWNShow.set.songs[3].pbTracks['voice'][0];
 var processSynths = 0!6;
 var noiseSynths = 0!2;
 
@@ -16,7 +17,13 @@ var noiseSynths = 0!2;
 var clickPats = [
 	Pdef(\chaosOpener,
 		Pseq([
-			YAWNShow.set.songs[0].cueFrom('blastA00','blastA03',true,true,true,true,true).stop,
+			Ppar([
+				YAWNPlayback.makeStereoPat(introBuf, outs['processOut']),
+				Pseq([
+					ClickRest(60,(introBuf.duration - 2.6666666666667)).pattern, // this is the duration of the blast count in
+					YAWNShow.set.songs[0].cueFrom('blastA00','blastA03',true,true,true,true,true).stop
+				])
+			]),
 			YAWNShow.set.songs[3].cueFrom('chaosCount','chaosElevenLast',true,true,true,true,true).stop
 		])
 	).stop,

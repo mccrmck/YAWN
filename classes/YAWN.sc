@@ -12,7 +12,7 @@ YAWNShow {
 				var sig = In.ar(\verbBus.kr(),2);
 				sig = HPFSides.ar(sig,120);
 				sig = FreeVerb.ar(sig,1,\room.kr(0.9),\damp.kr(0.99));
-				sig = BHiShelf.ar(sig,2400,1,-9);
+				// sig = BHiShelf.ar(sig,2400,1,-9);
 				sig = LPF.ar(sig,2500);
 				Out.ar(\outBus.kr(),sig)
 			}).add;

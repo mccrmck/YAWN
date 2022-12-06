@@ -9,6 +9,8 @@ var clickPats = [
 	YAWNShow.set.songs[1].cueFrom('cafeSaraHarmonyCount','cafeSaraOutro',true,true,true,true,false).stop
 ];
 
+var clickCue = ClickCue(out: YAWNShow.outDict['clickAll']);
+
 clickPats.do({ |pattern, index|
 
 	switch(index,
@@ -55,13 +57,15 @@ clickPats.do({ |pattern, index|
 				\rootGain,0.1,
 				\harms,pitchArray[index].midicps * randArray,
 				\sigGain,0,
-				\atk,4.rrand(6.0),
+				\atk,2.rrand(4.0),
 				\verbBus,YAWNShow.verbBus,
 				\outBus,YAWNShow.outDict['processOut']
 			]).map(
 				\verbAmp,synthBus.subBus(0),
 				\amp,synthBus.subBus(1)
-			)
+			);
+
+			clickCue.play;
 		}
 		{ val == 0 }{
 			synths[index].set(

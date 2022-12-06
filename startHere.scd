@@ -20,7 +20,6 @@ var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = ["Pro40", "MIDI"]; // faxe
 // var kemper = nil;
 
-// var lights = false;
 var lights = true;
 
 //server init stuff
@@ -29,8 +28,27 @@ server.options.numOutputBusChannels = 32;
 server.options.device = "Dante Virtual Soundcard";
 
 YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
-
 );
+
+
+DMXIS.vst.editor
+DMXIS.setPreset(0)
+
+Safety.disable
+
+
+s.sendMsg("/n_free",1029)
+
+"ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
+
+l = YAWNShow.set.songs[5].cueFrom('tokamakBreak','tokamakBow',true,true,true,true,true).stop
+l.play
+l.stop
+
+m =	YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop
+m.play
+m.stop
+
 
 
 // consider a new .play method for AbstractClick:
@@ -44,6 +62,9 @@ play { var player = this.pattern.play; ^player } ?
 // can/should something similar be done with DMXIS also?
 // if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake
 // make the Click Cue sound library accessible - and then store the YAWN cues in the YAWN repo and load them into the ClickCue library at init
+// make blast siren
+// oskar needs a separate oscMessage instead of '/yawnLoaded' so that he can reload his interface also...
+// Contingencies: give me a pop-out (modal) with Oskar’s interface, give oskar a pop-out with my interface?
 
 
 // use this to get the IPs that other devices should find on the network!
@@ -53,10 +74,10 @@ NetAddr.matchLangIP(j)
 
 /*
 TO DO
--noisy instruments?
--test light loops!
 -make a way to test the MIDI sent to the Kempers!!
--the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use resources loading DMX patterns if we're not even connected
+-the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use rtime/esources loading DMX patterns if we're not even connected
+-get a list from Florian/Torfinn/Oskar what they want/need to be able to test in soundcheck so everything can be mapped to single buttons
+
 */
 
 

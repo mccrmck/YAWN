@@ -1,6 +1,6 @@
 {
   "createdWith": "Open Stage Control",
-  "version": "1.17.0",
+  "version": "1.18.3",
   "type": "session",
   "content": {
     "type": "root",
@@ -96,7 +96,7 @@
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "70%",
+            "width": "60%",
             "height": "10%",
             "expand": "false",
             "colorText": "auto",
@@ -141,7 +141,8 @@
             "bypass": false,
             "onCreate": "",
             "onValue": "",
-            "onTouch": ""
+            "onTouch": "",
+            "borderRadius": "auto"
           },
           {
             "type": "xy",
@@ -152,7 +153,7 @@
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "70%",
+            "width": "60%",
             "height": "35%",
             "expand": "false",
             "colorText": "auto",
@@ -195,14 +196,15 @@
             "bypass": false,
             "onCreate": "",
             "onValue": "",
-            "onTouch": ""
+            "onTouch": "",
+            "borderRadius": "auto"
           },
           {
             "type": "text",
             "top": "0%",
             "left": "0%",
             "height": "5%",
-            "width": "35%",
+            "width": "30%",
             "lock": false,
             "id": "grainDur",
             "visible": true,
@@ -230,14 +232,15 @@
             "target": "",
             "onCreate": "",
             "onValue": "",
-            "align": "center"
+            "align": "center",
+            "borderRadius": "auto"
           },
           {
             "type": "text",
             "top": "0%",
-            "left": "35%",
+            "left": "30%",
             "height": "5%",
-            "width": "35%",
+            "width": "30%",
             "lock": false,
             "id": "trigFreq",
             "visible": true,
@@ -265,7 +268,8 @@
             "onValue": "",
             "vertical": false,
             "wrap": true,
-            "align": "center"
+            "align": "center",
+            "borderRadius": "auto"
           },
           {
             "type": "text",
@@ -275,7 +279,7 @@
             "id": "bufStart",
             "visible": true,
             "comments": "",
-            "width": "35%",
+            "width": "30%",
             "height": "5%",
             "expand": "false",
             "colorText": "auto",
@@ -300,17 +304,18 @@
             "target": "",
             "onCreate": "",
             "onValue": "",
-            "align": "center"
+            "align": "center",
+            "borderRadius": "auto"
           },
           {
             "type": "text",
             "top": "50%",
-            "left": "35%",
+            "left": "30%",
             "lock": false,
             "id": "bufEnd",
             "visible": true,
             "comments": "",
-            "width": "35%",
+            "width": "30%",
             "height": "5%",
             "expand": "false",
             "colorText": "auto",
@@ -335,14 +340,15 @@
             "target": "",
             "onCreate": "",
             "onValue": "",
-            "align": "center"
+            "align": "center",
+            "borderRadius": "auto"
           },
           {
             "type": "button",
             "top": "40%",
             "left": "0%",
             "height": "10%",
-            "width": "35%",
+            "width": "30%",
             "lock": false,
             "id": "mikeNoiseMute",
             "visible": true,
@@ -379,17 +385,19 @@
             "wrap": false,
             "on": 1,
             "off": 0,
-            "mode": "push"
+            "mode": "push",
+            "borderRadius": "auto",
+            "decoupled": false
           },
           {
             "type": "button",
             "top": "40%",
-            "left": "35%",
+            "left": "30%",
             "lock": false,
             "id": "mikeNoiseTrig",
             "visible": true,
             "comments": "",
-            "width": "35%",
+            "width": "30%",
             "height": "10%",
             "expand": "false",
             "colorText": "auto",
@@ -423,7 +431,9 @@
             "label": "trig",
             "on": 1,
             "off": 0,
-            "mode": "tap"
+            "mode": "tap",
+            "borderRadius": "auto",
+            "decoupled": false
           },
           {
             "type": "xy",
@@ -434,7 +444,7 @@
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "70%",
+            "width": "60%",
             "height": "35%",
             "expand": "false",
             "colorText": "auto",
@@ -480,18 +490,19 @@
             "bypass": false,
             "onCreate": "",
             "onValue": "",
-            "onTouch": ""
+            "onTouch": "",
+            "borderRadius": "auto"
           },
           {
             "type": "button",
             "top": "0%",
-            "left": "70%",
+            "left": "60%",
             "lock": false,
             "id": "mikeNoisePlay",
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "30%",
+            "width": "40%",
             "height": "15%",
             "expand": "false",
             "colorText": "auto",
@@ -524,18 +535,20 @@
             "ignoreDefaults": false,
             "bypass": false,
             "onCreate": "",
-            "onValue": ""
+            "onValue": "",
+            "borderRadius": "auto",
+            "decoupled": false
           },
           {
             "type": "matrix",
             "top": "15%",
-            "left": "70%",
+            "left": "60%",
             "lock": false,
             "id": "mikeNoiseVertFaders",
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "30%",
+            "width": "40%",
             "height": "45%",
             "expand": "false",
             "colorText": "auto",
@@ -574,18 +587,19 @@
             "onCreate": "",
             "onValue": "",
             "widgets": [],
-            "tabs": []
+            "tabs": [],
+            "borderRadius": "auto"
           },
           {
             "type": "matrix",
             "top": "60%",
-            "left": "70%",
+            "left": "60%",
             "lock": false,
             "id": "mikeNoiseHoriFaders",
             "visible": true,
             "interaction": true,
             "comments": "",
-            "width": "30%",
+            "width": "40%",
             "height": "40%",
             "expand": "false",
             "colorText": "auto",
@@ -624,12 +638,15 @@
             "onCreate": "",
             "onValue": "",
             "widgets": [],
-            "tabs": []
+            "tabs": [],
+            "borderRadius": "auto"
           }
         ],
-        "tabs": []
+        "tabs": [],
+        "borderRadius": "auto"
       }
     ],
-    "tabs": []
+    "tabs": [],
+    "borderRadius": "auto"
   }
 }

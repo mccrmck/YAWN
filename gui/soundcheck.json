@@ -1,5 +1,5 @@
 {
-  "version": "1.17.0",
+  "version": "1.18.3",
   "createdWith": "Open Stage Control",
   "type": "fragment",
   "content": {
@@ -96,7 +96,8 @@
         "onCreate": "",
         "onValue": "",
         "widgets": [],
-        "tabs": []
+        "tabs": [],
+        "borderRadius": "auto"
       },
       {
         "type": "matrix",
@@ -146,7 +147,8 @@
         "onCreate": "",
         "onValue": "",
         "widgets": [],
-        "tabs": []
+        "tabs": [],
+        "borderRadius": "auto"
       },
       {
         "type": "text",
@@ -181,7 +183,8 @@
         "decimals": 2,
         "target": "",
         "onCreate": "",
-        "onValue": ""
+        "onValue": "",
+        "borderRadius": "auto"
       },
       {
         "type": "matrix",
@@ -209,15 +212,15 @@
         "colorBg": "auto",
         "layout": "grid",
         "justify": "start",
-        "gridTemplate": 5,
+        "gridTemplate": 6,
         "contain": true,
         "scroll": true,
         "innerPadding": false,
         "variables": "@{parent.variables}",
         "traversing": false,
         "widgetType": "button",
-        "quantity": 10,
-        "props": "JS{\n  let props = {}\n  let names = ['blinder R','strobe R','drop R','spot R','stage R','blinder L','strobe L','drop L','spot L','stage L'];\n  props.label = names[$]\n  props.wrap = 'soft'\n  return props\n}",
+        "quantity": 12,
+        "props": "JS{\n  let props = {}\n  let names = ['blinder R','strobe R','drop R','spot R','stage R','preset: 0','blinder L','strobe L','drop L','spot L','stage L','preset: 4'];\n  props.label = names[$]\n  props.wrap = 'soft'\n  props.mode = 'tap'\n  return props\n}",
         "value": "",
         "default": "",
         "linkId": "",
@@ -231,9 +234,11 @@
         "onCreate": "",
         "onValue": "",
         "widgets": [],
-        "tabs": []
+        "tabs": [],
+        "borderRadius": "auto"
       }
     ],
-    "tabs": []
+    "tabs": [],
+    "borderRadius": "auto"
   }
 }

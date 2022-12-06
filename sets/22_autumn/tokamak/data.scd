@@ -9,13 +9,14 @@
 	var gtrs     = songInstance.pbTracks['gtrs'];
 	var perc     = songInstance.pbTracks['perc'];
 	var synths   = songInstance.pbTracks['synths'];
+	var voice    = songInstance.pbTracks['voice'];
 
 	var outs = YAWNShow.outDict;
 
 	var data = [
 		(
 			name:    'tokamakPB',
-			countIn: [[ ClickCue(30,cueKey: 'tokamak',out: outs['clickAll']) ]],
+			countIn: [[ ClickCue(75,cueKey: 'tokamak',out: outs['clickAll']) ]],
 			click:   [[ ClickRest(142,4,47,out: outs['clickAll']) ]],
 			lights:  [ DMXIS.makePresetPat('tokamakPB',0,9) ],
 			bTracks: [
@@ -109,7 +110,7 @@
 			click:   [[ ClickRest(60, out: outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePat('tokamakBow',pathToDMXMIDI +/+ "bow.mid") ],
 			kemper:  [ ],
-			bTracks: [ ]
+			bTracks: [ YAWNPlayback.makeStereoPat(voice[0],outs['processOut']) ]
 		)
 	];
 	action.value;

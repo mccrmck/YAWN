@@ -1,7 +1,7 @@
 var outs = YAWNShow.outDict;
 var testBufs = YAWNShow.sCheckBufs;
 var dmxTestMIDI = Platform.userExtensionDir +/+ "YAWN/gui/lightCheckMIDI/";
-var dmxTestPats = 0!10;
+var dmxTestPats = 0!12;
 
 ['Torfinn','Oskar','Mike'].do({ |key,index|
 	var clicks = 0!3;
@@ -63,22 +63,29 @@ var dmxTestPats = 0!10;
 
 // something for lights here evenutally?
 
-10.do({ |index|
-	var key = ['blinder','strobe','drop','spot','stage'];
-	var leftRight = if(index < 5,{ "R" },{ "L" });
-	var fileName = key[index % 5] ++ leftRight;
+12.do({ |index|
 
-	OSCdef("dmxTest/%".format(index).asSymbol,{ |msg|
-		var val = msg[1];
+	if((index % 6) < 5,{
+		var key = ['blinder','strobe','drop','spot','stage'];
+		var leftRight = if(index < 5,{ "R" },{ "L" });
+		var fileName = key[index % 6] ++ leftRight;
 
-		case
-		{ val == 1 }{
+		OSCdef("dmxTest/%".format(index).asSymbol,{ |msg|
+			var val = msg[1];
+
+			// do I still need the dmxTestPats Array?? I don't think so...
 			dmxTestPats[index] = DMXIS.makePat((fileName ++ "Test").asSymbol,dmxTestMIDI +/+ "%.mid".format(fileName)).play
-		}
-		{ val == 0 }{
-			dmxTestPats[index].stop
-		}
 
-	},"/dmxTest/%".format(index).asSymbol)
+		},"/dmxTest/%".format(index).asSymbol)
+	},{
+		var preset = [0,4];
+		var which = index % 5;
+
+		OSCdef("dmxTest/%".format(index).asSymbol,{ |msg|
+			var val = msg[1];
+
+			DMXIS.setPreset(preset[which]);
+
+		},"/dmxTest/%".format(index).asSymbol)
+	})
 });
-

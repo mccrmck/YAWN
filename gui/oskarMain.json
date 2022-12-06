@@ -1,6 +1,6 @@
 {
   "createdWith": "Open Stage Control",
-  "version": "1.17.0",
+  "version": "1.18.3",
   "type": "session",
   "content": {
     "type": "root",
@@ -17,7 +17,7 @@
     "padding": "auto",
     "html": "",
     "css": "font-size: medium;\nline-height: 1.5;",
-    "colorBg": "auto",
+    "colorBg": "#020204",
     "layout": "default",
     "justify": "start",
     "gridTemplate": "",
@@ -142,9 +142,11 @@
             "variables": "@{parent.variables}"
           }
         ],
-        "tabs": []
+        "tabs": [],
+        "borderRadius": "auto"
       }
     ],
-    "tabs": []
+    "tabs": [],
+    "borderRadius": "auto"
   }
 }
