@@ -21,13 +21,15 @@ var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = nil;
 
 var lights = true;
+// var gui = 'openStageControl';
+var gui = nil;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
 server.options.device = "Dante Virtual Soundcard";
 
-YAWNShow(set, ins, outs, kemper, lights, 'openStageControl');
+YAWNShow(set, ins, outs, kemper, lights, gui);
 );
 
 
@@ -35,6 +37,8 @@ DMXIS.vst.editor
 DMXIS.setPreset(0)
 
 Safety.disable
+
+ERROR: PluginBridge::pollUIThread: plugin 2 doesn't exist (anymore)
 
 
 s.sendMsg("/n_free",1029)
@@ -48,7 +52,6 @@ l.stop
 m =	YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop
 m.play
 m.stop
-
 
 
 // consider a new .play method for AbstractClick:

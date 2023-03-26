@@ -51,7 +51,7 @@ YAWNShow {
 
 			verbBus = Bus.audio(server,2);
 
-			if(dmxBool,{ DMXIS() });    // needs to be set to preset !
+			if(dmxBool,{ DMXIS() });
 
 			server.sync;
 
@@ -69,7 +69,7 @@ YAWNShow {
 			thisProcess.interpreter.executeFile(mainPath +/+ "gui/soundCheck.scd");
 
 			server.sync;
-			this.launchOpenStageControl;
+			if(controller.notNil,{ this.launchOpenStageControl });
 
 			server.sync;
 			verbSynth = Synth(\yawnReverb,[\verbBus, verbBus,\outBus, outDict['processOut']], tailGroup);
