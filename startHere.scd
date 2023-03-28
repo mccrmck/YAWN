@@ -1,6 +1,6 @@
 (
 var server = Server.default;
-var set = '22_autumn';
+var set = '23_april';
 
 var ins = [
 	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 'hiHat' -> 3,
@@ -20,9 +20,9 @@ var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = ["Pro40", "MIDI"]; // faxe
 // var kemper = nil;
 
-var lights = true;
-// var gui = 'openStageControl';
-var gui = nil;
+var lights = false;
+var gui = 'openStageControl';
+// var gui = nil;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
@@ -32,10 +32,10 @@ server.options.device = "Dante Virtual Soundcard";
 YAWNShow(set, ins, outs, kemper, lights, gui);
 );
 
-
+s.plotTree
 DMXIS.vst.editor
 DMXIS.setPreset(0)
-
+s.sendMsg("/n_free",1004)
 Safety.disable
 
 ERROR: PluginBridge::pollUIThread: plugin 2 doesn't exist (anymore)
@@ -73,6 +73,7 @@ play { var player = this.pattern.play; ^player } ?
 // use this to get the IPs that other devices should find on the network!
 j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
+
 
 
 /*
