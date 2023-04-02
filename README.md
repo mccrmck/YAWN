@@ -1,4 +1,4 @@
-<p align="center">
+<p align="center" width="40rem">
   <img src="YAWNLogoCol.png" />
 </p>
 
