@@ -13,45 +13,51 @@ var outs = [
 	'bassOut' -> 19,
 	// the following are stereo
 	'synthsOut' -> 20, 'gtrsOut' -> 22,'percOut' -> 24,
-	'ambienceOut' -> 26, 'processOut' -> 30
+	'ambienceOut' -> 26, 'oskarSynthOut' -> 28, 'processOut' -> 30
 ];
-
 var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = ["Pro40", "MIDI"]; // faxe
 // var kemper = nil;
 
-var lights = false;
+
+var lights = true;
 var gui = 'openStageControl';
 // var gui = nil;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
-server.options.device = "Dante Virtual Soundcard";
+// server.options.device = "Dante Virtual Soundcard";
+server.options.sampleRate = 96000;
+server.options.device = "SQ - Audio";
 
 YAWNShow(set, ins, outs, kemper, lights, gui);
-);
+)
+
+
 
 s.plotTree
 DMXIS.vst.editor
 DMXIS.setPreset(0)
-s.sendMsg("/n_free",1004)
-Safety.disable
+s.sendMsg("/n_free",1269)
+Safety.enable
 
-ERROR: PluginBridge::pollUIThread: plugin 2 doesn't exist (anymore)
+// blast or cement part 2
+// FAILURE IN SERVER /n_free Node 1144 not found
 
 
-s.sendMsg("/n_free",1029)
 
 "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 
-l = YAWNShow.set.songs[5].cueFrom('tokamakBreak','tokamakBow',true,true,true,true,true).stop
+l = YAWNShow.set.songs[1].cueFrom('cafeSaraThrash','cafeSaraOutro',true,false,true,true,true).stop
 l.play
 l.stop
 
-m =	YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop
+m =	YAWNShow.set.songs[5].cueFrom('tokamakCue','tokamakOutro',true,true,true,true,true).stop
 m.play
 m.stop
+
+SoundCheck(32).sweep(0.2)
 
 
 // consider a new .play method for AbstractClick:

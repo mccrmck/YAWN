@@ -110,7 +110,7 @@ OSCdef(\oskarNoisePlay,{ |msg|
 		fork{
 			Ndef(\oskarSynth,\oskarNoise)
 			.set(\verbBus,YAWNShow.verbBus)
-			.play(out:YAWNShow.outDict['processOut']);
+			.play(out:YAWNShow.outDict['oskarSynthOut']);
 			0.1.wait;
 			Ndef(\oskarSynth).group.moveToHead(YAWNShow.headGroup)
 		}

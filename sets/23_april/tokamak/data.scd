@@ -88,7 +88,7 @@
 			name:    'tokamakCue',
 			countIn: [[ ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( outs['clickAll'] ) ]],
 			click:   [[ ClickConCat(1,Click(142,4),ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4), Click(142,4,repeats: 5)).out_( outs['clickAll'] ) ]],
-			lights:  [ Pseq([ DMXIS.makePresetPat('tokamakImpro',60/142 * 3.75,8),DMXIS.makePresetPat('tokamakCue',60/142 * 0.25,0), DMXIS.makePat('tokamakCue',pathToDMXMIDI +/+ "cue.mid") ]) ],
+			lights:  [ Pseq([ DMXIS.makePresetPat('tokamakImpro',60/142 * 19,8),DMXIS.makePresetPat('tokamakCue',60/142,0), DMXIS.makePat('tokamakCue',pathToDMXMIDI +/+ "cue.mid") ]) ],
 			kemper:  [ Pseq([ ClickRest(142,4).pattern, KemperMIDI.makePat('tokamakCue',pathToKemperMIDI +/+ "cue.mid") ]) ],
 			bTracks: [
 				Pseq([ ClickRest(142,4,5).pattern,YAWNPlayback.makeStereoPat( perc[7], outs['percOut'] ) ]),

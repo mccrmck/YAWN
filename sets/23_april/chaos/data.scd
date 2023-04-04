@@ -80,7 +80,7 @@
 					Click(120,3)
 				).out_( outs['clickAll'] )
 			]],
-			lights:  [ DMXIS.makePat('chaosElevenLast',pathToDMXMIDI +/+ "elevenLast.mid") ],
+			lights:  [ Pseq([ DMXIS.makePat('chaosElevenLast',pathToDMXMIDI +/+ "elevenLast.mid"), DMXIS.makePresetPat('chaosBomb',0.1,7) ]) ],
 			kemper:  [ KemperMIDI.makePat('chaosElevenLast',pathToKemperMIDI +/+ "elevenLast.mid") ],
 			bTracks: [
 				YAWNPlayback.makeStereoOverlap( ambience[1], outs['ambienceOut']),

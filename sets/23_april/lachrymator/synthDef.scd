@@ -49,7 +49,7 @@ SynthDef(\oskarNoise,{
 	sig = MidEQ.ar(sig,500,1,6);
 	sig = LeakDC.ar(sig,0.9);
 	sig = sig.tanh;
-	sig = Balance2.ar(sig[0],sig[1],-9.dbamp);
+	sig = Rotate2.ar(sig[0],sig[1]);
 	Out.ar(\verbBus.kr(0),sig * \verbAmp.kr(0).linexp(0,1,0.001,1));
 	Out.ar(\out.kr(0),sig * \amp.kr(0).linexp(0,1,0.001,1))
 }).add;

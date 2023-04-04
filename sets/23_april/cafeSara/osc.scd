@@ -59,7 +59,7 @@ clickPats.do({ |pattern, index|
 				\sigGain,0,
 				\atk,2.rrand(4.0),
 				\verbBus,YAWNShow.verbBus,
-				\outBus,YAWNShow.outDict['processOut']
+				\outBus,YAWNShow.outDict['oskarSynthOut']
 			]).map(
 				\verbAmp,synthBus.subBus(0),
 				\amp,synthBus.subBus(1)
