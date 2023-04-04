@@ -29,7 +29,7 @@ server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
 // server.options.device = "Dante Virtual Soundcard";
 server.options.sampleRate = 96000;
-server.options.device = "SQ - Audio";
+// server.options.device = "SQ - Audio";
 
 YAWNShow(set, ins, outs, kemper, lights, gui);
 )
@@ -49,7 +49,7 @@ Safety.enable
 
 "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 
-l = YAWNShow.set.songs[1].cueFrom('cafeSaraThrash','cafeSaraOutro',true,false,true,true,true).stop
+l = YAWNShow.set.songs[1].cueFrom('cafeSaraHarmony','cafeSaraOutro',true,true,true,true,true).stop
 l.play
 l.stop
 
