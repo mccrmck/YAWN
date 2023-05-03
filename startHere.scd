@@ -19,7 +19,6 @@ var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = ["Pro40", "MIDI"]; // faxe
 // var kemper = nil;
 
-
 var lights = true;
 var gui = 'openStageControl';
 // var gui = nil;
@@ -28,8 +27,7 @@ var gui = 'openStageControl';
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
 // server.options.device = "Dante Virtual Soundcard";
-server.options.sampleRate = 96000;
-// server.options.device = "SQ - Audio";
+server.options.device = "SQ - Audio";
 
 YAWNShow(set, ins, outs, kemper, lights, gui);
 )
@@ -39,23 +37,31 @@ YAWNShow(set, ins, outs, kemper, lights, gui);
 s.plotTree
 DMXIS.vst.editor
 DMXIS.setPreset(0)
-s.sendMsg("/n_free",1269)
+s.sendMsg("/n_free",1957)
 Safety.enable
 
 // blast or cement part 2
 // FAILURE IN SERVER /n_free Node 1144 not found
 
 
-
 "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
 
-l = YAWNShow.set.songs[1].cueFrom('cafeSaraHarmony','cafeSaraOutro',true,true,true,true,true).stop
+l = YAWNShow.set.songs[3].cueFrom('chaosCount','chaosAsection',true,true,true,true,true).stop
 l.play
 l.stop
 
-m =	YAWNShow.set.songs[5].cueFrom('tokamakCue','tokamakOutro',true,true,true,true,true).stop
+l = YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop
+l.play
+l.stop
+
+m =	YAWNShow.set.songs[5].cueFrom('tokamakBreak','tokamakOutro',true,true,true,true,true).stop
+m =	YAWNShow.set.songs[5].cueFrom('tokamakPB','tokamakOutro',true,true,true,true,true).stop
 m.play
 m.stop
+
+n = YAWNShow.set.songs[4].cueFrom('lachJazzIntro','lachOutro',true,true,true,true,true).stop
+n.play
+n.stop
 
 SoundCheck(32).sweep(0.2)
 

@@ -38,3 +38,5 @@ c = ['one','oneDan','two','twoDan','three','threeDan','four','fourDan'].collect(
 	ClickCue(110,beats.asInteger,cueKey: key).pattern
 })
 
+// rewrite ClickEnv to use Env or Pseg internally
+// instances of ClickEnv (in OJKOS, under:went, etc.) can use ClickEnvOld, unless I'm really in the mood to fix those scores... 
