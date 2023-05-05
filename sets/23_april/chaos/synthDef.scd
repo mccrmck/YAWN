@@ -16,7 +16,7 @@ SynthDef(\repeater,{
 SynthDef(\freeze,{
 	var sig = SoundIn.ar(\inBus.kr(0!2)); // make this stereo?
 	sig = (sig * 12.dbamp).tanh;
-	sig = FFT(LocalBuf(1024),sig.sum);
+	sig = FFT(LocalBuf(4096),sig.sum);
 	sig = PV_Freeze(sig,1);
 	sig = IFFT(sig);
 	sig = BPF.ar(sig,\freq.kr(0).linexp(0,1,200,10000),\rq.kr(0).linlin(0,1,1,0.01));
