@@ -81,7 +81,7 @@ YAWNShow {
 
 	launchOpenStageControl {
 		var unixString = "open /Applications/open-stage-control.app --args " ++
-		"--send 127.0.0.1:57120 " ++
+		"--send 127.0.0.1:% ".format(NetAddr.localAddr.port) ++
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
 		unixString.unixCmd; // returns pid, can use that to evenutally stop process on GUI close?

@@ -21,42 +21,42 @@ YAWNPlayback {
 		}
 	}
 
-	*makeStereoPat { |bufnum, outBus, amp = -20.dbamp|
+	*makeStereoPat { |bufnum, outBus, amp = 1|
 		^Pmono(
 			\stereoYawnPlayback,
 			\bufnum, Pseq([bufnum]),
 			\dur, bufnum.duration,
-			\amp,amp,
+			\amp,-20.dbamp * amp,
 			\outBus, outBus
 		)
 	}
 
-	*makeMonoPat { |bufnum, outBus, amp = -20.dbamp|
+	*makeMonoPat { |bufnum, outBus, amp = 1|
 		^Pmono(
 			\monoYawnPlayback,
 			\bufnum, Pseq([bufnum]),
 			\dur, bufnum.duration,
-			\amp,amp,
+			\amp,-20.dbamp * amp,
 			\outBus, outBus
 		)
 	}
 
-	*makeStereoOverlap { |bufnum, outBus, amp = -20.dbamp|
+	*makeStereoOverlap { |bufnum, outBus, amp = 1|
 		^Pbind(
 			\instrument,\stereoYawnPlayback,
 			\bufnum, Pseq([bufnum]),
 			\dur, 0,
-			\amp,amp,
+			\amp,-20.dbamp * amp,
 			\outBus, outBus
 		)
 	}
 
-	*makeMonoOverlap { |bufnum, outBus, amp = -20.dbamp|
+	*makeMonoOverlap { |bufnum, outBus, amp = 1|
 		^Pbind(
 			\instrument,\monoYawnPlayback,
 			\bufnum, Pseq([bufnum]),
 			\dur, 0,
-			\amp,amp,
+			\amp,-20.dbamp * amp,
 			\outBus, outBus
 		)
 	}
