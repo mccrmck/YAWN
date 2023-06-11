@@ -1,6 +1,6 @@
 {
   "createdWith": "Open Stage Control",
-  "version": "1.17.0",
+  "version": "1.25.0",
   "type": "session",
   "content": {
     "type": "root",
@@ -24,7 +24,6 @@
     "contain": true,
     "scroll": true,
     "innerPadding": false,
-    "verticalTabs": false,
     "hideMenu": false,
     "variables": "@{parent.variables}",
     "traversing": false,
@@ -46,7 +45,7 @@
         "top": "0%",
         "left": "0%",
         "lock": false,
-        "id": "22_autumn",
+        "id": "23_april",
         "visible": true,
         "interaction": true,
         "comments": "",
@@ -87,9 +86,12 @@
         "ignoreDefaults": false,
         "bypass": false,
         "onCreate": "",
-        "onValue": ""
+        "onValue": "",
+        "borderRadius": "auto"
       }
     ],
-    "tabs": []
+    "tabs": [],
+    "borderRadius": "auto",
+    "tabsPosition": "top"
   }
 }

@@ -1,0 +1,335 @@
+{
+  "0": {
+    "controlPoints": [
+      {
+        "time": 0.0,
+        "position": "0",
+        "tempoIn": 0.4375,
+        "tempoOut": 0.4375,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": true,
+        "locked": false
+      },
+      {
+        "time": 2.285720109939575,
+        "position": "1",
+        "tempoIn": 0.4375,
+        "tempoOut": 0.4375,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.571430206298828,
+        "position": "2",
+        "tempoIn": 0.4375,
+        "tempoOut": 0.4375,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.857150077819824,
+        "position": "3",
+        "tempoIn": 0.4375,
+        "tempoOut": 0.4375,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.142860412597656,
+        "position": "4",
+        "tempoIn": 0.4375,
+        "tempoOut": 0.4375,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      }
+    ],
+    "beatPatterns": [
+      {
+        "patternString": "4/4",
+        "repeats": 4,
+        "counterString": "+"
+      }
+    ],
+    "name": "mike",
+    "colour": "ff4169e1",
+    "solo": false,
+    "mute": false,
+    "playAudioClick": true,
+    "audioDownbeatPitch": 100,
+    "audioDownbeatVolume": 1.0,
+    "audioBeatPitch": 95,
+    "audioBeatVolume": 1.0,
+    "audioCuePitch": 90,
+    "audioCueVolume": 1.0,
+    "audioChannel": 1,
+    "playMidiClick": false,
+    "midiDownbeatPitch": 100,
+    "midiDownbeatVelocity": 127,
+    "midiBeatPitch": 95,
+    "midiBeatVelocity": 127,
+    "midiCuePitch": 90,
+    "midiCueVelocity": 127,
+    "midiChannel": 1,
+    "sendOsc": false,
+    "oscDownbeatMessage": "/beat pattern #pattern duration #duration",
+    "oscBeatMessage": "/beat pattern #pattern duration #duration",
+    "oscCueMessage": "/beat pattern #pattern duration #duration cue 1",
+    "oscReceiver": "127.0.0.1",
+    "oscPort": "47522",
+    "showName": true,
+    "staveOffset": 100,
+    "numberOfStaves": 1,
+    "secondaryStaveOffset": 60,
+    "lineOffset": 8,
+    "numberOfLines": 5
+  },
+  "1": {
+    "controlPoints": [
+      {
+        "time": 0.0,
+        "position": "0",
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": true,
+        "locked": false
+      },
+      {
+        "time": 2.461538553237915,
+        "position": "1",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.2728590965271,
+        "position": "2",
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.599999904632568,
+        "position": "11/4",
+        "tempoIn": 0.5341041684150696,
+        "tempoOut": 0.5341041684150696,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.150000095367432,
+        "position": "3",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.142860412597656,
+        "position": "4",
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      }
+    ],
+    "beatPatterns": [
+      {
+        "patternString": "4/4",
+        "repeats": 4,
+        "counterString": "+"
+      }
+    ],
+    "name": "torfinn",
+    "colour": "ffff4500",
+    "solo": false,
+    "mute": false,
+    "playAudioClick": true,
+    "audioDownbeatPitch": 100,
+    "audioDownbeatVolume": 1.0,
+    "audioBeatPitch": 95,
+    "audioBeatVolume": 1.0,
+    "audioCuePitch": 90,
+    "audioCueVolume": 1.0,
+    "audioChannel": 1,
+    "playMidiClick": false,
+    "midiDownbeatPitch": 100,
+    "midiDownbeatVelocity": 127,
+    "midiBeatPitch": 95,
+    "midiBeatVelocity": 127,
+    "midiCuePitch": 90,
+    "midiCueVelocity": 127,
+    "midiChannel": 1,
+    "sendOsc": false,
+    "oscDownbeatMessage": "/beat pattern #pattern duration #duration",
+    "oscBeatMessage": "/beat pattern #pattern duration #duration",
+    "oscCueMessage": "/beat pattern #pattern duration #duration cue 1",
+    "oscReceiver": "127.0.0.1",
+    "oscPort": "47522",
+    "showName": true,
+    "staveOffset": 100,
+    "numberOfStaves": 1,
+    "secondaryStaveOffset": 60,
+    "lineOffset": 8,
+    "numberOfLines": 5
+  },
+  "2": {
+    "controlPoints": [
+      {
+        "time": 0.0,
+        "position": "0",
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": true,
+        "locked": false
+      },
+      {
+        "time": 2.0,
+        "position": "1",
+        "tempoIn": 0.3958333432674408,
+        "tempoOut": 0.3958333432674408,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.234146118164062,
+        "position": "2",
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.599999904632568,
+        "position": "17/8",
+        "tempoIn": 0.3708333373069763,
+        "tempoOut": 0.3708333373069763,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 7.449999809265137,
+        "position": "3",
+        "tempoIn": 0.550000011920929,
+        "tempoOut": 0.550000011920929,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.142860412597656,
+        "position": "4",
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      }
+    ],
+    "beatPatterns": [
+      {
+        "patternString": "8/8",
+        "repeats": 4,
+        "counterString": "+"
+      }
+    ],
+    "name": "oskar",
+    "colour": "ff228b22",
+    "solo": false,
+    "mute": false,
+    "playAudioClick": true,
+    "audioDownbeatPitch": 100,
+    "audioDownbeatVolume": 1.0,
+    "audioBeatPitch": 95,
+    "audioBeatVolume": 1.0,
+    "audioCuePitch": 90,
+    "audioCueVolume": 1.0,
+    "audioChannel": 1,
+    "playMidiClick": false,
+    "midiDownbeatPitch": 100,
+    "midiDownbeatVelocity": 127,
+    "midiBeatPitch": 95,
+    "midiBeatVelocity": 127,
+    "midiCuePitch": 90,
+    "midiCueVelocity": 127,
+    "midiChannel": 1,
+    "sendOsc": false,
+    "oscDownbeatMessage": "/beat pattern #pattern duration #duration",
+    "oscBeatMessage": "/beat pattern #pattern duration #duration",
+    "oscCueMessage": "/beat pattern #pattern duration #duration cue 1",
+    "oscReceiver": "127.0.0.1",
+    "oscPort": "47522",
+    "showName": true,
+    "staveOffset": 100,
+    "numberOfStaves": 1,
+    "secondaryStaveOffset": 60,
+    "lineOffset": 8,
+    "numberOfLines": 5
+  }
+} 

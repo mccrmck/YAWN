@@ -1,6 +1,6 @@
 {
   "createdWith": "Open Stage Control",
-  "version": "1.23.0",
+  "version": "1.25.0",
   "type": "session",
   "content": {
     "type": "root",
@@ -24,7 +24,6 @@
     "contain": true,
     "scroll": true,
     "innerPadding": false,
-    "verticalTabs": false,
     "hideMenu": false,
     "variables": "@{parent.variables}",
     "traversing": false,
@@ -71,7 +70,6 @@
         "contain": true,
         "scroll": true,
         "innerPadding": true,
-        "verticalTabs": false,
         "variables": "@{parent.variables}",
         "traversing": false,
         "value": "",
@@ -162,7 +160,8 @@
               }
             ],
             "tabs": [],
-            "borderRadius": "auto"
+            "borderRadius": "auto",
+            "tabsPosition": "top"
           },
           {
             "type": "panel",
@@ -195,7 +194,6 @@
             "contain": true,
             "scroll": true,
             "innerPadding": false,
-            "verticalTabs": false,
             "variables": "@{parent.variables}",
             "traversing": false,
             "value": "",
@@ -233,7 +231,6 @@
                 "contain": true,
                 "scroll": true,
                 "innerPadding": false,
-                "verticalTabs": false,
                 "label": "auto",
                 "variables": "@{parent.variables}",
                 "traversing": false,
@@ -270,7 +267,8 @@
                     "variables": "@{parent.variables}"
                   }
                 ],
-                "tabs": []
+                "tabs": [],
+                "tabsPosition": "top"
               },
               {
                 "type": "tab",
@@ -293,7 +291,6 @@
                 "contain": true,
                 "scroll": true,
                 "innerPadding": true,
-                "verticalTabs": false,
                 "label": "auto",
                 "variables": "@{parent.variables}",
                 "traversing": false,
@@ -330,9 +327,11 @@
                     "variables": "@{parent.variables}"
                   }
                 ],
-                "tabs": []
+                "tabs": [],
+                "tabsPosition": "top"
               }
-            ]
+            ],
+            "tabsPosition": "top"
           },
           {
             "type": "fragment",
@@ -378,7 +377,7 @@
             "left": "0%",
             "lock": false,
             "id": "logo",
-            "visible": false,
+            "visible": true,
             "interaction": false,
             "comments": "",
             "width": "85%",
@@ -394,7 +393,7 @@
             "lineWidth": 0,
             "padding": "auto",
             "html": "",
-            "css": "opacity: 0.2",
+            "css": "opacity: 0.2;\nz-index-10;",
             "size": "contain",
             "position": "center",
             "repeat": "no-repeat",
@@ -411,10 +410,12 @@
           }
         ],
         "tabs": [],
-        "borderRadius": "auto"
+        "borderRadius": "auto",
+        "tabsPosition": "top"
       }
     ],
     "tabs": [],
-    "borderRadius": "auto"
+    "borderRadius": "auto",
+    "tabsPosition": "top"
   }
 }

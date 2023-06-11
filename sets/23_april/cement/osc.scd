@@ -4,10 +4,34 @@ var grainBuf = YAWNShow.set.songs[2].pbTracks['impro'][0];
 var grainWin = Buffer.sendCollection(Server.default, Env.perc(0.01,0.99,1,-4).discretize);
 var middleBuf = YAWNShow.set.songs[2].pbTracks['voice'][0];
 
+
+// new args, added for eksamenskonsert
+var server = Server.default;
+var folder = "/Users/mikemccormick/Library/Application Support/SuperCollider/Extensions/LisaColetteBysheim/neural/models/";
+var numArgs = 33;
+var inDataSet = FluidDataSet(server);
+var outDataSet = FluidDataSet(server);
+var inValsBuf = Buffer.alloc(server,2);
+var outValsBuf = Buffer.loadCollection(server,{rrand(0.0,1.0)} ! numArgs);
+var nn = PathName(folder).entries.collect({ |file,index|
+	var mlp = FluidMLPRegressor(server,);
+	mlp.read(file.fullPath);
+});
+var mlpIndex = 0;
+var macroXY = [0,0];
+var microXY = [0,0];
+var xyOffset = [0,0];
+var gui = NetAddr("localhost",8080);
+var ampBus = Bus.control(server,1);
+var verbAmpBus = Bus.control(server,1);
+var synth;
+
+//
+
 var clickPats = [
 	Pdef(\cementOpener,
 		Ppar([
-			YAWNPlayback.makeStereoPat(middleBuf, YAWNShow.outDict['processOut']),
+			YAWNPlayback.makeStereoPat(middleBuf, YAWNShow.outDict['processOut'],10.dbamp),
 			Pseq([
 				ClickRest(60,(middleBuf.duration - 3.8) ).pattern, // this is the duration of the cement count in
 				YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop,
@@ -113,6 +137,87 @@ OSCdef(\mikeNoisePlay,{ |msg|
 
 	},"/mikeNoiseHoriFaders/%".format(index).asSymbol)
 });
+
+// neuralNet Synth
+
+OSCdef(\sliders,{ |msg|
+	var val = msg[1..];
+	outValsBuf.setn(0,val);
+
+},'/sliders');
+
+OSCdef(\mlpSwitch,{ |msg|
+	var val = msg[1];
+	mlpIndex = val;
+	nn[mlpIndex].predictPoint(inValsBuf,outValsBuf,{
+
+		outValsBuf.getn(0,numArgs,{ |bufVals|
+			gui.sendMsg("/sliders",*bufVals)
+		});
+	});
+},'/mlpSwitch');
+
+OSCdef(\xy0,{ |msg|
+	var vals;
+	var x = msg[1];
+	var y = msg[2];
+
+	macroXY = [x,y];
+	vals = macroXY + xyOffset;
+
+	inValsBuf.setn(0,vals);
+	nn[mlpIndex].predictPoint(inValsBuf,outValsBuf,{
+
+		outValsBuf.getn(0,numArgs,{ |bufVals|
+			gui.sendMsg("/sliders",*bufVals)
+		});
+	});
+
+},'/xy0');
+
+OSCdef(\xy1,{ |msg|
+	var vals;
+	var x = msg[1];
+	var y = msg[2];
+	var newCoords = [x,y] / 25;
+
+	xyOffset = newCoords - microXY;
+	vals = macroXY + xyOffset;
+	inValsBuf.setn(0,vals);
+	nn[mlpIndex].predictPoint(inValsBuf,outValsBuf,{
+
+		outValsBuf.getn(0,numArgs,{ |bufVals|
+			gui.sendMsg("/sliders",*bufVals)
+		});
+	});
+
+},'/xy1');
+
+OSCdef(\nnSynthOn,{ |msg|
+	var val = msg[1].asInteger;
+
+	case
+	{val == 0}{synth.set(\gate,0)}
+	{val == 1}{
+		synth = Synth(\cementNoise,[\bufnum,outValsBuf,\verbBus,YAWNShow.verbBus,\out,YAWNShow.outDict['processOut']],YAWNShow.headGroup)
+		.map(\amp,ampBus,\verbAmp,verbAmpBus);
+		gui.sendMsg("/numArgs",numArgs);
+		gui.sendMsg("/mlpArray",*(0..(nn.size-1)));
+	}
+
+},'/noiseOnOff');
+
+2.do({ |i|
+	OSCdef("/nnSynthFaders/%".format(i),{ |msg|
+		var val = msg[1];
+
+		[verbAmpBus,ampBus][i].set(val);
+
+	},"/noiseFaders/%".format(i))
+
+});
+
+
 
 
 

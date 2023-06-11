@@ -3,16 +3,16 @@ var server = Server.default;
 var set = '23_april';
 
 var ins = [
-	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 'hiHat' -> 3,
-	'rackTomL' -> 4, 'rackTomR' -> 5, 'floorTom' -> 6,'overheads' -> [7,8],
-	'mikeGtr' -> [9,10], 'torfinnGtr' -> [11,12],
+	'kick' -> 0, 'snareTop' -> 1,'snareBot' -> 2, 'snare2' -> 3,
+	'rackTom' -> 4, 'floorTom' -> 5, 'overheads' -> [6,7], 'hiHat' -> 8,
+	'mikeGtr' -> [12,13], 'torfinnGtr' -> [14,15],
 ];
 
 var outs = [
 	'clickOskar' -> 16, 'clickMike' -> 17, 'clickTorfinn' -> 18, 'clickAll' -> [16,17,18],
 	'bassOut' -> 19,
 	// the following are stereo
-	'synthsOut' -> 20, 'gtrsOut' -> 22,'percOut' -> 24,
+	'gtrsOut' -> 20, 'percOut' -> 22, 'synthsOut' -> 24,
 	'ambienceOut' -> 26, 'oskarSynthOut' -> 28, 'processOut' -> 30
 ];
 var kemper = ["UM-ONE", "UM-ONE"]; // concert
@@ -20,14 +20,15 @@ var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = nil;
 
 var lights = true;
+
 var gui = 'openStageControl';
 // var gui = nil;
 
 //server init stuff
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
-// server.options.device = "Dante Virtual Soundcard";
-server.options.device = "SQ - Audio";
+server.options.device = "Dante Virtual Soundcard";
+// server.options.device = "SQ - Audio";
 
 YAWNShow(set, ins, outs, kemper, lights, gui);
 )
@@ -37,20 +38,20 @@ YAWNShow(set, ins, outs, kemper, lights, gui);
 s.plotTree
 DMXIS.vst.editor
 DMXIS.setPreset(0)
-s.sendMsg("/n_free",1957)
+s.sendMsg("/n_free",2033)
 Safety.enable
 
 // blast or cement part 2
 // FAILURE IN SERVER /n_free Node 1144 not found
 
 
-"ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
+"ipconfig getifaddr en10".unixCmdGetStdOut.stripWhiteSpace
 
-l = YAWNShow.set.songs[3].cueFrom('chaosCount','chaosAsection',true,true,true,true,true).stop
+l = YAWNShow.set.songs[3].cueFrom('chaosElevenLoopOne','chaosElevenLast',true,false,true,true,true).stop
 l.play
 l.stop
 
-l = YAWNShow.set.songs[2].cueFrom('cementCount','cementBsection',true,true,true,true,true).stop
+l = YAWNShow.set.songs[2].cueFrom('cementRit','cementAsectionLast',true,true,true,true,true).stop
 l.play
 l.stop
 
@@ -59,7 +60,7 @@ m =	YAWNShow.set.songs[5].cueFrom('tokamakPB','tokamakOutro',true,true,true,true
 m.play
 m.stop
 
-n = YAWNShow.set.songs[4].cueFrom('lachJazzIntro','lachOutro',true,true,true,true,true).stop
+n = YAWNShow.set.songs[4].cueFrom('lachJazzAsection','lachOutro',true,true,true,true,true).stop
 n.play
 n.stop
 
@@ -83,9 +84,9 @@ play { var player = this.pattern.play; ^player } ?
 
 
 // use this to get the IPs that other devices should find on the network!
-j = "ipconfig getifaddr en0".unixCmdGetStdOut.stripWhiteSpace
+j = "ipconfig getifaddr en10".unixCmdGetStdOut.stripWhiteSpace
 NetAddr.matchLangIP(j)
-
+NetAddr.localAddr
 
 
 /*

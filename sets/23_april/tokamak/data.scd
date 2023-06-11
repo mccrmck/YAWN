@@ -110,7 +110,7 @@
 			click:   [[ ClickRest(60, out: outs['clickAll'] ) ]],
 			lights:  [ DMXIS.makePat('tokamakBow',pathToDMXMIDI +/+ "bow.mid") ],
 			kemper:  [ ],
-			bTracks: [ YAWNPlayback.makeStereoPat(voice[0],outs['processOut']) ]
+			bTracks: [ YAWNPlayback.makeStereoPat(voice[0],outs['processOut'],5.dbamp) ]
 		)
 	];
 	action.value;
