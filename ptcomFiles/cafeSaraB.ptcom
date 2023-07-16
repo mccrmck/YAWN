@@ -107,8 +107,8 @@
       {
         "time": 0.0,
         "position": "0",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -117,10 +117,10 @@
         "locked": false
       },
       {
-        "time": 2.461538553237915,
+        "time": 2.549999952316284,
         "position": "1",
-        "tempoIn": 0.5,
-        "tempoOut": 0.5,
+        "tempoIn": 0.5083333253860474,
+        "tempoOut": 0.5083333253860474,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -129,10 +129,22 @@
         "locked": false
       },
       {
-        "time": 4.2728590965271,
+        "time": 3.850633382797241,
+        "position": "7/4",
+        "tempoIn": 0.6583333611488342,
+        "tempoOut": 0.6583333611488342,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.27168607711792,
         "position": "2",
-        "tempoIn": 0.6041666865348816,
-        "tempoOut": 0.6041666865348816,
+        "tempoIn": 0.5208333134651184,
+        "tempoOut": 0.5208333134651184,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -142,9 +154,9 @@
       },
       {
         "time": 5.599999904632568,
-        "position": "2467/912",
-        "tempoIn": 0.4583333432674408,
-        "tempoOut": 0.4583333432674408,
+        "position": "5/2",
+        "tempoIn": 0.3333333432674408,
+        "tempoOut": 0.3333333432674408,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -153,10 +165,22 @@
         "locked": false
       },
       {
-        "time": 6.274185180664062,
+        "time": 6.699999809265137,
         "position": "3",
-        "tempoIn": 0.4166666567325592,
-        "tempoOut": 0.4166666567325592,
+        "tempoIn": 0.5416666865348816,
+        "tempoOut": 0.5416666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.277359962463379,
+        "position": "15/4",
+        "tempoIn": 0.3416666686534882,
+        "tempoOut": 0.3416666686534882,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -167,8 +191,8 @@
       {
         "time": 9.142860412597656,
         "position": "4",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -232,10 +256,10 @@
         "locked": false
       },
       {
-        "time": 2.0,
+        "time": 1.850000023841858,
         "position": "1",
-        "tempoIn": 0.3958333432674408,
-        "tempoOut": 0.3958333432674408,
+        "tempoIn": 0.4749999940395355,
+        "tempoOut": 0.4749999940395355,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -244,10 +268,22 @@
         "locked": false
       },
       {
-        "time": 5.234146118164062,
+        "time": 3.850630044937134,
+        "position": "7/4",
+        "tempoIn": 0.2083333283662796,
+        "tempoOut": 0.2083333283662796,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.179999828338623,
         "position": "2",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
+        "tempoIn": 0.2458333373069763,
+        "tempoOut": 0.2458333373069763,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -258,8 +294,8 @@
       {
         "time": 5.599999904632568,
         "position": "17/8",
-        "tempoIn": 0.3708333373069763,
-        "tempoOut": 0.3708333373069763,
+        "tempoIn": 0.362500011920929,
+        "tempoOut": 0.362500011920929,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -268,10 +304,22 @@
         "locked": false
       },
       {
-        "time": 7.449999809265137,
+        "time": 7.385169506072998,
         "position": "3",
-        "tempoIn": 0.550000011920929,
-        "tempoOut": 0.550000011920929,
+        "tempoIn": 0.5541666746139526,
+        "tempoOut": 0.5541666746139526,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.277362823486328,
+        "position": "7/2",
+        "tempoIn": 0.5666666626930237,
+        "tempoOut": 0.5666666626930237,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {

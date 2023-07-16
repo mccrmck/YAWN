@@ -39,4 +39,27 @@ c = ['one','oneDan','two','twoDan','three','threeDan','four','fourDan'].collect(
 })
 
 // rewrite ClickEnv to use Env or Pseg internally
-// instances of ClickEnv (in OJKOS, under:went, etc.) can use ClickEnvOld, unless I'm really in the mood to fix those scores... 
+// instances of ClickEnv (in OJKOS, under:went, etc.) can use ClickEnvOld, unless I'm really in the mood to fix those scores...
+
+Ndef(\test).clear
+
+
+(
+Ndef(\test,{
+	var sig = SoundIn.ar(0);
+	var trig = FluidOnsetSlice.ar(sig,9,threshold: 0.1);
+	var pitch = Pitch.kr(LPF.ar(sig,450))[0];
+	var pan = pitch > 190;
+	// sig = sig + CombC.ar(sig,0.5,[0.4,0.5],2,0.3);
+	// sig = sig + AllpassC.ar(sig,0.2,SinOsc.kr(0.1,[0,0.1]).range(0.004,0.005),0.01).tanh;
+	// sig = FreqShift.ar(sig,50);
+	// sig = sig + CombC.ar(sig,0.2,SinOsc.kr(0.1,[0,pi]).range(0.01,0.02),0.8,0.5).tanh;
+	sig = XFade2.ar(sig + FreqShift.ar(sig,pitch / 2),FreqShift.ar(sig,pitch.varlag(5,10.neg) * 2 ),pan * 2 - 1);
+	Splay.ar(sig)
+}).play
+)
+
+SoundCheck(2).sweep
+
+OSCdef(\test,{|msg| msg.postln},'/test')
+OSCdef(\test).clear
