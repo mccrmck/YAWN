@@ -44,12 +44,12 @@ c = ['one','oneDan','two','twoDan','three','threeDan','four','fourDan'].collect(
 Ndef(\test).clear
 
 
-(
+(// 11.07.23
 Ndef(\test,{
 	var sig = SoundIn.ar(0);
 	var trig = FluidOnsetSlice.ar(sig,9,threshold: 0.1);
 	var pitch = Pitch.kr(LPF.ar(sig,450))[0];
-	var pan = pitch > 190;
+	var pan = pitch > 250;
 	// sig = sig + CombC.ar(sig,0.5,[0.4,0.5],2,0.3);
 	// sig = sig + AllpassC.ar(sig,0.2,SinOsc.kr(0.1,[0,0.1]).range(0.004,0.005),0.01).tanh;
 	// sig = FreqShift.ar(sig,50);
@@ -59,7 +59,30 @@ Ndef(\test,{
 }).play
 )
 
-SoundCheck(2).sweep
 
-OSCdef(\test,{|msg| msg.postln},'/test')
-OSCdef(\test).clear
+
+(// 18.07.23
+Ndef(\test,{
+	var sog,in = SoundIn.ar(0);
+	var frames = 128;
+	var trig = FluidOnsetSlice.ar(in,9,threshold: 0.24) - 0.1;
+	var pulse = Impulse.kr(132/60 * 4);
+	var pitch = Pitch.kr(LPF.ar(in,450))[0];
+	var pan = pitch > 180;
+	var sig = FFT(LocalBuf(frames),in);
+	trig = ToggleFF.ar(trig);
+	sog = PV_Copy(sig,LocalBuf(frames));
+	sig = PV_Freeze(sig,1-trig);
+	sig = PV_BinScramble(sig,1,0.4,pulse);
+	sog = PV_Freeze(sog,trig);
+	sog = PV_BinScramble(sog,1,0.4,pulse);
+	sig = [IFFT(sig),IFFT(sog)];
+	sig = XFade2.ar(in,SelectX.ar(trig,sig.tanh ),pan * 2 - 1);
+
+	Splay.ar(sig)
+}).play
+)
+
+
+
+
