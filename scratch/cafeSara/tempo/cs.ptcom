@@ -4,8 +4,8 @@
       {
         "time": 0.0,
         "position": "0",
-        "tempoIn": 0.4375,
-        "tempoOut": 0.4375,
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -14,10 +14,34 @@
         "locked": false
       },
       {
-        "time": 2.285720109939575,
+        "time": 1.469390034675598,
+        "position": "1/2",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 2.069390058517456,
+        "position": "3/4",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 2.614844560623169,
         "position": "1",
-        "tempoIn": 0.4375,
-        "tempoOut": 0.4375,
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -26,10 +50,10 @@
         "locked": false
       },
       {
-        "time": 4.571430206298828,
+        "time": 4.389410495758057,
         "position": "2",
-        "tempoIn": 0.4375,
-        "tempoOut": 0.4375,
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -38,10 +62,34 @@
         "locked": false
       },
       {
-        "time": 6.857150077819824,
+        "time": 5.295070648193359,
+        "position": "5/2",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.795070648193359,
+        "position": "11/4",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.340525150299072,
         "position": "3",
-        "tempoIn": 0.4375,
-        "tempoOut": 0.4375,
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -50,10 +98,34 @@
         "locked": false
       },
       {
-        "time": 9.142860412597656,
+        "time": 6.958236694335938,
+        "position": "13/4",
+        "tempoIn": 0.392772763967514,
+        "tempoOut": 0.392772763967514,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.654879570007324,
+        "position": "15/4",
+        "tempoIn": 0.2798775136470795,
+        "tempoOut": 0.2798775136470795,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.5,
         "position": "4",
-        "tempoIn": 0.4375,
-        "tempoOut": 0.4375,
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -69,7 +141,7 @@
         "counterString": "+"
       }
     ],
-    "name": "mike",
+    "name": "gtr",
     "colour": "ff4169e1",
     "solo": false,
     "mute": false,
@@ -107,8 +179,8 @@
       {
         "time": 0.0,
         "position": "0",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -117,44 +189,8 @@
         "locked": false
       },
       {
-        "time": 2.461538553237915,
-        "position": "1",
-        "tempoIn": 0.5,
-        "tempoOut": 0.5,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 4.2728590965271,
-        "position": "2",
-        "tempoIn": 0.6041666865348816,
-        "tempoOut": 0.6041666865348816,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 5.599999904632568,
-        "position": "2467/912",
-        "tempoIn": 0.4583333432674408,
-        "tempoOut": 0.4583333432674408,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 6.274185180664062,
-        "position": "3",
+        "time": 1.469387650489807,
+        "position": "3/4",
         "tempoIn": 0.4166666567325592,
         "tempoOut": 0.4166666567325592,
         "tempoInWeight": 0.3300000131130219,
@@ -165,10 +201,106 @@
         "locked": false
       },
       {
-        "time": 9.142860412597656,
+        "time": 2.069387674331665,
+        "position": "1",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.389410018920898,
+        "position": "15/8",
+        "tempoIn": 0.325793594121933,
+        "tempoOut": 0.325793594121933,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.794294357299805,
+        "position": "2",
+        "tempoIn": 0.2916666567325592,
+        "tempoOut": 0.2916666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.295070171356201,
+        "position": "17/8",
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.795070171356201,
+        "position": "9/4",
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.958240032196045,
+        "position": "21/8",
+        "tempoIn": 0.3945308923721313,
+        "tempoOut": 0.3945308923721313,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 7.759353160858154,
+        "position": "3",
+        "tempoIn": 0.5416666865348816,
+        "tempoOut": 0.5416666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.654875755310059,
+        "position": "7/2",
+        "tempoIn": 0.574999988079071,
+        "tempoOut": 0.574999988079071,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.5,
         "position": "4",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -179,12 +311,12 @@
     ],
     "beatPatterns": [
       {
-        "patternString": "4/4",
+        "patternString": "8/8",
         "repeats": 4,
         "counterString": "+"
       }
     ],
-    "name": "torfinn",
+    "name": "drm",
     "colour": "ffff4500",
     "solo": false,
     "mute": false,
@@ -222,8 +354,8 @@
       {
         "time": 0.0,
         "position": "0",
-        "tempoIn": 0.6041666865348816,
-        "tempoOut": 0.6041666865348816,
+        "tempoIn": 0.4210526347160339,
+        "tempoOut": 0.4210526347160339,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -232,58 +364,10 @@
         "locked": false
       },
       {
-        "time": 2.0,
-        "position": "1",
-        "tempoIn": 0.3958333432674408,
-        "tempoOut": 0.3958333432674408,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 5.234146118164062,
-        "position": "2",
-        "tempoIn": 0.3125,
-        "tempoOut": 0.3125,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 5.599999904632568,
-        "position": "17/8",
-        "tempoIn": 0.3708333373069763,
-        "tempoOut": 0.3708333373069763,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 7.449999809265137,
-        "position": "3",
-        "tempoIn": 0.550000011920929,
-        "tempoOut": 0.550000011920929,
-        "tempoInWeight": 0.3300000131130219,
-        "tempoOutWeight": 0.3300000131130219,
-        "cueIn": {
-        },
-        "start": false,
-        "locked": false
-      },
-      {
-        "time": 9.142860412597656,
+        "time": 9.5,
         "position": "4",
-        "tempoIn": 0.6041666865348816,
-        "tempoOut": 0.6041666865348816,
+        "tempoIn": 0.4210526347160339,
+        "tempoOut": 0.4210526347160339,
         "tempoInWeight": 0.3300000131130219,
         "tempoOutWeight": 0.3300000131130219,
         "cueIn": {
@@ -294,12 +378,12 @@
     ],
     "beatPatterns": [
       {
-        "patternString": "8/8",
+        "patternString": "4/4",
         "repeats": 4,
         "counterString": "+"
       }
     ],
-    "name": "oskar",
+    "name": "mike",
     "colour": "ff228b22",
     "solo": false,
     "mute": false,

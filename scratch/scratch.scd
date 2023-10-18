@@ -1,7 +1,9 @@
 
 // export tempo map?
-b = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).clickArray.collect(_.tempoArray / 2).flat;
-b.dopostln
+a = ClickConCat(2,ClickEnv([145,100],4,2),ClickEnv([100,75],4,2),ClickEnv([75,120],4,2),ClickEnv([120,145],4,2)).clickArray.collect(_.tempoArray / 2).flat;
+b = ClickConCat(2,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2), ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).clickArray.collect(_.tempoArray / 2).flat;
+c = Click(60/0.56836521053797,4,1,4).tempoArray
+[a,b].plot
 
 ~time = 0;
 c = b.collect({ |tempo,index|
@@ -15,17 +17,18 @@ c.dopostln
 c.last[0] + (60/c.last[1])
 
 (
-m = SimpleMIDIFile( "~/Desktop/midifiletest.mid" ).init(145);
+m = SimpleMIDIFile( "~/Desktop/midifiletest.mid" ).init0(75);
 m.timeMode = \seconds;  // change from default to something useful
 )
-
+(
 c.do({ |subArr, index|
 	var time = subArr[0];
 	var tempo = subArr[1];
 
 	m.addTempo(tempo,time)
 })
-m.adjustEndOfTrack(0,e)
+)
+m.adjustEndOfTrack(0,0)
 m.write
 m.metaEvents.dopostln;
 
@@ -83,6 +86,6 @@ Ndef(\test,{
 }).play
 )
 
-
+// fix the key shit in the Click!
 
 

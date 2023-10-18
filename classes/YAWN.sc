@@ -21,7 +21,7 @@ YAWNShow {
 		}
 	}
 
-	*new { |setKey, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|      // this needs to ouput a bunch of booleans that get passed to the .cueFrom method
+	*new { |setKey, inputs, outputs, kemperMIDIDevice, dmxBool = false, gui = 'openStageControl'|
 
 		^super.new.init(setKey.asSymbol, inputs.asDict, outputs.asDict, kemperMIDIDevice, dmxBool, gui);
 	}
@@ -40,7 +40,6 @@ YAWNShow {
 			var mainPath = Platform.userExtensionDir +/+ "YAWN/";
 			var sCheckSamples = mainPath +/+ "gui/sCheckSamples/";
 
-			// allocate buffers, busses...anything else?
 			PathName(sCheckSamples).entries.do({ |entry|
 				var key = entry.fileNameWithoutExtension.asSymbol;
 				var buf = Buffer.read(server,entry.fullPath,action: { cond.signalOne });
@@ -85,7 +84,6 @@ YAWNShow {
 		// "--read-only " ++
 		"--load '/Users/mikemccormick/Library/Application\ Support/SuperCollider/Extensions/YAWN/gui/main.json'";
 		unixString.unixCmd; // returns pid, can use that to evenutally stop process on GUI close?
-		^this
 	}
 
 	*cleanUp { } // what goes here?
@@ -100,7 +98,7 @@ YAWNSet {
 	var <setKey, <setPath, <songs;
 
 	*initClass {
-		setFolderPath = Platform.userExtensionDir +/+ "YAWN/sets/";    // can this be more robust? check Daniel Mayer's PathName extension
+		setFolderPath = Platform.userExtensionDir +/+ "YAWN/sets/";
 	}
 
 	*new { |setKey|
@@ -113,7 +111,6 @@ YAWNSet {
 			var songkey = folder.folderName.asSymbol;
 			YAWNSong(songkey,setKey)
 		});
-		^this
 	}
 
 	songList {
@@ -130,7 +127,6 @@ YAWNSet {
 			});
 			"\nset: % LOADED".format(setKey).postln;
 		}
-		^this
 	}
 
 	*keys {
@@ -154,7 +150,6 @@ YAWNSong {
 	init { |setKey|
 		path = YAWNSet.setFolderPath +/+ setKey +/+ songName;
 		pbTracks = IdentityDictionary();
-		^this
 	}
 
 	loadData { |action|
@@ -173,8 +168,6 @@ YAWNSong {
 			"% LOADED\n".format(songName).postln;
 			action.value;
 		};
-
-		^this
 	}
 
 	loadPBtracks { |action, server|
@@ -195,8 +188,6 @@ YAWNSong {
 			pbTracksLoaded = true;
 			action.value;
 		}
-
-		^this
 	}
 
 	loadSynthDefs { |action|
@@ -216,8 +207,6 @@ YAWNSong {
 				action.value
 			}
 		})
-
-		^this
 	}
 
 	loadOSCDefs { |action|
@@ -237,8 +226,6 @@ YAWNSong {
 				action.value
 			}
 		})
-
-		^this
 	}
 
 	sections {

@@ -15,9 +15,9 @@ var outs = [
 	'gtrsOut' -> 20, 'percOut' -> 22, 'synthsOut' -> 24,
 	'ambienceOut' -> 26, 'oskarSynthOut' -> 28, 'processOut' -> 30
 ];
-var kemper = ["UM-ONE", "UM-ONE"]; // concert
+// var kemper = ["UM-ONE", "UM-ONE"]; // concert
 // var kemper = ["Pro40", "MIDI"]; // faxe
-// var kemper = nil;
+var kemper = nil;
 
 var lights = true;
 
@@ -27,7 +27,7 @@ var gui = 'openStageControl';
 //server init stuff
 server.options.numInputBusChannels = 32;
 server.options.numOutputBusChannels = 32;
-server.options.device = "Dante Virtual Soundcard";
+// server.options.device = "Dante Virtual Soundcard";
 // server.options.device = "SQ - Audio";
 
 YAWNShow(set, ins, outs, kemper, lights, gui);
@@ -70,17 +70,23 @@ SoundCheck(32).sweep(0.2)
 // consider a new .play method for AbstractClick:
 play { var player = this.pattern.play; ^player } ?
 
-// is it possible/useful to remove keys from DMXIS and Kemper methods?
+// is it possible/useful to remove keys from DMXIS and Kemper methods? DO THIS
 // Do I need to access their data in a dictionary, or was that basically just for debugging?
 
-// consider a new Kemper paradigm -> MIDI connection is made upon YAWNShow startup through a KemperDevice class (or whatever)
-// and then each Kemper pattern is an instance of a different class - no need for events with loads of entries, just use instance <> methods?
+// consider a new Kemper paradigm -> MIDI connection is made upon YAWNShow startup through a KemperDevice class (or whatever) // KemperMIDI.connect
+// and then each Kemper pattern is an instance of a different class - no need for events with loads of entries, just use instance <> methods?  // KemperMIDI("path")
 // can/should something similar be done with DMXIS also?
-// if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake
-// make the Click Cue sound library accessible - and then store the YAWN cues in the YAWN repo and load them into the ClickCue library at init
-// make blast siren
+// how do I deal with looped sections? Maybe if loopkey == nil, loop = false; loopkey.notNil, loop = true?
+// if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake...except I should get rid of this because it's not necessary
+
+// coordinate with Torfinn - "neutral" Kemper patch for rehearsals, can we simplify the Kemper midi data? Fewer MIDI files?
+// maybe each section doesn't have a kemper MIDI file but rather an agreed upon program change that gets sent from SC, no need to translate from a MIDI file
+
+// make the Click Cue sound library accessible/loadable - and then store the YAWN cues in the YAWN repo and load them into the ClickCue library at init
 // oskar needs a separate oscMessage instead of '/yawnLoaded' so that he can reload his interface also...
 // Contingencies: give me a pop-out (modal) with Oskar’s interface, give oskar a pop-out with my interface?
+
+// should I just hardcode the Kemper MIDI device port in the YAWNShow classfile? why/why not?
 
 
 // use this to get the IPs that other devices should find on the network!
@@ -92,7 +98,7 @@ NetAddr.localAddr
 /*
 TO DO
 -make a way to test the MIDI sent to the Kempers!!
--the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use rtime/esources loading DMX patterns if we're not even connected
+-the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use time/resources loading DMX patterns if we're not even connected
 -get a list from Florian/Torfinn/Oskar what they want/need to be able to test in soundcheck so everything can be mapped to single buttons
 
 */
