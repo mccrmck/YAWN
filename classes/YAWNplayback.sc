@@ -6,58 +6,59 @@ YAWNPlayback {
 
 		StartUp.add{
 
-			SynthDef(\stereoYawnPlayback,{
-				var bufnum = \bufnum.kr();
-				var sig = PlayBuf.ar(2,bufnum,BufRateScale.kr(bufnum),loop: \loop.kr(0),doneAction: 2);
-				sig = Rotate2.ar(sig[0],sig[1],\pan.kr(0)) * \amp.kr(-20.dbamp);
-				OffsetOut.ar(\outBus.kr(0),sig);
-			}).add;
+			[\monoYawnPlayback, \stereoYawnPlayback].do({ |key, index|
+				var channels = index + 1;
 
-			SynthDef(\monoYawnPlayback,{
-				var bufnum = \bufnum.kr();
-				var sig = PlayBuf.ar(1,bufnum,BufRateScale.kr(bufnum),loop: \loop.kr(0),doneAction: 2);
-				OffsetOut.ar(\outBus.kr(0),sig * \amp.kr(-20.dbamp));
-			}).add;
+				SynthDef(key,{
+					var bufnum = \buf.kr();
+					var sig = PlayBuf.ar(channels,bufnum,BufRateScale.kr(bufnum),loop: \loop.kr(0),doneAction: 2);
+					OffsetOut.ar(\out.kr(0),sig  * \amp.kr(-20.dbamp));
+				}).add;
+			})
 		}
 	}
 
-	*makeStereoPat { |bufnum, outBus, amp = 1|
+	*makeStereoPat { |bufnum, outBus, amp = 0.1|
+
 		^Pmono(
 			\stereoYawnPlayback,
-			\bufnum, Pseq([bufnum]),
+			\buf, Pseq([bufnum]),
 			\dur, bufnum.duration,
-			\amp,-20.dbamp * amp,
-			\outBus, outBus
+			\amp, amp,
+			\out, outBus
 		)
 	}
 
-	*makeMonoPat { |bufnum, outBus, amp = 1|
+	*makeMonoPat { |bufnum, outBus, amp = 0.1|
+
 		^Pmono(
 			\monoYawnPlayback,
-			\bufnum, Pseq([bufnum]),
+			\buf, Pseq([bufnum]),
 			\dur, bufnum.duration,
-			\amp,-20.dbamp * amp,
-			\outBus, outBus
+			\amp, amp,
+			\out, outBus
 		)
 	}
 
-	*makeStereoOverlap { |bufnum, outBus, amp = 1|
+	*makeStereoOverlap { |bufnum, outBus, amp = 0.1|
+
 		^Pbind(
 			\instrument,\stereoYawnPlayback,
-			\bufnum, Pseq([bufnum]),
+			\buf, Pseq([bufnum]),
 			\dur, 0,
-			\amp,-20.dbamp * amp,
-			\outBus, outBus
+			\amp, amp,
+			\out, outBus
 		)
 	}
 
-	*makeMonoOverlap { |bufnum, outBus, amp = 1|
+	*makeMonoOverlap { |bufnum, outBus, amp = 0.1|
+
 		^Pbind(
 			\instrument,\monoYawnPlayback,
-			\bufnum, Pseq([bufnum]),
+			\buf, Pseq([bufnum]),
 			\dur, 0,
-			\amp,-20.dbamp * amp,
-			\outBus, outBus
+			\amp, amp,
+			\out, outBus
 		)
 	}
 }

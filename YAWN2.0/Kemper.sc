@@ -29,9 +29,9 @@ YAWNKemper {
 		var filePath  = (kemperDir +/+ section ++ ".mid").pathMatch;
 
 		case
-		{filePath.size == 0}{ "no files found at key: %".format(section).throw }
-		{filePath.size > 1} { "duplicate files found at key: %".format(section).throw }
-		{filePath.size == 1}{ pathToMIDI = filePath[0] };
+		{ filePath.size == 0 }{ "no files found at key: %".format(section).throw }
+		{ filePath.size > 1  }{ "duplicate files found at key: %".format(section).throw }
+		{ filePath.size == 1 }{ pathToMIDI = filePath[0] };
 	}
 
 	makePattern { |delta = 0, loop = false|
@@ -76,7 +76,7 @@ YAWNKemper {
 			);
 		});
 
-		if( loop, {
+		if( loop,{
 			var uniqueKey = (song ++ section.firstToUpper).asSymbol;
 			loopCues.put(uniqueKey , true);
 			pattern = Pwhile({ loopCues.at( uniqueKey ) }, pattern )
