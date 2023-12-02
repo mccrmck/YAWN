@@ -54,9 +54,7 @@ YAWNDMXIS {
 		{ filePath.size == 1 }{ pathToMIDI = filePath[0] };
 	}
 
-	*free {
-		vst.synth.free;
-	}
+	*free { vst.synth.free }
 
 	*setPreset { |preset| this.presetChange(0, preset) }
 
@@ -73,7 +71,7 @@ YAWNDMXIS {
 
 	makePattern { |delta = 0, loop = false|
 
-		var file = SimpleMIDIFile.read(pathToMIDI).timeMode_(\seconds).midiEvents;
+		var file = SimpleMIDIFile.read( pathToMIDI ).timeMode_(\seconds).midiEvents;
 		var notes    = file.reject({ |event| event[2] == 'cc' });
 		var control  = file.select({ |event| event[2] == 'cc' });
 

@@ -42,6 +42,7 @@
     \remove "Bar_number_engraver"
     \remove "Metronome_mark_engraver"
     \numericTimeSignature
+    % \RemoveEmptyStaves
     \override SpacingSpanner.base-shortest-duration = #(ly:make-moment 1/32)
     \override SpacingSpanner.uniform-stretching = ##t
     % \override SpacingSpanner.strict-note-spacing = ##t

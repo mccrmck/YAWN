@@ -70,15 +70,6 @@ SoundCheck(32).sweep(0.2)
 // consider a new .play method for AbstractClick:
 play { var player = this.pattern.play; ^player } ?
 
-// is it possible/useful to remove keys from DMXIS and Kemper methods? DO THIS
-// Do I need to access their data in a dictionary, or was that basically just for debugging?
-
-// consider a new Kemper paradigm -> MIDI connection is made upon YAWNShow startup through a KemperDevice class (or whatever) // KemperMIDI.connect
-// and then each Kemper pattern is an instance of a different class - no need for events with loads of entries, just use instance <> methods?  // KemperMIDI("path")
-// can/should something similar be done with DMXIS also?
-// how do I deal with looped sections? Maybe if loopkey == nil, loop = false; loopkey.notNil, loop = true?
-// if I need to access everything by key, I can create KemperDef and DMXISDef for consistency's sake...except I should get rid of this because it's not necessary
-
 // coordinate with Torfinn - "neutral" Kemper patch for rehearsals, can we simplify the Kemper midi data? Fewer MIDI files?
 // maybe each section doesn't have a kemper MIDI file but rather an agreed upon program change that gets sent from SC, no need to translate from a MIDI file
 
@@ -100,7 +91,6 @@ TO DO
 -make a way to test the MIDI sent to the Kempers!!
 -the /data files and .loadData method should be changed so that an Array of Events is generated based on the dmxBool and kemperBool...no need to use time/resources loading DMX patterns if we're not even connected
 -get a list from Florian/Torfinn/Oskar what they want/need to be able to test in soundcheck so everything can be mapped to single buttons
-
 */
 
 

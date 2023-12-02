@@ -23,8 +23,8 @@
 \include "trombone3.ly"
 \include "tuba.ly"
 
+\include "perc1.ly"
 \include "harp.ly"
-% \include "percussion.ly"
 
 %  strings
 \include "violinI.ly"

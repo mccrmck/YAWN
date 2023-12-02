@@ -16,9 +16,10 @@
 \score{
   <<
     \new StaffGroup <<
+      % ChoirStaffs can help in Polytempo situation
       \fluteI
       \fluteII
-      \oboeI
+      \oboeI  
       \oboeII
       \clarinetI
       \clarinetII
@@ -38,7 +39,10 @@
       \tromboneIII
       \tuba
     >>
+
+    \percI
     \harp
+
     \new StaffGroup <<
       \violinI
       \violinII
@@ -47,4 +51,5 @@
       \doubleBass
     >>
   >>
+  %  \midi {} %  must increase dynamic range
 }

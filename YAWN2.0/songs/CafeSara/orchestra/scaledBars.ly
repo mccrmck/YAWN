@@ -34,9 +34,18 @@ tempoArrow = #(define-music-function
                ( note startTempo )
                ( number? markup? )
                #{
-                 \override TextSpanner.bound-details.left.text = \markup { \concat { \normal-text {\note-by-number #note #0 #UP " = " #startTempo } } }
+                 \override TextSpanner.bound-details.left.text = \markup {
+                   \concat {
+                     \normal-text {
+                       \note-by-number #note #0 #UP " = " #startTempo " "
+                     }
+                   }
+                 }
                  \override TextSpanner.style = #'line
-                 \override TextSpanner.bound-details.right.text = \markup { \fontsize #3 \arrow-head #X #RIGHT ##t }
+                 \override TextSpanner.thickness = #2
+                 \override TextSpanner.bound-details.left.stencil-align-dir-y = #-0.25
+                 \override TextSpanner.bound-details.right.arrow = ##t
+                 \override TextSpanner.to-barline = ##t
                #})
 
 tempoToTempo = #(define-music-function
@@ -46,16 +55,19 @@ tempoToTempo = #(define-music-function
                    \override TextSpanner.bound-details.left.text = \markup {
                      \concat {
                        \normal-text {
-                         \note-by-number #note #0 #UP " = " #startTempo
+                         \note-by-number #note #0 #UP
+                         " = "
+                         #startTempo
+                          " "
                        }
                      }
                    }
                    \override TextSpanner.style = #'line
+                   \override TextSpanner.thickness = #2
+                   \override TextSpanner.to-barline = ##t
                    \override TextSpanner.bound-details.right.text = \markup {
                      \concat {
-                       \fontsize #3 \arrow-head #X #RIGHT ##t
                        \normal-text {
-                         " "
                          \note-by-number #note #0 #UP
                          " = "
                          #endTempo

@@ -1,0 +1,364 @@
+{
+  "0": {
+    "controlPoints": [
+      {
+        "time": 0.0,
+        "position": "0",
+        "tempoIn": 0.3125,
+        "tempoOut": 0.3125,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": true,
+        "locked": false
+      },
+      {
+        "time": 1.469390034675598,
+        "position": "1/2",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 2.069390058517456,
+        "position": "3/4",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 2.614844560623169,
+        "position": "1",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.389410495758057,
+        "position": "2",
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.295070648193359,
+        "position": "5/2",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.795070648193359,
+        "position": "11/4",
+        "tempoIn": 0.5,
+        "tempoOut": 0.5,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.340525150299072,
+        "position": "3",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.958236694335938,
+        "position": "13/4",
+        "tempoIn": 0.392772763967514,
+        "tempoOut": 0.392772763967514,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.654879570007324,
+        "position": "15/4",
+        "tempoIn": 0.2802469730377197,
+        "tempoOut": 0.2802469730377197,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.094770431518555,
+        "position": "31/8",
+        "tempoIn": 0.2798775136470795,
+        "tempoOut": 0.2798775136470795,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      }
+    ],
+    "beatPatterns": [
+      {
+        "patternString": "4/4",
+        "repeats": 3,
+        "counterString": "+"
+      },
+      {
+        "patternString": "3/4",
+        "counterString": "+"
+      },
+      {
+        "patternString": "1/8",
+        "counterString": "+"
+      }
+    ],
+    "name": "gtr",
+    "colour": "ff4169e1",
+    "solo": false,
+    "mute": false,
+    "playAudioClick": true,
+    "audioDownbeatPitch": 100,
+    "audioDownbeatVolume": 1.0,
+    "audioBeatPitch": 95,
+    "audioBeatVolume": 1.0,
+    "audioCuePitch": 90,
+    "audioCueVolume": 1.0,
+    "audioChannel": 1,
+    "playMidiClick": false,
+    "midiDownbeatPitch": 100,
+    "midiDownbeatVelocity": 127,
+    "midiBeatPitch": 95,
+    "midiBeatVelocity": 127,
+    "midiCuePitch": 90,
+    "midiCueVelocity": 127,
+    "midiChannel": 1,
+    "sendOsc": false,
+    "oscDownbeatMessage": "/beat pattern #pattern duration #duration",
+    "oscBeatMessage": "/beat pattern #pattern duration #duration",
+    "oscCueMessage": "/beat pattern #pattern duration #duration cue 1",
+    "oscReceiver": "127.0.0.1",
+    "oscPort": "47522",
+    "showName": true,
+    "staveOffset": 100,
+    "numberOfStaves": 1,
+    "secondaryStaveOffset": 60,
+    "lineOffset": 8,
+    "numberOfLines": 5
+  },
+  "1": {
+    "controlPoints": [
+      {
+        "time": 0.0,
+        "position": "0",
+        "tempoIn": 0.6041666865348816,
+        "tempoOut": 0.6041666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": true,
+        "locked": false
+      },
+      {
+        "time": 1.469387650489807,
+        "position": "3/4",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 2.069387674331665,
+        "position": "1",
+        "tempoIn": 0.4166666567325592,
+        "tempoOut": 0.4166666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.389410018920898,
+        "position": "15/8",
+        "tempoIn": 0.325793594121933,
+        "tempoOut": 0.325793594121933,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 4.794294357299805,
+        "position": "2",
+        "tempoIn": 0.2916666567325592,
+        "tempoOut": 0.2916666567325592,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.295070171356201,
+        "position": "17/8",
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 5.795070171356201,
+        "position": "9/4",
+        "tempoIn": 0.25,
+        "tempoOut": 0.25,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 6.958240032196045,
+        "position": "21/8",
+        "tempoIn": 0.3945308923721313,
+        "tempoOut": 0.3945308923721313,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 7.759353160858154,
+        "position": "3",
+        "tempoIn": 0.5416666865348816,
+        "tempoOut": 0.5416666865348816,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 8.654875755310059,
+        "position": "7/2",
+        "tempoIn": 0.574999988079071,
+        "tempoOut": 0.574999988079071,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      },
+      {
+        "time": 9.094768524169922,
+        "position": "15/4",
+        "tempoIn": 0.5616404414176941,
+        "tempoOut": 0.5616404414176941,
+        "tempoInWeight": 0.3300000131130219,
+        "tempoOutWeight": 0.3300000131130219,
+        "cueIn": {
+        },
+        "start": false,
+        "locked": false
+      }
+    ],
+    "beatPatterns": [
+      {
+        "patternString": "8/8",
+        "repeats": 3,
+        "counterString": "+"
+      },
+      {
+        "patternString": "6/8",
+        "counterString": "+"
+      }
+    ],
+    "name": "drm",
+    "colour": "ffff4500",
+    "solo": false,
+    "mute": false,
+    "playAudioClick": true,
+    "audioDownbeatPitch": 100,
+    "audioDownbeatVolume": 1.0,
+    "audioBeatPitch": 95,
+    "audioBeatVolume": 1.0,
+    "audioCuePitch": 90,
+    "audioCueVolume": 1.0,
+    "audioChannel": 1,
+    "playMidiClick": false,
+    "midiDownbeatPitch": 100,
+    "midiDownbeatVelocity": 127,
+    "midiBeatPitch": 95,
+    "midiBeatVelocity": 127,
+    "midiCuePitch": 90,
+    "midiCueVelocity": 127,
+    "midiChannel": 1,
+    "sendOsc": false,
+    "oscDownbeatMessage": "/beat pattern #pattern duration #duration",
+    "oscBeatMessage": "/beat pattern #pattern duration #duration",
+    "oscCueMessage": "/beat pattern #pattern duration #duration cue 1",
+    "oscReceiver": "127.0.0.1",
+    "oscPort": "47522",
+    "showName": true,
+    "staveOffset": 100,
+    "numberOfStaves": 1,
+    "secondaryStaveOffset": 60,
+    "lineOffset": 8,
+    "numberOfLines": 5
+  }
+} 
