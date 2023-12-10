@@ -104,7 +104,6 @@ CafeSara : YAWNSongNew {
 		).out_( /*outs['clickTorfinn']*/ );
 		var mikeTime = Click(60/0.56836521053797,4,2,8, /*out: outs['clickMike']*/ );
 
-
 		data = [
 			'introLoop' -> (
 				countIn: ClickCue(75,cueKey: 'cafeSara', /*out: outs['clickAll']*/ ),

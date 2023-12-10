@@ -30,10 +30,9 @@ YAWNDMXIS {
 				})
 			});
 			cond.wait { vst.loaded };
-			vst.set(\Preset,0.01);
+			vst.setPreset( 1 );
 			0.1.wait;
-			vst.set(\Preset,0);
-			"Preset: 0".postln;
+			vst.setPreset( 0 );
 		}
 
 		^vst
@@ -50,13 +49,16 @@ YAWNDMXIS {
 
 		case
 		{ filePath.size == 0 }{ "no files found at key: %".format(section).throw }
-		{ filePath.size > 1  }{ "duplicate files found at key: %".format(section).throw }
+		{ filePath.size >  1 }{ "duplicate files found at key: %".format(section).throw }
 		{ filePath.size == 1 }{ pathToMIDI = filePath[0] };
 	}
 
 	*free { vst.synth.free }
 
-	*setPreset { |preset| this.presetChange(0, preset) }
+	*setPreset { |preset|
+		vst.set(\Preset, preset / 100; );
+		"Preset: %".format(preset).postln;
+	}
 
 	*presetChange { |delta, preset|
 
