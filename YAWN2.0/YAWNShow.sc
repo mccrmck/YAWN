@@ -6,19 +6,18 @@ YAWNShowNew {
 		^super.new.init
 	}
 
-	init {
-		cueList = IdentityDictionary();
+	init { |routingDict ...songList|
+		cueList = OrderedIdentitySet();
 		// maybe  this is structured like:
-	/*	[
-			'chaosCount' -> (
-				pattern: songPattern,
-				guiMsg: { Server.sendMsg("/display/gui/module/","thisModule") }
-			)
-		]*/
+        /*	[
+            'chaosCount' -> (
+                pattern: songPattern,
+                guiMsg: { Server.sendMsg("/display/gui/module/","thisModule") }
+            )
+        ]*/
 
-
-		// YAWNKemper.initMIDI("UM-ONE", "UM-ONE")
-		// YAWNDMXIS.initVST
+		// YAWNKemper.initMIDI("UM-ONE", "UM-ONE");
+		// YAWNDMXIS.initVST;
 		// load songs, pbs, etc.
 
 	}
@@ -28,34 +27,42 @@ YAWNShowNew {
 	addCue { |cueKey, songPattern|
 
 		// make sure songPattern is a pattern here...
+        // make sure cueKey doesn't already exist in cueList (dvs. overWriting another cue)
 
-		cueList = cueList.put(cueKey.asSymbol -> songPattern);              // do I want to do this??
+        if(cueList[cueKey.asSymbol].notNil,{
+            cueList = cueList.put(cueKey.asSymbol -> songPattern);              // do I want to do this??
 
+            OSCFunc({ |msg|
 
-		OSCdef((cueKey ++ UniqueID.next).asSymbol,{ |msg|
+                case
+                { msg == 1 }{ songPattern.play }
+                { msg == 0 }{ songPattern.stop }
 
-			case
-			{ msg == 1 }{ songPattern.play }
-			{ msg == 0 }{ songPattern.stop }
+            },"/%".format(cueKey).asSymbol)
 
-		},'/addressGoesHere')
-	}
+        },{
+            "cueKey: % has already been used in this set".format().warn
+        })
+
+    }
 
 	addLoopCue { |cueKey|
 
-		OSCdef(cueKey.asSymbol,{ |msg|
+		OSCFunc({ |msg|
 
 			case
 			{ msg == 1 }{ [Click, YAWNDMXIS, YAWNKemper].do({|i| i.loopCues[cueKey] = false }) }
 			{ msg == 0 }{ [Click, YAWNDMXIS, YAWNKemper].do({|i| i.loopCues[cueKey] = true  }) }
 
-		},'/addressGoesHere')
+		},"/%".format(cueKey).asSymbol)
 	}
+
+    *april23 {
+        ^"april 2023 baby".postln
+    }
 
 
 }
-
-// Is YAWNSet obsolete? Maybe it's just YAWNShow.setlist?
 
 // maybe it's an YAWNShow.addCue('startShow',{}), YAWNShow.addCue(Cement.cueFrom('count','aSection'),[])
 // can I autobuild a gui too?!?!?!
@@ -67,19 +74,3 @@ YAWNShowNew {
 
 // I think each song should load the necessary ClickCue audio files at init instead of having them in the Click repository
 
-
-// april 2023, for example
-// y = YAWNShow()
-//
-// y.addCue( Show.cueFrom('welcomeVoice','welcomeVoice') ) // need to make this class...
-// // blast stuff here...
-// y.addCue( Chaos.cueFrom('count','elevenLast',true) )
-// y.addLoopCue( 'elevenLoopOne' )
-// y.addLoopCue( 'elevenLoopTwo' )
-// y.addCue( Chaos.cueFrom('bomb','bomb') )
-// y.addCue( Chaos.cueFrom('countAgain','outro') )
-//
-//
-//
-// y.addCue( Show.cueFrom('welcomeVoice','welcomeVoice') ) // need to make this class...
-//

@@ -30,12 +30,10 @@ YAWNDMXIS {
 				})
 			});
 			cond.wait { vst.loaded };
-			vst.setPreset( 1 );
+            vst.set(\Preset, 0.01); // this is to prevent an unneccesary .postln message
 			0.1.wait;
-			vst.setPreset( 0 );
+			this.setPreset( 0 );
 		}
-
-		^vst
 	}
 
 	*new { |songKey, sectionKey|
@@ -53,27 +51,27 @@ YAWNDMXIS {
 		{ filePath.size == 1 }{ pathToMIDI = filePath[0] };
 	}
 
-	*free { vst.synth.free }
+	*freeVST { vst.synth.free }
 
-	*setPreset { |preset|
+	*setPreset { |preset|                  // this method name....
 		vst.set(\Preset, preset / 100; );
 		"Preset: %".format(preset).postln;
 	}
 
-	*presetChange { |delta, preset|
+	*presetChange { |delta, preset|       // ... and this one are too similar => FIX
 
 		^Pbind(
-			\type,\vst_set,
-			\vst,Pfunc({ DMXIS.vst }),
-			\params,[ \Preset ],
-			\dur,Pseq( delta.asArray ),
-			\Preset,Pseq( preset.asArray / 100 ),
+			\type,   \vst_set,
+			\vst,    Pfunc({ DMXIS.vst }),
+			\params, [ \Preset ],
+			\dur,    Pseq( delta.asArray ),
+			\Preset, Pseq( preset.asArray / 100 ),
 		);
 	}
 
 	makePattern { |delta = 0, loop = false|
 
-		var file = SimpleMIDIFile.read( pathToMIDI ).timeMode_(\seconds).midiEvents;
+		var file     = SimpleMIDIFile.read( pathToMIDI ).timeMode_(\seconds).midiEvents;
 		var notes    = file.reject({ |event| event[2] == 'cc' });
 		var control  = file.select({ |event| event[2] == 'cc' });
 
@@ -87,18 +85,18 @@ YAWNDMXIS {
 
 				Pseq([
 					Pbind(
-						\dur, Pseq([ times[0] ]),
+						\dur,  Pseq([ times[0] ]),
 						\note, Rest()
 					),
 					Pbind(
-						\type,Pseq([\vst_midi,\rest],inf), // manage with a Pfunc? load cmds, if(Pkey(\cmd) == noteOn, {type = \vst_midi},{type = \rest})
-						\vst,Pfunc({ DMXIS.vst }),
-						\dur,Pseq( times[1..] ),  // times
-						\legato, 0.999,
-						\midicmd, \noteOn,        // cmds
-						\chan,Pseq( chans ),      // chans
-						\midinote, num,           // nums
-						\amp, Pseq( vals / 127 ), // vals
+						\type,    Pseq([\vst_midi,\rest],inf),
+						\vst,     Pfunc({ vst }),
+						\dur,     Pseq( times[1..] ), // times
+						\legato,  0.999,
+						\midicmd, \noteOn,            // cmds
+						\chan,    Pseq( chans ),      // chans
+						\midinote,midiNote,           // nums
+						\amp,     Pseq( vals / 127 ), // vals
 					)
 				])
 			})
@@ -106,29 +104,29 @@ YAWNDMXIS {
 
 		var cTimes = control.collect({ |event| event[1] }).differentiate.add(0.0);
 		var cChans = control.collect({ |event| event[3] }).add(0.0);
-		var cNums = control.collect({ |event| event[4] }).add(0.0);
-		var cVals = control.collect({ |event| event[5] }).add(0.0);
+		var cNums  = control.collect({ |event| event[4] }).add(0.0);
+		var cVals  = control.collect({ |event| event[5] }).add(0.0);
 
-		var ccPat = if( cTimes.size > 1,{
+		var ccPat  = if( cTimes.size > 1,{
 
 			Pseq([
 				Pbind(
-					\dur, Pseq([ cTimes[0] ]),
+					\dur,  Pseq([ cTimes[0] ]),
 					\note, Rest()
 				),
 				Pbind(
-					\type,\vst_midi,
-					\vst,Pfunc({ DMXIS.vst }),
-					\dur,Pseq( cTimes[1..] ), // times
-					\midicmd, \control,       // cmds
-					\chan,Pseq( cChans ),     // chans
-					\ctlNum, Pseq( cNums ),   // nums
-					\control, Pseq( cVals ),  // vals
+					\type,    \vst_midi,
+					\vst,     Pfunc({ vst }),
+					\dur,     Pseq( cTimes[1..] ), // times
+					\midicmd, \control,            // cmds
+					\chan,    Pseq( cChans ),      // chans
+					\ctlNum,  Pseq( cNums ),       // nums
+					\control, Pseq( cVals ),       // vals
 				)
 			]);
 		},{
 			Pbind(
-				\dur, Pseq([ cTimes[0] ]),
+				\dur,  Pseq([ cTimes[0] ]),
 				\note, Rest()
 			)
 		});
@@ -141,11 +139,7 @@ YAWNDMXIS {
 			pattern = Pwhile({ loopCues.at(uniqueKey.asSymbol) }, pattern )
 		});
 
-		pattern = Pseq([
-			Rest(delta),
-			pattern
-		]);
+		^Pseq([ Rest(delta), pattern ]);
 
-		^pattern
 	}
 }
