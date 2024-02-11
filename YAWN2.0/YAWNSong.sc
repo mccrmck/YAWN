@@ -12,7 +12,7 @@ YAWNSongNew {
 		^super.new.init(insOuts)
 	}
 
-	init { |routingDict|                                                                        // what else goes here??
+	init { |routingDict|          // what else goes here??
 		server    = server ? Server.default;  // is this necessary? Are we ever going to run a multi-server setup?
 		mixerDict = routingDict;
 	}
@@ -24,7 +24,7 @@ YAWNSongNew {
 		var path = this.filenameSymbol.asString.dirname +/+ "tracks/";
 
 		fork{
-			PathName(path).entries.do({ |trackFolder|
+            PathName(path).entries.do({ |trackFolder|
 				var busKey = trackFolder.folderName.asSymbol;
 				var bufDict = IdentityDictionary();
 				var buffer = trackFolder.entries.do({ |track|
