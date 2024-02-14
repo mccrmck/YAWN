@@ -136,7 +136,7 @@
     ],
     "beatPatterns": [
       {
-        "patternString": "4/4",
+        "patternString": "8/8",
         "repeats": 4,
         "counterString": "+"
       }
