@@ -88,4 +88,44 @@ Ndef(\test,{
 
 // fix the key shit in the Click!
 
+// 15.07.24
+(
+SynthDef(\test,{
+    var sig = LFSaw.ar(\freq.kr(440) * [0.5,1]);
+    var ffreq = \ffreq.kr(450);
+    var sweep = XLine.ar(ffreq,ffreq/8,\dur.kr);
+    sig = sig + BrownNoise.ar(\noise.kr(0)!2);
+    sig = sig * \gain.kr(1);
+    sig = SVF.ar(sig,sweep,\res.kr(0.5),\lowpass.kr(1)).tanh;
+    sig = sig * Env.perc(\atk.kr(0.01),\rls.kr(0.2),1,\curve.kr(-4)).ar(2);
+
+    Out.ar(0,sig * \amp.kr(1))
+}).add
+)
+
+Synth(\test,[\freq,80,\gain,4,\ffreq,350,\res,0.8])
+s.meter
+s.plotTree
+s.scope
+
+(
+Pdef(\test,
+    Pbind(
+        \instrument,\test,
+        \dur,Pwrand([0.125,Rest(0.125)],[0.9,0.1],inf),
+        \freq,Prand([59,60,62,63],inf).midicps * Pwhite(-0.5,0.5).midiratio,
+        \noise,Pseg([0.1,0.4,0.1],[3,7],'sin',inf),
+        \gain,Pseg([10,20,10],[5,9],'sin',inf),
+        \ffreq,Pseg([250,800,250],[10,12],'sin',inf) * 16,
+        \res,Pseg([0.8,0.6,0.8],[5,7],'sin',inf),
+        \atk,0.1,
+        \rls,0.7 * Pwhite(0.5,1),
+        \curve,5.neg,
+        \amp,Pseq([
+            Pseq([1,1,1,1],12) * Pwhite(0.75,1),
+            Pseq([1,0.5,0.5,0.5,0.5],3),
+        ],inf) 
+        )
+).play
+)
 

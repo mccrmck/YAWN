@@ -1,5 +1,4 @@
 YAWNKemper {
-
 	classvar <loopCues, <>midiOut;
 	var <song, <section;
 	var pathToMIDI;
@@ -14,7 +13,7 @@ YAWNKemper {
 		fork {
 			MIDIClient.init;
 			cond.wait({ MIDIClient.initialized });
-			midiOut = MIDIOut.newByName(device.asString,port.asString);
+			midiOut = MIDIOut.newByName(device.asString, port.asString);
 			midiOut.postln
 		};
 	}
@@ -30,7 +29,7 @@ YAWNKemper {
 
 		case
 		{ filePath.size == 0 }{ "no files found at key: %".format(section).throw }
-		{ filePath.size > 1  }{ "duplicate files found at key: %".format(section).throw }
+		{ filePath.size >  1 }{ "duplicate files found at key: %".format(section).throw }
 		{ filePath.size == 1 }{ pathToMIDI = filePath[0] };
 	}
 
