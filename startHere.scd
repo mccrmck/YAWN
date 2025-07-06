@@ -66,6 +66,9 @@ n.stop
 
 SoundCheck(32).sweep(0.2)
 
+2.1.frac
+
+12/11
 
 // consider a new .play method for AbstractClick:
 play { var player = this.pattern.play; ^player } ?
@@ -99,6 +102,6 @@ TO DO
 // amp reactive -> sends MIDI notes
 // amp reactive -> gate sends boolean to LFO: close gate means no movement, open gate means movement
 
-
+Score
 
 

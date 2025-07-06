@@ -1,5 +1,4 @@
 YAWNDMXIS {
-
 	classvar <loopCues, <vst;
 	var <song, <section;
 	var pathToMIDI;
@@ -8,7 +7,6 @@ YAWNDMXIS {
 		loopCues = IdentityDictionary();
 
 		StartUp.add{
-
 			SynthDef(\dmxis,{
 				OffsetOut.ar(
 					\outBus.kr(0),
@@ -59,10 +57,9 @@ YAWNDMXIS {
 	}
 
 	*presetChange { |delta, preset|       // ... and this one are too similar => FIX
-
 		^Pbind(
 			\type,   \vst_set,
-			\vst,    Pfunc({ DMXIS.vst }),
+			\vst,    Pfunc({ this.vst }),
 			\params, [ \Preset ],
 			\dur,    Pseq( delta.asArray ),
 			\Preset, Pseq( preset.asArray / 100 ),
@@ -70,7 +67,6 @@ YAWNDMXIS {
 	}
 
 	makePattern { |delta = 0, loop = false|
-
 		var file     = SimpleMIDIFile.read( pathToMIDI ).timeMode_(\seconds).midiEvents;
 		var notes    = file.reject({ |event| event[2] == 'cc' });
 		var control  = file.select({ |event| event[2] == 'cc' });
@@ -143,3 +139,4 @@ YAWNDMXIS {
 
 	}
 }
+
