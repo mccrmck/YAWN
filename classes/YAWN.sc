@@ -10,7 +10,7 @@ YAWNShow {
 
 			SynthDef(\yawnReverb,{
 				var sig = In.ar(\verbBus.kr(),2);
-				sig = HPFSides.ar(sig,120);
+				//sig = HPFSides.ar(sig,120);  // I don't have this class installed atm...
 				sig = sig + PinkNoise.ar(0.0000001!2);
 				sig = FreeVerb.ar(sig,1,\room.kr(0.9),\damp.kr(0.99));
 				// sig = ReplaceBadValues.ar(sig,post: 0);
@@ -52,7 +52,7 @@ YAWNShow {
 
 			verbBus = Bus.audio(server,2);
 
-			if(dmxBool,{ DMXIS() });
+			//if(dmxBool,{ DMXIS() });
 
 			server.sync;
 
