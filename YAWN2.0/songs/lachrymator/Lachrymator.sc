@@ -56,7 +56,6 @@ Lachrymator : YAWNSongNew {
 			'countPart1' -> (
 				countIn: ClickCue(70,cueKey: 'lachrymator', /*out: outs['clickAll']*/ ),
 				click:   ClickConCat(1, Click(240,2,repeats: 2), Click(240,1,repeats: 4) ).out_( /*outs['clickAll'] */),
-				lights:  [ YAWNDMXIS.presetChange(0,0), YAWNDMXIS('lachrymator','countPart1') ],
 				kemper:  YAWNKemper('lachrymator','countPart1').makePattern,
 			),
 			'aSection' ->(
@@ -70,7 +69,6 @@ Lachrymator : YAWNSongNew {
 					ClickConCat(9, Click(240,4), Click(300,4)), ClickCue(240,4), ClickCue(300,1,repeats: 4),
 					ClickConCat(25,Click(240,4), Click(300,4))  //transition to impro                                     // this doesn't need to be so long...
 				).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS('lachrymator','aSection').makePattern, YAWNDMXIS.presetChange(0,4) ]),
 				kemper:  YAWNKemper('lachrymator','aSection').makePattern,
 				bTracks: [
 					YAWNPB('lachrymator','aSection', 'bass').makePattern,
@@ -85,7 +83,6 @@ Lachrymator : YAWNSongNew {
 			),
 			'tapping' -> (
 				click:   ClickConCat(1,Click(120,4,repeats: 16 ),ClickCue(120,4,1,2),ClickCue(120,2,1,2),ClickCue(120,1,1,4)).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS.presetChange((60/120 * 19 * 4) + (60/120 * 3.75), 4), YAWNDMXIS.presetChange((60/120 * 0.25),0) ]),
 				kemper:  YAWNKemper('lachrymator','tapping').makePattern
 				bTracks: [
 					YAWNPB('lachrymator','tapping','ambience').makePattern(24),
@@ -101,7 +98,6 @@ Lachrymator : YAWNSongNew {
 					Click(120,3,repeats: 2), Click(120,5),
 					Click(120,3,repeats: 2), Click(120,4),Click(120,3)
 				).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('lachrymator','jazzIntro').makePattern,
 				kemper:  YAWNKemper('lachrymator','jazzIntro').makePattern,
 				// bTracks: YAWNPB('lachrymator','jazzIntro','bass').makePattern
 			),
@@ -114,14 +110,12 @@ Lachrymator : YAWNSongNew {
 					Click(120,3,repeats: 2), Click(120,4),
 					Click(120,3)
 				).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('lachrymator','jazzAsection').makePattern,
 				kemper:  YAWNKemper('lachrymator','jazzAsection').makePattern,
 				// bTracks: YAWNPB('lachrymator','jazzAsection','bass').makePattern
 			),
 			'jazzBsection' -> (
 				countIn: ClickConCat(1, Click(120,2,repeats: 2), Click(120,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   Click(120,3,repeats: 16, /*out: outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('lachrymator','jazzBsection').makePattern,
 				kemper:  YAWNKemper('lachrymator','jazzBsection').makePattern,
 				// bTracks: YAWNPB('lachrymator','jazzAsection','bass').makePattern
 			),
@@ -134,7 +128,6 @@ Lachrymator : YAWNSongNew {
 					Click(120,3,repeats: 2), Click(120,4),
 					Click(120,3)
 				).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('lachrymator','jazzAsectionAgain').makePattern,
 				kemper:  YAWNKemper('lachrymator','jazzAsectionAgain').makePattern,
 				bTracks: [
 					YAWNPB('lachrymator','jazzAsectionAgain','ambience').makePattern(9),
@@ -144,7 +137,6 @@ Lachrymator : YAWNSongNew {
 			'jazzBsectionAgain' -> (
 				countIn: ClickConCat(1, Click(120,2,repeats: 2), Click(120,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   ClickConCat(1, Click(120,3,repeats: 15), Click(120,2)).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS('lachrymator','jazzBsectionAgain').makePattern, YAWNDMXIS.makePresetPat(0,4) ]),
 				kemper:  YAWNKemper('lachrymator','jazzBsectionAgain').makePattern,
 				bTracks: [
 					// YAWNPB('lachrymator','jazzBsectionAgain','bass').makePattern
@@ -153,7 +145,6 @@ Lachrymator : YAWNSongNew {
 			),
 			'countPart3' -> (
 				click:   ClickConCat(1, ClickRest(60,5.588), Click(340,5), Click(340,4), Click(340,5), Click(340,4)).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS.presetChange(8.0585882352941,4), YAWNDMXIS.presetChange(0.7,0) ]),     // check your math!
 				kemper:  YAWNKemper('lachrymator','countPart3').makePattern( 5.588 ),
 				bTracks: YAWNPB('lachrymator','countPart3','ambience').makePattern,
 			),
@@ -171,7 +162,6 @@ Lachrymator : YAWNSongNew {
 					ClickConCat(5, Click(340,5), Click(340,4)), ClickCue(340,1,repeats: 5), Click(340,4),
 					ClickConCat(3, Click(340,5), Click(340,4)),	Click(170,4,repeats: 2)
 				).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('lachrymator','aSectionNine').makePattern,
 				kemper:  YAWNKemper('lachrymator','aSectionNine').makePattern,
 				bTracks: [
 					YAWNPB('lachrymator','aSectionNine', 'perc').makeOverlapPattern,
@@ -195,7 +185,6 @@ Lachrymator : YAWNSongNew {
 					}).flat,
 					ClickCue()
 				).out_( /*outs['clickAll'] */),
-				lights:  Pseq([ YAWNDMXIS('lachrymator','outro').makePattern, YAWNDMXIS.presetChange(1,4) ]),
 				bTracks: [
 					YAWNPB('lachrymator','outro', 'ambience').makePattern,
 					YAWNPB('lachrymator','outro', 'bass').makePattern,

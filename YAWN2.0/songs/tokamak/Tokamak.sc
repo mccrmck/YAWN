@@ -10,7 +10,6 @@ Tokamak : YAWNSongNew {
 			'playback' -> (
 				countIn: ClickCue(75,cueKey: 'tokamak',/*out: outs['clickAll']*/),
 				click:   ClickRest(142,4,47,/*out: outs['clickAll']*/),
-				lights:  YAWNDMXIS.presetChange(0, 9),
 				bTracks: [
 					YAWNPB('tokamak', 'playback', 'ambience').makeOverlapPattern,
 					YAWNPB('tokamak', 'playback', 'perc').makePattern
@@ -18,20 +17,17 @@ Tokamak : YAWNSongNew {
 			),
 			'count' -> (
 				click:   ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS.presetChange(0, 9),
 				bTracks: YAWNPB('tokamak', 'count', 'perc').makePattern,
 			),
 			'intro' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   ClickConCat(1, Click(142,4,repeats: 6), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4)).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS.presetChange( (60/142 * 31.5), 9), YAWNDMXIS.presetChange(0, 0) ]),
 				kemper:  YAWNKemper('tokamak', 'intro').makePattern,
 				bTracks: YAWNPB('tokamak',  'intro', 'perc').makePattern,
 			),
 			'guitar' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   ClickConCat(1,Click(142,4,repeats: 46), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4)).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('tokamak', 'guitar').makePattern,
 				kemper:  YAWNKemper('tokamak','guitar').makePattern,
 				bTracks: [
 					YAWNPB('tokamak', 'guitar', 'perc').makePattern,
@@ -41,14 +37,12 @@ Tokamak : YAWNSongNew {
 			'break' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   Click(142,4,repeats: 4, /*out: outs['clickAll']*/),
-				lights:  YAWNDMXIS('tokamak','break').makePattern,
 				kemper:  YAWNKemper('tokamak','break').makePattern,
 				bTracks: YAWNPB('tokamak', 'break', 'perc').makePattern
 			),
 			'funk' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   Click(142,4,repeats: 48, /*out: outs['clickAll']*/),
-				lights:  YAWNDMXIS('tokamak','funk').makePattern,
 				kemper:  YAWNKemper('tokamak','funk').makePattern,
 				bTracks: [
 					YAWNPB('tokamak','funk','ambience').makeOverlapPattern,
@@ -60,27 +54,23 @@ Tokamak : YAWNSongNew {
 			'improIntro' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   Click(142,4,repeats: 16, /*out: outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('tokamak','improIntro').makePattern,
 				kemper:  YAWNKemper('tokamak','improIntro').makePattern,
 				bTracks: YAWNPB('tokamak','improIntro','perc').makePattern
 			),
 			'impro' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   ClickLoop(142,loopKey: 'tokamakImpro', /*out: outs['clickAll']*/),
-				lights:  YAWNDMXIS.presetChange(0,8),
 				kemper:  YAWNKemper('tokamak','impro').makePattern,
 			),
 			'cue' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll'] */),
 				click:   ClickConCat(1,Click(142,4),ClickCue(142,4,repeats: 2), ClickCue(142,2,repeats: 2), ClickCue(142,1,repeats: 4), Click(142,4,repeats: 5)).out_( /*outs['clickAll'] */),
-				lights:  Pseq([ YAWNDMXIS.presetChange(60/142 * 19, 8), YAWNDMXIS.presetChange( 60/142, 0), YAWNDMXIS('tokamak','cue').makePattern ]),
 				kemper:  YAWNKemper('tokamak','cue').makePattern(60/142 * 4),
 				bTracks: YAWNPB('tokamak','cue','perc').makePattern(60/142 * 20),
 			),
 			'outro' -> (
 				countIn: ClickConCat(1, Click(142,2,repeats: 2), Click(142,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
 				click:   ClickConCat(1,Click(142,4,repeats: 57), Click(142,2)).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('tokamak','outro').makePattern,
 				kemper:  YAWNKemper('tokamak','outro').makePattern,
 				bTracks: [
 					YAWNPB('tokamak','outro','bass').makePattern(60/142 * 16),

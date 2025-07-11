@@ -119,7 +119,6 @@ Cement : YAWNSongNew {
 		data = [
 			'count' -> (
 				click:  ClickConCat(1,Click(160,2,repeats: 2), Click(160,1,repeats: 4) ).out_( mixerDict['clickAll'] ),
-				lights: YAWNDMXIS.presetChange(0, 0),
 				kemper: YAWNKemper('Cement', 'count').makePattern,
 			),
 			'intro' -> (
@@ -128,7 +127,6 @@ Cement : YAWNSongNew {
 					Click(160,7), Click(160,6), Click(160,5), Click(160,4), Click(160,3),
 					Click(160,7), Click(160,6), Click(160,5), Click(160,4,repeats: 2)
 				).out_( mixerDict['clickAll'] ),
-				lights:  YAWNDMXIS('Cement', 'intro').makePattern,
 				kemper:  YAWNKemper('Cement','intro').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'intro', 'gtrs').makePattern,
@@ -138,7 +136,6 @@ Cement : YAWNSongNew {
 			'aSection' -> (
 				countIn: countIn,
 				click:   mainRiff,
-				lights:  YAWNDMXIS('Cement', 'aSection').makePattern,
 				kemper:  YAWNKemper('Cement','aSection').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'aSection', 'bass').makePattern,
@@ -151,7 +148,6 @@ Cement : YAWNSongNew {
 			'melody' -> (
 				countIn: countIn,
 				click:   mainRiff,
-				lights:  YAWNDMXIS('Cement','melody').makePattern,
 				kemper:  YAWNKemper('Cement','melody').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'melody', 'bass').makePattern,
@@ -164,7 +160,6 @@ Cement : YAWNSongNew {
 			'bSection' -> (
 				countIn: countIn,
 				click:   ClickConCat(1,Click(170,4,repeats: 14), Click(170,3) ).out_( mixerDict['clickAll'] ),
-				lights:  Pseq([ YAWNDMXIS('Cement','bSection').makePattern, YAWNDMXIS.presetChange(0,3) ]),
 				kemper:  YAWNKemper('Cement','bSection').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'bSection','bass').makePattern,
@@ -175,7 +170,6 @@ Cement : YAWNSongNew {
 			),
 			'countAgain' -> (
 				click:   ClickConCat(1, ClickCue(160,2,cueKey: 'cement'),Click(160,2), Click(160,1,repeats: 4) ).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS.presetChange(0,0),
 				kemper:  YAWNKemper('Cement','countAgain').makePattern,
 			),
 			'bSectionAgain' ->(
@@ -184,7 +178,6 @@ Cement : YAWNSongNew {
 					Click(170,4,repeats: 10), Click(170,2), Click(170,4,repeats: 5), Click(170,5), Click(170 * 2,3),
 					Click(170,4,repeats: 10), Click(170,2), Click(170,4,repeats: 5), Click(170,5), Click(170 * 2,3),
 				).out_( mixerDict['clickAll'] ),
-				lights:  YAWNDMXIS('Cement','bSectionAgain').makePattern,
 				kemper:  YAWNKemper('Cement','bSectionAgain').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'bSectionAgain', 'bass').makePattern,
@@ -201,7 +194,6 @@ Cement : YAWNSongNew {
 					Click(170,4,repeats: 5), Click(170,5),
 					Click(170 * 2,3)
 				).out_( mixerDict['clickAll'] ),
-				lights:  YAWNDMXIS('Cement','solo').makePattern,
 				kemper:  YAWNKemper('Cement','solo').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'solo', 'perc').makePattern,
@@ -217,7 +209,6 @@ Cement : YAWNSongNew {
 					ClickConCat(3, Click(160,4,repeats: 3), ClickRest(160,4)).out_( mixerDict['clickAll'] ),  // should these be -3.dbamp?
 					ClickConCat(3, Click(200,5,repeats: 3), Click(160,4)).out_( mixerDict['clickAll'] )
 				],
-				lights:  YAWNDMXIS('Cement','quint').makePattern,
 				kemper:  YAWNKemper('Cement','quint').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'quint', 'bass').makePattern,
@@ -228,7 +219,6 @@ Cement : YAWNSongNew {
 			'rit' -> (
 				countIn: ClickConCat(1, Click(200,2,repeats: 2), Click(200,1,repeats: 4) ).out_( mixerDict['clickAll'] ),
 				click:   ClickConCat(1,(1.0,1.08..2.12).collect({ |i| Click(200 / i) }), Click(170 * 2,3) ).out_( mixerDict['clickAll'] ),
-				lights:  YAWNDMXIS('Cement','rit').makePattern,
 				kemper:  YAWNKemper('Cement','rit').makePattern( 60/6.384 ),
 				bTracks: [
 					YAWNPB('Cement', 'rit', 'bass').makePattern,
@@ -242,7 +232,6 @@ Cement : YAWNSongNew {
 					mainRiff,
 					Click(170,7), Click(170,6), Click(170,5), Click(170,4), Click(170,3),
 				).out_( mixerDict['clickAll']),
-				lights:  YAWNDMXIS('Cement','aSectionLast').makePattern,
 				kemper:  YAWNKemper('Cement','aSectionLast').makePattern,
 				bTracks: [
 					YAWNPB('Cement', 'aSectionLast', 'bass').makePattern,

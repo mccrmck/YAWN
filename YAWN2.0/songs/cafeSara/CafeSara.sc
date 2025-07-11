@@ -112,7 +112,6 @@ CafeSara : YAWNSongNew {
 					Click(60/0.56836521053797,1,2,4),
 					ClickLoop(60/0.56836521053797,4,2,4,'introLoop')
 				).out_( /*outs['clickMike']*/ ),
-				lights:  YAWNDMXIS.presetChange(0,5),
 				kemper:  YAWNKemper('cafeSara','introLoop').makePattern,
 			),
 			'intro' -> (
@@ -121,10 +120,6 @@ CafeSara : YAWNSongNew {
 					Click(60/0.56836521053797,4,2,2, /*out: outs['clickMike']*/ ),
 					ClickConCat(1,ClickCue(60/0.56836521053797,2,2,2),ClickCue(60/0.56836521053797,1,2,4),Click(60/0.56836521053797,4,2,4) ).out_( /*outs['clickAll']*/ )
 				),
-				lights:  [
-					YAWNDMXIS('cafeSara','intro').makePattern,
-					Pseq([ YAWNDMXIS.presetChange(0.56836521053797 * 4 * 7.75,5), YAWNDMXIS.presetChange(0.56836521053797 * 0.25,0) ]),
-				],
 				kemper:  YAWNKemper('cafeSara', 'intro').makePattern,
 			),
 			'aPlusBreak' -> (
@@ -134,7 +129,6 @@ CafeSara : YAWNSongNew {
 					ClickConCat(1, torfinnTime, torfinnTime, ClickCue(60/0.56836521053797,1,2) ).out_( /*outs['clickTorfinn']*/ ),
 					ClickConCat(1, mikeTime,    mikeTime,    ClickCue(60/0.56836521053797,1,2) ).out_( /*outs['clickMike']*/ )
 				],
-				lights:  YAWNDMXIS('cafeSara', 'aPlusBreak').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'aPlusBreak').makePattern,
 				bTracks: [
 					YAWNPB('cafeSara', 'aPlusBreak0', 'bass').makePattern,
@@ -148,7 +142,6 @@ CafeSara : YAWNSongNew {
 					torfinnTime,
 					mikeTime
 				],
-				lights:  YAWNDMXIS('cafeSara', 'aAgain').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'aAgain').makePattern,
 				bTracks: YAWNPB('cafeSara', 'aAgain','bass').makePattern,
 			),
@@ -159,7 +152,6 @@ CafeSara : YAWNSongNew {
 					torfinnTime,
 					mikeTime
 				],
-				lights:  YAWNDMXIS('cafeSara', 'cRiff').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'cRiff').makePattern,
 				bTracks: YAWNPB('cafeSara', 'cRiff','bass').makePattern,
 			),
@@ -170,14 +162,12 @@ CafeSara : YAWNSongNew {
 					torfinnTime,
 					mikeTime
 				],
-				lights:  YAWNDMXIS('cafeSara', 'aLast').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'aLast').makePattern,
 				bTracks: YAWNPB('cafeSara', 'aLast','bass').makePattern,
 			),
 			'break' -> (
 				countIn: ClickConCat(1, Click(60/0.56836521053797,2,repeats: 2), Click(60/0.56836521053797,1,repeats: 4)).out_( /*outs['clickAll']*/ ),
 				click:   Click(60/0.56836521053797,4, /*out: outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('cafeSara', 'break').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'break').makePattern,
 				bTracks: YAWNPB('cafeSara', 'break','bass').makePattern,
 			),
@@ -190,13 +180,11 @@ CafeSara : YAWNSongNew {
 					ClickConCat(6, ClickEnv([145,100],4,2), ClickEnv([100,75],4,2), ClickEnv([75,120],4,2), ClickEnv([120,145],4,2)).out_( /*outs['clickOskar']*/ ),
 					ClickConCat(6, ClickEnv([75,120],4), ClickEnv([120,145],4), ClickEnv([145,100],4,curve:1.01.neg), ClickEnv([100,75],4,curve: 2)).out_( /*[ outs['clickTorfinn'], outs['clickMike'] ]*/ ),
 				],
-				lights:  Pseq([ YAWNDMXIS('cafeSara', 'bSection').makePattern, YAWNDMXIS.presetChange(0,6) ]),
 				kemper:  YAWNKemper('cafeSara', 'bSection').makePattern,
 				bTracks: YAWNPB('cafeSara', 'bSection','bass').makePattern,
 			),
 			'harmonyCount' -> (
 				click:   ClickConCat(1,Click(145,2,repeats: 2),Click(145,1,2,4)).out_( /*outs['clickAll']*/ ),
-				lights:  Pseq([ YAWNDMXIS.presetChange( (60/145) * 7.75,6), YAWNDMXIS.presetChange( (60/145) * 0.25,0) ]),
 			),
 			'harmony' -> (
 				click:   ClickConCat(1,
@@ -208,14 +196,12 @@ CafeSara : YAWNSongNew {
 					),
 					ClickEnvCue([145,130],2,2)
 				).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('cafeSara', 'harmony').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'harmony').makePattern,
 				bTracks: YAWNPB('cafeSara', 'harmony', 'bass').makePattern,
 			),
 			'thrash' -> (
 				countIn: ClickConCat(1, Click(90,2,repeats: 2), Click(90,1,repeats: 4)).out_( /*outs['clickAll']*/ ),
 				click:   Click(90,4,repeats: 8, /*out: outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('cafeSara', 'thrash').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'thrash').makePattern,
 				bTracks: YAWNPB('cafeSara', 'thrash', 'bass').makePattern,
 			),
@@ -225,14 +211,12 @@ CafeSara : YAWNSongNew {
 					ClickConCat(1, Click(90,4,repeats: 2), ClickEnv([90,85],4), ClickEnv([85,76],3), Click(76,4,1,3), Click(76,3,1)).out_(/*[ outs['clickTorfinn'], outs['clickMike'] ]*/),
 					ClickConCat(1, Click(90,4,repeats: 2), ClickEnv([90,85],4), ClickEnv([85,76],3), Click(76,4,2,3), Click(76,3,2)).out_( /*outs['clickOskar']*/ )
 				],
-				lights:  YAWNDMXIS('cafeSara', 'rit').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'rit').makePattern,
 				bTracks: YAWNPB('cafeSara', 'thrash', 'rit').makePattern,
 			),
 			'outro' -> (
 				countIn: ClickConCat(1,Click(76,2,2,2),Click(76,1,2,4)).out_( /*outs['clickAll']*/ ),
 				click:   ClickConCat(1,ClickEnv([75,120],4,2),ClickEnv([120,145],4,2),ClickEnv([145,100],4,2),ClickEnv([100,75],4,2)).out_( /*outs['clickAll']*/ ),
-				lights:  YAWNDMXIS('cafeSara', 'outro').makePattern,
 				kemper:  YAWNKemper('cafeSara', 'outro').makePattern,
 				bTracks: YAWNPB('cafeSara', 'outro', 'rit').makePattern,
 			)
